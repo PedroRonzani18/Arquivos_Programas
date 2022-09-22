@@ -1,0 +1,5 @@
+Eduardo 10 
+Lucas 4 
+Pedro 7 
+Julio 20
+

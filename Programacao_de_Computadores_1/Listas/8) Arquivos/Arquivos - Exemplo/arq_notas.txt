@@ -1,0 +1,4 @@
+Aluno1 10
+Aluno2 10
+Aluno3 10
+a -1

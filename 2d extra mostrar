@@ -1,0 +1,46 @@
+/*System.out.println("-----DETALHES DAS FORMAS------\n");
+
+        for(int i=0; i<espaco.getFormas().size(); i++){
+            System.out.printf("FORMA %d",i+1);
+            Forma aux = null;
+
+            if(espaco.getFormas().get(i).getPontos().length == null) {
+                System.out.println("z");
+            }
+            System.out.println("BBBBB");
+
+            if(espaco.getFormas().get(i).getPontos().length == 2){
+                double r = espaco.getFormas().get(i).getPontos()[0].calculaDistancia(espaco.getFormas().get(i).getPontos()[1]);
+
+                aux = new Circulo(r);
+            }
+
+            if(espaco.getFormas().get(i).getPontos().length == 3){
+                double l1 = espaco.getFormas().get(i).getPontos()[0].calculaDistancia(espaco.getFormas().get(i).getPontos()[1]);
+                double l2 = espaco.getFormas().get(i).getPontos()[1].calculaDistancia(espaco.getFormas().get(i).getPontos()[2]);
+                double l3 = espaco.getFormas().get(i).getPontos()[2].calculaDistancia(espaco.getFormas().get(i).getPontos()[3]);
+                System.out.println("lados: " + l1 + l2 + l3);
+                aux = new Triangulo(l1,l2,l3);
+            }
+
+            if(espaco.getFormas().get(i).getPontos().length == 4){
+                double l = espaco.getFormas().get(i).getPontos()[0].calculaDistancia(espaco.getFormas().get(i).getPontos()[1]);
+
+                aux = new Quadrado(l);
+            }
+
+            System.out.print("Tipo: ");
+
+                if(aux instanceof Circulo)
+                    System.out.println("Circulo");
+
+                if(aux instanceof Triangulo)
+                    System.out.println("Triangulo " + ((Triangulo) aux).tipoTriangulo());
+
+                if(aux instanceof Quadrado)
+                    System.out.println("Quadrado");
+
+            System.out.println("Área: " + aux.calculaArea());
+            System.out.println("Perímetro: " + aux.calculaPerimetro());
+            System.out.println();
+        }*/
