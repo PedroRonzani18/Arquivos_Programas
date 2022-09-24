@@ -7,9 +7,9 @@
 // Vetor que idntifica se as teclass 'w | s | d | a' ou as
 // setas 'cima | baixo | direita | esquerda' estão ligadas
 GLboolean on_off[4] = {0,0,0,0};
-GLuint aviaoDisplayList, aviaoDisplayList1, aviaoDisplayList2;
-float aspectRatio = 1;
-static int endGame = 0;
+GLint aviaoDisplayList, aviaoDisplayList1, aviaoDisplayList2;
+GLfloat aspectRatio = 1;
+GLint endGame = 0;
 
 //struct que contém os dados do player e NPC 
 typedef struct ENTIDADE{
