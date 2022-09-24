@@ -4,41 +4,51 @@
 #include <stdio.h>
 #include <string.h>
 
-float aspectRatio = 1;
-double move_x = 1, move_y = 1;
-
 // Vetor que idntifica se as teclass 'w | s | d | a' ou as
 // setas 'cima | baixo | direita | esquerda' estão ligadas
 GLboolean on_off[4] = {0,0,0,0};
 GLuint aviaoDisplayList, aviaoDisplayList1, aviaoDisplayList2;
+float aspectRatio = 1;
+static int endGame = 0;
 
-typedef struct ENTIDADE{   
-    double x_max, x_min;
-    double y_max, y_min;
-    double ponto_c_x, ponto_c_y;
-    int ladoHorizontal, ladoVertical;
-    GLboolean onScreen;
-    GLuint model;
+//struct que contém os dados do player e NPC 
+typedef struct ENTIDADE{
+    double x_max, x_min; // Valores maximos e minimos que x e y podem alcançar 
+    double y_max, y_min; // baseados nas coordenadas extremas do desenho.
+    double ponto_c_x, ponto_c_y; // Coordenadas do ponto central
+    double x_move, y_move; // Unidade de movimento nos eixos x e y
+    int ladoHorizontal, ladoVertical; // LH = 1: anda na horizontal 
+                                      // LV = 1: anda na vertical
+    GLboolean onScreen; // Objeto se econtra dentro da caixa de visualização ou não
+    GLuint model; // ID da displayList de desenho 
 }entidade;
 
+// Lista das entidades
 entidade entityList[6];
 
-//coloca structs dos desenhos dentro de um vetor
+// Determina os parâmetros iniciais de cada entidade e as armazena dentro de um vetor
 void listaStructs()
 {
     entidade player ={
         .x_max = 20, .x_min = -20,
         .y_max = 25, .y_min = -30,
         .onScreen = GL_TRUE, 
-        .model = aviaoDisplayList
+        .model = aviaoDisplayList,
+        .x_move = 1, .y_move = 1
     };
 
     entityList[0] = player;
     entityList[1] = player;
 
+    entityList[1].ladoHorizontal = 1;
+    entityList[1].ladoVertical = 1;
+    entityList[1].x_move = 1;
+    entityList[1].y_move = 0;
+
     entidade aviao1Struct = {
         .x_max = 35, .x_min = -30,
         .y_max = 17.5, .y_min = -11.5,
+        .x_move = 1, .y_move = 1,
         .onScreen = GL_TRUE, 
         .ladoHorizontal = -1, .ladoVertical = 0,
         .model = aviaoDisplayList1
@@ -50,6 +60,7 @@ void listaStructs()
     entidade aviao2Struct = {
         .x_max = 22, .x_min = -20,
         .y_max = 22.5, .y_min = -10,
+        .x_move = 1, .y_move = 1,
         .onScreen = GL_TRUE, 
         .ladoVertical = 1, .ladoHorizontal = 0,
         .model = aviaoDisplayList2
@@ -59,7 +70,7 @@ void listaStructs()
     entityList[5] = aviao2Struct;
 }
 
-//desenha o aviao do jogador
+// Desenha o aviao do jogador
 void desenhaPlayer()
 {
     glColor3f(0.5, 0.5, 0.5); //cinza
@@ -126,8 +137,9 @@ void desenhaPlayer()
     glEnd();
 }
 
-//desenha o 1 aviao extra
-void desenhaAviao1(){
+// Desenha o aviao1
+void desenhaAviao1()
+{
     glColor3f(0.5, 0.5, 0.5);
 
     glBegin(GL_TRIANGLES);
@@ -204,8 +216,9 @@ void desenhaAviao1(){
     glEnd();
 }
 
-//desenha o 2 aviao extra
-void desenhaAviao2(){
+// Desenha o aviao2
+void desenhaAviao2()
+{
     glColor3f(0.5, 0.5, 0.5);
 
     glBegin(GL_TRIANGLES);
@@ -279,6 +292,7 @@ void desenhaAviao2(){
     glEnd();
 }
 
+// Cria displayLists de desenho de cada objeto
 void inicializaDisplayLists()
 {
     aviaoDisplayList = glGenLists(1);
@@ -300,6 +314,7 @@ void inicializaDisplayLists()
     glEndList();
 }
 
+// Define os valores das coordenadas centrais default de cada entidade
 void inicializaPosicoes()
 {
     for(int i=0; i<6; i++){
@@ -328,18 +343,22 @@ void inicializaPosicoes()
     entityList[5].ponto_c_y += -65;
 }
 
-void inicializar() 
+// Inicialização geral de parâmetros
+void inicializar()
 {
-    //cria as displaylists de desenho
+    // Cria as displaylists de desenho
     inicializaDisplayLists();
 
-    //coloca os aviões em suas posições iniciais
+    // Coloca os aviões em suas posições iniciais
     inicializaPosicoes();
 
-    glClearColor(0.60, 0.847, 0.93, 6); // preparo para a lista ser executada
+    // Define a cor do fundo como 'ciano'
+    glClearColor(0.60, 0.847, 0.93, 6); 
 }
 
-void escreveTexto(void * font, char *s, float x, float y) {
+// Eescreve texto "Game Over" na tela
+void escreveTexto(void * font, char *s, float x, float y)
+{
     glPushMatrix();
         glLoadIdentity();
         glRasterPos2d(x-20,y);
@@ -349,52 +368,51 @@ void escreveTexto(void * font, char *s, float x, float y) {
     glPopMatrix();
 }
 
-void timerReload(int t){
-
-    glutTimerFunc(t, timerReload, t);
-}
-
-void gameOver(){
-
-    printf("Colisao\n");
-    /*glClear(GL_COLOR_BUFFER_BIT);
-    escreveTexto(GLUT_BITMAP_HELVETICA_18, "Game Over", 0, 0);
-    inicializaPosicoes();
-    glutSwapBuffers();
-    glutTimerFunc(3000, timerReload, 3000);*/
-}
-
+// Detecta colisões
 int colisaoGeral(int e1, int e2)
 {
+    // Se não ocorre colisão, retorna 0
     if(entityList[e1].x_max + entityList[e1].ponto_c_x <= entityList[e2].x_min + entityList[e2].ponto_c_x) return 0;
     if(entityList[e1].x_min + entityList[e1].ponto_c_x >= entityList[e2].x_max + entityList[e2].ponto_c_x) return 0;
     if(entityList[e1].y_max + entityList[e1].ponto_c_y <= entityList[e2].y_min + entityList[e2].ponto_c_y) return 0;
     if(entityList[e1].y_min + entityList[e1].ponto_c_y >= entityList[e2].y_max + entityList[e2].ponto_c_y) return 0;
 
+    // Se ocorre colisão, retorna 1
     return 1;
 }
 
+// Callback da displayFunction
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    //desenha avião principal e translada de acordo com as teclas pressionadas
-
-    for(int i=0; i<6; i++)
+    // Endgame = 1 significa que ocorreu colisão
+    if(endGame)
     {
-        if(entityList[i].onScreen)
-        {   
-            glPushMatrix();
-                glTranslatef(entityList[i].ponto_c_x, entityList[i].ponto_c_y, 0);
-                glCallList(entityList[i].model);
-            glPopMatrix();
+        glColor3f(0,0,0);
+        escreveTexto(GLUT_BITMAP_HELVETICA_18, "Game Over", 0, 0);
+    }
+
+    // Se não tiver acabado o programa, executa normalmente
+    else
+    {
+        // Desenha todas as imagens
+        for(int i=0; i<6; i++){
+            if(entityList[i].onScreen)
+            {   
+                glPushMatrix();
+                    glTranslatef(entityList[i].ponto_c_x, entityList[i].ponto_c_y, 0);
+                    glCallList(entityList[i].model);
+                glPopMatrix();
+            }
         }
     }
-    
+
     //coloca esses desenhos na tela
     glutSwapBuffers();
 }
 
+// Callback da reshapeFunction
 void reshape(int w, int h)
 {
     aspectRatio = (float)w / (float)h;
@@ -407,7 +425,8 @@ void reshape(int w, int h)
     glLoadIdentity();
 }                               
 
-void keyboard(unsigned char key, int x, int y) 
+// Callback do evento de pressionamento de tecla (sem ser setas)
+void keyboard(unsigned char key, int x, int y)
 {
     /*Dependendo da tecla pressionada, um vetor sinaliza
     0 mostrando que uma tecla foi desligada, ou
@@ -443,6 +462,7 @@ void keyboard(unsigned char key, int x, int y)
     }
 }
 
+// Callback do evento de pressionamento de tecla (setas)
 void setas(int key, int x, int y)
 {
     switch (key){
@@ -476,63 +496,81 @@ void setas(int key, int x, int y)
     }
 }
 
+// Altera o valor do ponto central do aviao do jogador
 void movimentacaoJogador()
 {
-    //aumenta ou diminui a posição do jogador dependendo das teclas pressionadas
-    entityList[0].ponto_c_x += (on_off[2] - on_off[3]) * move_x;
-    entityList[0].ponto_c_y += (on_off[0] - on_off[1]) * move_y;
+    // Aumenta ou diminui a posição do jogador dependendo das teclas pressionadas
+    entityList[0].ponto_c_x += (on_off[2] - on_off[3]) * entityList[0].x_move;
+    entityList[0].ponto_c_y += (on_off[0] - on_off[1]) * entityList[0].y_move;
 }
 
+// Altera o valor do ponto central dos NPCS
 void movimentaNPC(int e)
 {
-    if(entityList[e].ladoHorizontal != 0) //se o NPC andar na horizontal
+    // Se o NPC andar na horizontal, executa os comandos
+    if(entityList[e].ladoHorizontal != 0) 
     {
+        // Se a entidade estiver programada para andar para a esquerda, diminui o valor X do ponto central
         if(entityList[e].ladoHorizontal == -1)
-            entityList[e].ponto_c_x -= 1;
+            entityList[e].ponto_c_x -= entityList[e].x_move;
 
+        // Se a entidade estiver programada para andar para a direita, aumenta o valor X do ponto central
         if(entityList[e].ladoHorizontal ==  1)
-            entityList[e].ponto_c_x += 1;
+            entityList[e].ponto_c_x += entityList[e].x_move;
 
-
+        // Se o extremo esquerdo da entidade ultrapassar o limite esquero da caixa de visualização,
+        // programa a entidade para andar para a direita. 
         if(entityList[e].ponto_c_x < -100 * aspectRatio - entityList[e].x_min)
         {
             entityList[e].ladoHorizontal = 1;
-            entityList[e].ponto_c_x += 1;
+            entityList[e].ponto_c_x += entityList[e].x_move;
         }
 
+        // Se o extremo direito da entidade ultrapassar o limite direito da caixa de visualização,
+        // programa a entidade para andar para a esquerda. 
         if(entityList[e].ponto_c_x > 100 * aspectRatio - entityList[e].x_max)
         {
             entityList[e].ladoHorizontal = -1;
-            entityList[e].ponto_c_x -= 1;
+            entityList[e].ponto_c_x -= entityList[e].x_move;
         }
     }
 
-    if(entityList[e].ladoVertical != 0) // se o NPC anda na vertical
+    // Se o NPC andar na vetical, executa os comandos
+    if(entityList[e].ladoVertical != 0)
     {
+        // Se a entidade estiver programada para andar para baixo, diminui o valor Y do ponto central.
         if(entityList[e].ladoVertical == -1)
-            entityList[e].ponto_c_y -= 1;
+            entityList[e].ponto_c_y -= entityList[e].y_move;
 
+        // Se a entidade estiver programada para andar para cima, aumenta o valor Y do ponto central.
         if(entityList[e].ladoVertical ==  1)
-            entityList[e].ponto_c_y += 1;
+            entityList[e].ponto_c_y += entityList[e].y_move;
 
-
+        // Se o extremo esquerdo da entidade ultrapassar o limite inferior da caixa de visualização,
+        // programa a entidade para andar para cima. 
         if(entityList[e].ponto_c_y < -100 - entityList[e].y_min)
         {
             entityList[e].ladoVertical = 1;
-            entityList[e].ponto_c_y += 1;
+            entityList[e].ponto_c_y += entityList[e].y_move;
         }
 
+        // Se o extremo esquerdo da entidade ultrapassar o limite superior da caixa de visualização,
+        // programa a entidade para andar para baixo. 
         if(entityList[e].ponto_c_y > 100 - entityList[e].y_max)
         {
             entityList[e].ladoVertical = -1;
-            entityList[e].ponto_c_y -= 1;
+            entityList[e].ponto_c_y -= entityList[e].y_move;
         }
     }
 }
 
+// Garante que o player nunca saia da tela.
 void dentroTela()
 {
-    //garante que avião não escape da caixa de visão
+    // Se um dos extremos de cima, baixo, esqueda, direita ultrapassar seu respectivo limite da
+    // caixa de visualização, sua coordenada X e/ou Y é programada para voltar para o limite,
+    // fazendo que ele nunca saia da caixa de visualização.
+
     if(entityList[0].ponto_c_y > 100 - entityList[0].y_max)
         entityList[0].ponto_c_y = 100 - entityList[0].y_max;
 
@@ -546,39 +584,54 @@ void dentroTela()
         entityList[0].ponto_c_x = -100 * aspectRatio - entityList[0].x_min;
 }
 
+// Callback da timerFunction.
+// Usada para ficar cosntantemente verificando se alguma condição específica foi atendida.
 void timer(int t)
 {
-    //movimenta o jogador
+    // Se ocorrer colisao, determina os valores X e Y de todas as entidades para seus valores default,
+    // com o intuito de reiniciar a animação.
+    if(endGame){
+        endGame = 0;
+        inicializaPosicoes();
+    }
+
+    // Movimenta o jogador.
     movimentacaoJogador();
 
-    //movimenta os NPCs
-    for(int i=2; i<6; i++)
+    // Movimenta os NPCs.
+    for(int i=1; i<6; i++)
         movimentaNPC(i);
 
-    //função que garante que player fique na tela
+    // Função que garante que player fique na tela.
     dentroTela();
 
-    //printf("1x: %f 1y: %f, par: %f, par: %f\n",entityList[2].ponto_c_x, entityList[2].ponto_c_y, 100 - entityList[2].x_max * aspectRatio, -100 + entityList[2].x_min * aspectRatio);
+    // Se ocorrer colisao entre o player e um dos 5 NPCs, começa o proceso def reiniciar a animação
+    if(colisaoGeral(0,1) || colisaoGeral(0,2) || colisaoGeral(0,3) || colisaoGeral(0,4) || colisaoGeral(0,5)){
+        endGame = 1;
+        glutTimerFunc(2000, timer, 16); // Se ocorrer a colisão, o período da timer é momentaneamente definido para
+                                        // 2 segundos, para a mensagem de "Game Over" aparecer na tela durante 2 segundos.
+    }
 
-    if(colisaoGeral(0,1) || colisaoGeral(0,2) || colisaoGeral(0,3) || colisaoGeral(0,4) || colisaoGeral(0,5))
-        gameOver();
-        else printf("Nada\n");
-
+    // Na proxima iteração da mainloop, a display() deve ser chamada.
     glutPostRedisplay();
-    glutTimerFunc(t, timer, t);
+
+    // Se não tiver acabado a animação, a timerfunc tem seu timer preservado.
+    if(!endGame)
+        glutTimerFunc(t, timer, t);
 }
 
 int main(int argc, char **argv)
 {
-    //prepara a tela
+    // Prepara a tela.
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(500, 500);
     glutCreateWindow("Lista 2");
 
-    //inicializa as displaylists usadas para desenho
+    // Inicializa as displaylists usadas para desenho.
     inicializar();
 
+    // Cria algumas funções padrão.
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
