@@ -1,6 +1,7 @@
 #include <GL/freeglut.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 float aspectRatio = 1;
 double move_x = 1, move_y = 1;
@@ -16,7 +17,6 @@ typedef struct ENTIDADE{
     double x_max, x_min;
     double y_max, y_min;
     double ponto_c_x, ponto_c_y;
-    double raio;
     int ladoMovimento;
     GLboolean onScreen;
 }entidade;
@@ -118,6 +118,16 @@ void desenhaPlayer()
         glVertex3f(-15,-30, 0);
         glVertex3f(  0,-15, 0);
     glEnd();
+
+    glColor3f(1,0,0);
+
+    glBegin(GL_LINE_STRIP);
+        glVertex2f(20, 25);
+        glVertex2f(-20, 25);
+        glVertex2f(-20, -30);
+        glVertex2f(20, -30);
+        glVertex2f(20, 25);
+    glEnd();
 }
 
 //desenha o 1 aviao extra
@@ -186,6 +196,16 @@ void desenhaAviao1(){
         glVertex2f( 30,12.5);
         glVertex2f( 18, 13.2);
     glEnd();
+
+    glColor3f(1,0,0);
+
+    glBegin(GL_LINE_STRIP);
+        glVertex2f(35, 17.5);
+        glVertex2f(-30, 17.5);
+        glVertex2f(-30, -11.5);
+        glVertex2f(35, -11.5);
+        glVertex2f(35, 17.5);
+    glEnd();
 }
 
 //desenha o 2 aviao extra
@@ -251,6 +271,16 @@ void desenhaAviao2(){
         glVertex2f(-5,14);
         glVertex2f(-9,7.5);
     glEnd();
+
+    glColor3f(1,0,0);
+
+    glBegin(GL_LINE_STRIP);
+        glVertex2f( 22, 27.5);
+        glVertex2f( 22, -10);
+        glVertex2f(-20, -10);
+        glVertex2f(-20, 27.5);
+        glVertex2f( 22, 27.5);
+    glEnd();
 }
 
 void inicializar() 
@@ -286,8 +316,14 @@ void display()
         glCallList(aviaoDisplayList); // executa a lista
     glPopMatrix();
 
-    //desenha aviao1 no canto superior direito da tela
-    /*if(contador== 1)
+
+        /*if(colisaoGeral(0,2) == 1 || colisaoGeral(0,4) == 1)
+        escreveTexto();*/
+
+
+
+    //desenha avioes nos cantos das telas
+    if(contador == 1)
     {   
         if(entityList[2].onScreen){
             glPushMatrix();
@@ -299,7 +335,6 @@ void display()
         }
 
         if(entityList[4].onScreen){
-                //desenha aviao2 no canto inferior esquerdo da tela
             glPushMatrix();
                 glTranslatef(-70 * aspectRatio,-65, 0);
                 entityList[4].ponto_c_x += -70 * aspectRatio;
@@ -309,9 +344,9 @@ void display()
 
             contador++;
         }        
-    }*/
+    }
 
-    if(contador == 1)
+    if(contador > 1)
     {
         if(entityList[2].onScreen){
             glPushMatrix();
@@ -468,65 +503,54 @@ void movimentaAviao2_1(){
         entityList[4].ladoMovimento = -1;
         entityList[4].ponto_c_y -= 1;
     }
-
 }
 
 void dentroTela()
 {
     //garante que avião não escape da caixa de visão
-    if(entityList[0].ponto_c_y > 75)
-        entityList[0].ponto_c_y = 75;
+    if(entityList[0].ponto_c_y > 100 - entityList[0].y_max)
+        entityList[0].ponto_c_y = 100 - entityList[0].y_max;
 
-    if(entityList[0].ponto_c_y < -70)
-        entityList[0].ponto_c_y = -70;
+    if(entityList[0].ponto_c_y < -100 - entityList[0].y_min)
+        entityList[0].ponto_c_y = -100 - entityList[0].y_min;
 
-    if(entityList[0].ponto_c_x > 100 * aspectRatio - 20)
-        entityList[0].ponto_c_x = 100 * aspectRatio - 20;
+    if(entityList[0].ponto_c_x > 100 * aspectRatio - entityList[0].x_max)
+        entityList[0].ponto_c_x = 100 * aspectRatio - entityList[0].x_max;
     
-    if(entityList[0].ponto_c_x < -100 * aspectRatio + 20)
-        entityList[0].ponto_c_x = -100 * aspectRatio + 20;
+    if(entityList[0].ponto_c_x < -100 * aspectRatio + entityList[0].x_min)
+        entityList[0].ponto_c_x = -100 * aspectRatio + entityList[0].x_min;
 }
 
-void maiorRaio()
-{   
-    for(int i=0; i<6; i++) 
-        entityList[i].raio = sqrt(pow((entityList[i].x_max * aspectRatio - entityList[i].x_min),2 * aspectRatio) + pow((entityList[i].y_max - entityList[i].y_min),2))/2 ;
+void escreveTexto(void * font, char *s, float x, float y, float z) {
+    glPushMatrix();
+        glLoadIdentity();
+        glRasterPos2d(x-20,y);
+
+        for (int i = 0; i < strlen(s); i++) 
+            glutBitmapCharacter(font, s[i]);
+    glPopMatrix();
+
 }
 
-int colisaoGeral(int e1, int e2){
+int colisaoGeral(int e1, int e2)
+{
+    if(entityList[e1].x_max + entityList[e1].ponto_c_x <= entityList[e2].x_min + entityList[e2].ponto_c_x) return 0;
+    if(entityList[e1].x_min + entityList[e1].ponto_c_x >= entityList[e2].x_max + entityList[e2].ponto_c_x) return 0;
+    if(entityList[e1].y_max + entityList[e1].ponto_c_y <= entityList[e2].y_min + entityList[e2].ponto_c_y) return 0;
+    if(entityList[e1].y_min + entityList[e1].ponto_c_y >= entityList[e2].y_max + entityList[e2].ponto_c_y) return 0;
 
-    double distanciaEntreCentros = sqrt(pow((entityList[e1].ponto_c_x - entityList[e2].ponto_c_x),2) + pow((entityList[e1].ponto_c_y - entityList[e2].ponto_c_y),2));
-    
-    //printf("Dist: %.3f | Raios: %.3f\n",distanciaEntreCentros,entityList[0].raio + entityList[2].raio);
-    
-    if(distanciaEntreCentros<= 0.8 * entityList[0].raio + 0.8 * entityList[2].raio)
-        return 1;
-    
+    return 1;
 }
 
 void timer(int t)
 {
     //função que movimenta o jogador
     movimentacaoJogador();
-
     movimentaAviao1_1();
-
     movimentaAviao2_1();
 
     //função que garante que player fique na tela
     dentroTela();
-
-    //função que calcula a todo momento o raio de colisão de cada objeto
-    maiorRaio();
-
-    //printf("%f\n",entityList[2].ponto_c_x);
-
-    //colisaoGeral(0,2);
-
-    if(colisaoGeral(0,2) == 1)
-        printf("Colisao\n");
-    else
-        printf("Sem colisao\n");
 
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);

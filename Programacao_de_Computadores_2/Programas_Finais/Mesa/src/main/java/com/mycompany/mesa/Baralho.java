@@ -56,11 +56,11 @@ public class Baralho {
             
             if(baralho[i] != null){
                 retorno[posicao] = baralho[i];
-                baralho[i] = null;                
+                baralho[i] = null;
                 posicao++;
-           }
-            
-            if(posicao >= quantidade){ 
+            }
+
+            if(posicao >= quantidade){
                 return retorno;
             }
         }

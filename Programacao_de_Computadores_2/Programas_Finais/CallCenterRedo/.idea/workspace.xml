@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4389cd38-2c8c-49fa-841d-0aa4a686c405" name="Changes" comment="" />
+    <list default="true" id="eb6cf9e7-ff65-46ad-a1d2-4f266920ebaa" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +20,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2EoIQVNtR1D1qSARs3QDWYPVHAZ" />
+  <component name="ProjectId" id="2F6eumf1XHEHhKuaAPEopJkSKQC" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -29,18 +29,17 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/home/pedro/Git_Repositorio/Curso_em_video/Java Programs/Espaco2D",
-    "settings.editor.selected.configurable": "inlay.hints"
+    "last_opened_file_path": "/home/pedro/Git_Repositorio/Curso_em_video/Java Programs/Espaco2D"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4389cd38-2c8c-49fa-841d-0aa4a686c405" name="Changes" comment="" />
-      <created>1663255494841</created>
+      <changelist id="eb6cf9e7-ff65-46ad-a1d2-4f266920ebaa" name="Changes" comment="" />
+      <created>1663817185479</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1663255494841</updated>
+      <updated>1663817185479</updated>
     </task>
     <servers />
   </component>

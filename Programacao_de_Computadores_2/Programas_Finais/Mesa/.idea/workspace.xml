@@ -4,23 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4389cd38-2c8c-49fa-841d-0aa4a686c405" name="Changes" comment="" />
+    <list default="true" id="f33ee530-9203-4813-a9e7-d517cc913297" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2EoIQVNtR1D1qSARs3QDWYPVHAZ" />
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2F6RGzIaknzM8nKawktQyjUvJmM" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -29,18 +29,18 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/home/pedro/Git_Repositorio/Curso_em_video/Java Programs/Espaco2D",
-    "settings.editor.selected.configurable": "inlay.hints"
+    "last_opened_file_path": "/home/pedro/Git_Repositorio/Programacao_de_Computadores_2/Programas_Finais/Mesa",
+    "settings.editor.selected.configurable": "editor.preferences.webOptions"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4389cd38-2c8c-49fa-841d-0aa4a686c405" name="Changes" comment="" />
-      <created>1663255494841</created>
+      <changelist id="f33ee530-9203-4813-a9e7-d517cc913297" name="Changes" comment="" />
+      <created>1663810455754</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1663255494841</updated>
+      <updated>1663810455754</updated>
     </task>
     <servers />
   </component>
