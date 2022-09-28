@@ -1,5 +1,5 @@
 
-#include <GL/glew.h>
+//#include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <stdio.h>
 #include <math.h>

@@ -20,6 +20,7 @@ typedef struct ENTIDADE
 {
     double x_max, x_min; // Valores maximos e minimos que x e y podem alcançar 
     double y_max, y_min; // baseados nas coordenadas extremas do desenho.
+    double x_resize, y_resize;
     double ponto_c_x, ponto_c_y; // Coordenadas do ponto central
     double x_move, y_move; // Unidade de movimento nos eixos x e y
     int ladoHorizontal, ladoVertical; // LH = 1: anda na horizontal 
@@ -293,6 +294,12 @@ void inicializaDisplayLists()
 // Define os valores das coordenadas centrais default de cada entidade
 void inicializaPosicoes()
 {
+    for(int i=0; i<6; i++)
+    {
+        entityList[i].x_resize = 0.5;
+        entityList[i].y_resize = 0.5;
+    }
+
     for(int i=0; i<6; i++){
         entityList[i].ponto_c_x = (entityList[i].x_max + entityList[i].x_min)/2;
         entityList[i].ponto_c_y = (entityList[i].y_max + entityList[i].y_min)/2;
@@ -378,6 +385,7 @@ void display()
             {   
                 glPushMatrix();
                     glTranslatef(entityList[i].ponto_c_x, entityList[i].ponto_c_y, 0);
+                    glScalef(entityList[i].x_resize,entityList[i].y_resize,1);
                     glCallList(entityList[i].model);
                 glPopMatrix();
             }
@@ -614,7 +622,7 @@ int main(int argc, char **argv)
     glutKeyboardUpFunc(keyboard);
     glutSpecialFunc(setas);
     glutSpecialUpFunc(setas);
-    glutTimerFunc(16, timer, 16);
+    glutTimerFunc(8, timer, 8);
 
     glutMainLoop();
     return 0;

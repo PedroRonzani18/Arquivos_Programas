@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "freeglut.h": "c",
-        "glut.h": "c"
+        "glut.h": "c",
+        "movimento.h": "c"
     }
 }
