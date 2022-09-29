@@ -7,9 +7,13 @@
 #define radianoParaGraus(radianos) (radianos * (180.0 / M_PI))
 #define grausParaRadianos(graus) ((graus * M_PI) / 180.0)
 
-// Vetor que idntifica se as teclass 'w | s | d | a' ou as
-// setas 'cima | baixo | direita | esquerda' estão ligadas
-GLboolean on_off[4] = {0,0,0,0};
+/*
+    Vetor que idntifica se estão ligadas:
+     'w'    's'      'd'       'a'
+    cima | baixo | direita | esquerda
+    '+' '-'
+*/
+GLboolean on_off[6] = {0,0,0,0,0,0};
 
 // ID das displaylists de desenho
 GLint aviaoDisplayList, aviaoDisplayList1, aviaoDisplayList2;
@@ -61,7 +65,7 @@ void listaStructs()
         .onScreen = GL_TRUE, 
         .model = aviaoDisplayList,
         .angulo = 0,
-        .angularSpeed = 6,
+        .angularSpeed = 2,
         .vetorialSpeed = 1.5
     };
 
@@ -158,7 +162,7 @@ void desenhaPlayer()
 }
 
 // Desenha o aviao1
-void desenhaAviao1()
+void drawPlane1()
 {
     glColor3f(0.5, 0.5, 0.5);
 
@@ -216,7 +220,7 @@ void desenhaAviao1()
 }
 
 // Desenha o aviao2
-void desenhaAviao2()
+void drawPlane2()
 {
     glColor3f(0.5, 0.5, 0.5);
 
@@ -279,11 +283,11 @@ void inicializaDisplayLists()
     glEndList();
 
     glNewList(aviaoDisplayList1, GL_COMPILE); // declaro o que está dentro da lista e chamo ela de "aviaoDisplayList1"
-        desenhaAviao1();
+        drawPlane1();
     glEndList();
 
     glNewList(aviaoDisplayList2, GL_COMPILE); // declaro o que está dentro da lista e chamo ela de "aviaoDisplayList2"
-        desenhaAviao2();
+        drawPlane2();
     glEndList();
 }
 
@@ -335,7 +339,7 @@ void inicializaEscala()
     }
 }
 
-// Cria uma Hitbox
+// Cria uma Hitbox para todas as entidades
 void inicializaHitbox()
 {
     for(int i=0; i<6; i++){
@@ -499,24 +503,28 @@ void keyboard(unsigned char key, int x, int y)
             break;
             
         case 'w': 
+        case 'W':
             if(on_off[0] == 1)
                 on_off[0] = 0;
             else on_off[0] = 1;
             break;
 
         case 's': 
+        case 'S':
             if(on_off[1] == 1)
                 on_off[1] = 0;
             else on_off[1] = 1;
             break;
 
         case 'd':
+        case 'D':
             if(on_off[2] == 1)
                 on_off[2] = 0;
             else on_off[2] = 1;
             break;
 
-        case  'a': // a
+        case 'a':
+        case 'A':
             if(on_off[3] == 1)
                 on_off[3] = 0;
             else on_off[3] = 1;
@@ -524,12 +532,16 @@ void keyboard(unsigned char key, int x, int y)
 
         case '+':
         case '=':
-            entityList[0].angulo +=2;
+            if(on_off[4] == 1)
+                on_off[4] = 0;
+            else on_off[4] = 1;
             break;
         
         case '-':
         case '_':
-            entityList[0].angulo -=2;
+            if(on_off[5] == 1)
+                on_off[5] = 0;
+            else on_off[5] = 1;
             break;
     }
 }
@@ -572,21 +584,32 @@ void setas(int key, int x, int y)
 void movimentacaoJogador()
 {
     double aux_angle = grausParaRadianos(entityList[0].angulo);
-    // Aumenta ou diminui a posição do jogador dependendo das teclas pressionadas
-    entityList[0].angulo += (on_off[3] - on_off[2]) * entityList[0].angularSpeed;
+
+    // Aumenta a angulação da entidade com '+' e diminui com '-'
+    entityList[0].angulo += (on_off[4] - on_off[5]) * entityList[0].angularSpeed;
+
+    // Movimenta para cima e para baixo com 'w' e 's' ou 'cima' e 'baixo'
     entityList[0].centro.x += (on_off[0] - on_off[1]) * cos(aux_angle) * entityList[0].vetorialSpeed;
     entityList[0].centro.y += (on_off[0] - on_off[1]) * sin(aux_angle) * entityList[0].vetorialSpeed;
 
+    // Movimenta para direita e esquerda com 'd' e 'a' ou '->' e '<-'
+    entityList[0].centro.x += (on_off[2] - on_off[3]) * cos(aux_angle - M_PI/2) * entityList[0].vetorialSpeed;
+    entityList[0].centro.y += (on_off[2] - on_off[3]) * sin(aux_angle - M_PI/2) * entityList[0].vetorialSpeed;
+
+    // Variáveis auxiliares
     double x,y;
 
     for(int i=0; i<4; i++)
     {
+        // Usadas no calculo dos valores de x' e y' ao rotacionar a entidade
         x = entityList[0].hitbox[i].x;
         y = entityList[0].hitbox[i].y;
 
+        // Altera o valor das coordenadas x e y da hitbox de acordo com as rotações
         entityList[0].alteredHitbox[i].x = x * cos(aux_angle + M_PI/2) - y * sin(aux_angle + M_PI/2);
         entityList[0].alteredHitbox[i].y = x * sin(aux_angle + M_PI/2) + y * cos(aux_angle + M_PI/2);
 
+        // Altera o valor das coordenadas x e y da hitbox de acordo com as translações
         entityList[0].alteredHitbox[i].x += entityList[0].centro.x;
         entityList[0].alteredHitbox[i].y += entityList[0].centro.y;
     }
@@ -651,6 +674,11 @@ void movimentaNPC(int e)
         }
     }
 
+}
+
+// Ativa e altera os valores dos vertices da hitbox dos 
+void enemyHitbox(int e)
+{
     for(int i=0; i<4; i++)
     {
         entityList[e].alteredHitbox[i].x = entityList[e].hitbox[i].x + entityList[e].centro.x;
@@ -693,7 +721,10 @@ void timer(int t)
 
     // Movimenta os NPCs.
     for(int i=1; i<6; i++)
-        movimentaNPC(i);
+    {
+        //movimentaNPC(i);
+        enemyHitbox(i);
+    }
 
     // Função que garante que player fique na tela.
     dentroTela();
