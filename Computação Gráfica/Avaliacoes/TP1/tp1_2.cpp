@@ -1,8 +1,11 @@
 #include <GL/freeglut.h>
+#include <bits/stdc++.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
+
+using namespace std;
 
 #define radianoParaGraus(radianos) (radianos * (180.0 / M_PI))
 #define grausParaRadianos(graus) ((graus * M_PI) / 180.0)
@@ -16,19 +19,18 @@
 GLboolean on_off[6] = {0,0,0,0,0,0};
 
 // ID das displaylists de desenho
-GLint aviaoDisplayList, aviaoDisplayList1, aviaoDisplayList2;
+GLuint aviaoDisplayList, aviaoDisplayList1, aviaoDisplayList2, shotDisplayList;
 
 // Variavel da razão aspecto da tela.
 GLfloat aspectRatio;
 
 // EG = 1: game over.
-GLint endGame = 0;
+GLuint endGame = 0;
 
 // Variável que ativa ou desativa o desenho da 'hitbox' de cada entidade.
 GLboolean hitBox = true;
 
-typedef struct VERTICE
-{
+typedef struct VERTICE{
     double x,y;
 }vertice;
 
@@ -52,25 +54,27 @@ typedef struct ENTIDADE
 }
 entidade;
 
-// Array que armazena as Structs das entidades
-entidade entityList[6];
+// Vector que armazena as Structs das entidades
+
+vector<entidade> entityList;
+vector<entidade> shotsList;
 
 // Determina os parâmetros iniciais de cada entidade e os armazena dentro do array entityList[]
-void listaStructs()
+void listaStructsEntidades()
 {
     entidade player ={
         .x_max = 20, .x_min = -20,
         .y_max = 25, .y_min = -30,
         .x_move = 1, .y_move = 1,
-        .onScreen = GL_TRUE, 
-        .model = aviaoDisplayList,
-        .angulo = 0,
         .angularSpeed = 2,
-        .vetorialSpeed = 1
+        .vetorialSpeed = 1,
+        .angulo = 0,
+        .onScreen = GL_TRUE, 
+        .model = aviaoDisplayList
     };
 
-    entityList[0] = player;
-    entityList[1] = player;
+    entityList.push_back(player);
+    entityList.push_back(player);
 
     entityList[1].ladoHorizontal = 1;
     entityList[1].ladoVertical = 1;
@@ -81,25 +85,42 @@ void listaStructs()
         .x_max = 35, .x_min = -30,
         .y_max = 17.5, .y_min = -11.5,
         .x_move = 1, .y_move = 0,
-        .onScreen = GL_TRUE, 
         .ladoHorizontal = -1, .ladoVertical = 0,
+        .onScreen = GL_TRUE, 
         .model = aviaoDisplayList1
     };
 
-    entityList[2] = aviao1Struct;
-    entityList[3] = aviao1Struct;
+    entityList.push_back(aviao1Struct);
+    entityList.push_back(aviao1Struct);
 
     entidade aviao2Struct = {
         .x_max = 22, .x_min = -20,
         .y_max = 22.5, .y_min = -10,
         .x_move = 0, .y_move = 1,
+        .ladoHorizontal = 0,
+        .ladoVertical = 1, 
         .onScreen = GL_TRUE, 
-        .ladoVertical = 1, .ladoHorizontal = 0,
         .model = aviaoDisplayList2
     };
 
-    entityList[4] = aviao2Struct;
-    entityList[5] = aviao2Struct;
+    entityList.push_back(aviao2Struct);
+    entityList.push_back(aviao2Struct);
+}
+
+void listaStructsShots()
+{
+    entidade defaultShot ={
+        .x_max = 3.5, .x_min = -3.5,
+        .y_max = 3.5, .y_min = -3.5,
+        .x_move = 1, .y_move = 1,
+        .angularSpeed = 2,
+        .vetorialSpeed = 1,
+        .angulo = 0,
+        .onScreen = GL_TRUE, 
+        .model = shotDisplayList
+    };
+
+    shotsList.push_back(defaultShot);
 }
 
 // Desenha o aviao do jogador
@@ -269,14 +290,29 @@ void drawPlane2()
     glColor3f(1,0,0);
 }
 
+// Desenha o shot
+void drawShot()
+{
+    glColor3f(0.5, 0.5, 0.5);
+
+    glBegin(GL_TRIANGLE_FAN);
+        glVertex2f(0   ,0);
+        glVertex2f(3.5 ,-3.5);
+        glVertex2f(0   ,3.5);
+        glVertex2f(-3.5,-3.5);
+    glEnd();
+}
+
 // Cria displayLists de desenho de cada objeto
 void inicializaDisplayLists()
 {
     aviaoDisplayList = glGenLists(1);
     aviaoDisplayList1 = glGenLists(2);
     aviaoDisplayList2 = glGenLists(3);
+    shotDisplayList = glGenLists(4);
 
-    listaStructs();
+    listaStructsEntidades();
+    listaStructsShots();
 
     glNewList(aviaoDisplayList, GL_COMPILE); // declaro o que está dentro da lista e chamo ela de "aviaoDisplayList"
         desenhaPlayer();
@@ -289,6 +325,10 @@ void inicializaDisplayLists()
     glNewList(aviaoDisplayList2, GL_COMPILE); // declaro o que está dentro da lista e chamo ela de "aviaoDisplayList2"
         drawPlane2();
     glEndList();
+
+    glNewList(shotDisplayList, GL_COMPILE);
+        drawShot();
+    glEndList();
 }
 
 // Define os valores das coordenadas centrais default de cada entidade
@@ -298,6 +338,12 @@ void inicializaPosicoes()
         entityList[i].centro.x = (entityList[i].x_max + entityList[i].x_min)/2;
         entityList[i].centro.y = (entityList[i].y_max + entityList[i].y_min)/2;
         entityList[i].angulo = 0;
+    }
+
+    for(int i=0; i<shotsList.size(); i++){
+        shotsList[i].centro.x = (shotsList[i].x_max + shotsList[i].x_min)/2;
+        shotsList[i].centro.y = (shotsList[i].y_max + shotsList[i].y_min)/2;
+        shotsList[i].angulo = 0;   
     }
 
     entityList[0].angulo = 90;
@@ -321,12 +367,14 @@ void inicializaPosicoes()
     //aviao2_2
     entityList[5].centro.x += 70;
     entityList[5].centro.y += -65;
+
+    shotsList[0].centro.x += 40;
 }
 
 // Define a escala de todas as coordenadas de cada entidade
 void inicializaEscala()
 {
-    for(int i=0; i<6; i++)
+    for(int i=0; i<entityList.size(); i++)
     {
         entityList[i].resize.x = 0.6;
         entityList[i].resize.y = 0.6;
@@ -337,12 +385,24 @@ void inicializaEscala()
         entityList[i].y_max *= entityList[i].resize.y;
         entityList[i].y_min *= entityList[i].resize.y;
     }
+
+    for(int i=0; i<shotsList.size(); i++)
+    {
+        shotsList[i].resize.x = 2;
+        shotsList[i].resize.y = 2;
+
+        shotsList[i].x_max *= shotsList[i].resize.x;
+        shotsList[i].x_min *= shotsList[i].resize.x;
+
+        shotsList[i].y_max *= shotsList[i].resize.y;
+        shotsList[i].y_min *= shotsList[i].resize.y;
+    }
 }
 
 // Cria uma Hitbox para todas as entidades
 void inicializaHitbox()
 {
-    for(int i=0; i<6; i++){
+    for(int i=0; i<entityList.size(); i++){
         entityList[i].hitbox[0].x = entityList[i].x_max;
         entityList[i].hitbox[0].y = entityList[i].y_max;
         entityList[i].hitbox[1].x = entityList[i].x_min;
@@ -351,6 +411,17 @@ void inicializaHitbox()
         entityList[i].hitbox[2].y = entityList[i].y_min;
         entityList[i].hitbox[3].x = entityList[i].x_max;
         entityList[i].hitbox[3].y = entityList[i].y_min;
+    }
+
+    for(int i=0; i<shotsList.size(); i++){
+        shotsList[i].hitbox[0].x = shotsList[i].x_max;
+        shotsList[i].hitbox[0].y = shotsList[i].y_max;
+        shotsList[i].hitbox[1].x = shotsList[i].x_min;
+        shotsList[i].hitbox[1].y = shotsList[i].y_max;
+        shotsList[i].hitbox[2].x = shotsList[i].x_min;
+        shotsList[i].hitbox[2].y = shotsList[i].y_min;
+        shotsList[i].hitbox[3].x = shotsList[i].x_max;
+        shotsList[i].hitbox[3].y = shotsList[i].y_min;
     }
 }
 
@@ -385,27 +456,27 @@ void escreveTexto(void * font, char *s, float x, float y)
 }
 
 // Detecta colisões
-int colisaoGeral(int e1, int e2)
+int colisaoGeral(entidade* e1, entidade* e2)
 {
     vertice iniDiag, fimDiag, iniLado, fimLado, deltaVet;
     double l=0, d1=0, d2=0;
     int overlap = 0;
 
-    iniDiag.x = entityList[0].centro.x;
-    iniDiag.y = entityList[0].centro.y;
+    iniDiag.x = e1->centro.x;
+    iniDiag.y = e1->centro.y;
     
     for(int i=0; i<4; i++)
     {
         deltaVet.x = 0;
         deltaVet.y = 0;
 
-        fimDiag.x = entityList[0].alteredHitbox[i].x;
-        fimDiag.y = entityList[0].alteredHitbox[i].y;
+        fimDiag.x = e1->alteredHitbox[i].x;
+        fimDiag.y = e1->alteredHitbox[i].y;
 
         for(int j=0, s=1; j<4; j++, s=(j+1)%4) 
         {
-            iniLado = entityList[e2].alteredHitbox[j];
-            fimLado = entityList[e2].alteredHitbox[s];
+            iniLado = e2->alteredHitbox[j];
+            fimLado = e2->alteredHitbox[s];
 
             l = (fimLado.x - iniLado.x) * (iniDiag.y - fimDiag.y) - (iniDiag.x - fimDiag.x) * (fimLado.y - iniLado.y);
 
@@ -420,11 +491,11 @@ int colisaoGeral(int e1, int e2)
                 overlap = 1;
             }
 
-            entityList[e1].centro.x += deltaVet.x * -1;
-            entityList[e1].centro.y += deltaVet.y * -1;
+            //ACHO Q É ESSE O PROBLEMA
+            e1->centro.x += deltaVet.x * -1;
+            e1->centro.y += deltaVet.y * -1;
         }
     }
-    
     return overlap;
 }
 
@@ -436,15 +507,16 @@ void display()
     // Endgame = 1 significa que ocorreu colisão
     if(endGame)
     {
+        char s[20] = {"Game Over"};
         glColor3f(0,0,0);
-        escreveTexto(GLUT_BITMAP_HELVETICA_18, "Game Over", 0, 0);
+        escreveTexto(GLUT_BITMAP_HELVETICA_18, s, 0, 0);
     }
 
     // Se não tiver acabado o programa, executa normalmente
     else
     {
         // Desenha todas as imagens
-        for(int i=0; i<6; i++){
+        for(int i=0; i<entityList.size(); i++){
             if(entityList[i].onScreen)
             {   
                 glPushMatrix();
@@ -457,16 +529,38 @@ void display()
             }
         }
 
+        for(int i=0; i<shotsList.size(); i++){
+            if(shotsList[i].onScreen)
+            {   
+                glPushMatrix();
+                    glTranslatef(shotsList[i].centro.x, shotsList[i].centro.y, 0);
+                    /*if(i==0)
+                        glRotatef(shotsList[0].angulo,0,0,1);*/
+                    glScalef(shotsList[i].resize.x,shotsList[i].resize.y,1);
+                    glCallList(shotsList[i].model);
+                glPopMatrix();
+            }
+        }
+
         glColor3ub(255,20,22);
 
         // hitBox = true: desenha hitboxes
         if(hitBox)
         {
             glBegin(GL_LINES);
-                for(int e=0; e < 6; e++){
+                for(int e=0; e < entityList.size(); e++){
                     for(int i=0, j=1; i<4; i++,j=(i+1)%4){
                         glVertex2f(entityList[e].alteredHitbox[i].x, entityList[e].alteredHitbox[i].y);
                         glVertex2f(entityList[e].alteredHitbox[j].x, entityList[e].alteredHitbox[j].y);
+                    }
+                } 
+            glEnd();
+
+            glBegin(GL_LINES);
+                for(int e=0; e < shotsList.size(); e++){
+                    for(int i=0, j=1; i<4; i++,j=(i+1)%4){
+                        glVertex2f(shotsList[e].alteredHitbox[i].x, shotsList[e].alteredHitbox[i].y);
+                        glVertex2f(shotsList[e].alteredHitbox[j].x, shotsList[e].alteredHitbox[j].y);
                     }
                 } 
             glEnd();
@@ -676,6 +770,15 @@ void movimentaNPC(int e)
 
 }
 
+void shotHitbox(int e)
+{
+    for(int i=0; i<4; i++)
+    {
+        shotsList[e].alteredHitbox[i].x = shotsList[e].hitbox[i].x + shotsList[e].centro.x;
+        shotsList[e].alteredHitbox[i].y = shotsList[e].hitbox[i].y + shotsList[e].centro.y;
+    }
+}
+
 // Ativa e altera os valores dos vertices da hitbox dos 
 void enemyHitbox(int e)
 {
@@ -720,24 +823,34 @@ void timer(int t)
     movimentacaoJogador();
 
     // Movimenta os NPCs.
-    for(int i=1; i<sizeof(entityList)/sizeof(entidade); i++)
+    for(int i=1; i < entityList.size(); i++)
     {
-        movimentaNPC(i);
+        //movimentaNPC(i);
         enemyHitbox(i);
-    }
 
-    // Função que garante que player fique na tela.
-    dentroTela();
-
-    // Se ocorrer colisao entre o player e um dos 5 NPCs, começa o proceso def reiniciar a animação
-
-    for(int i=1; i<sizeof(entityList)/(double)sizeof(entidade); i++)
-        if(colisaoGeral(0,i))
+        // Se ocorrer colisao entre o player e um dos 5 NPCs, começa o proceso def reiniciar a animação
+        if(colisaoGeral(&entityList[0],&entityList[i]))
         {
             endGame = 1;
             glutTimerFunc(2000, timer, 16); // Se ocorrer a colisão, o período da timer é momentaneamente definido para
                                             // 2 segundos, para a mensagem de "Game Over" aparecer na tela durante 2 segundos.
         }
+    }
+
+    for(int i=0; i < shotsList.size(); i++)
+    {
+        shotHitbox(i);
+
+        if(colisaoGeral(&shotsList[0],&entityList[0])) // entre o tiro e o personagem NESSA ORDEM
+        {
+            endGame = 1;
+            glutTimerFunc(2000, timer, 16); // Se ocorrer a colisão, o período da timer é momentaneamente definido para
+                                            // 2 segundos, para a mensagem de "Game Over" aparecer na tela durante 2 segundos.
+        }
+    }
+
+    // Função que garante que player fique na tela.
+    dentroTela();
 
     // Na proxima iteração da mainloop, a display() deve ser chamada.
     glutPostRedisplay();
