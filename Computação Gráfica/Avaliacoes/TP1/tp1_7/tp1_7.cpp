@@ -1,25 +1,41 @@
+//FUNCIONA TUDO menos a rotação dos tiros ao redor do player
+
 #include "parametros.h"
 #include "desenhos.h"
 #include "inicializa.h"
 #include "movimentos.h"
+#include "colisoes.h"
 
 using namespace std;
 
 #define radianoParaGraus(radianos) (radianos * (180.0 / M_PI))
 #define grausParaRadianos(graus) ((graus * M_PI) / 180.0)
 
+int fim = 1;
+
 // Callback da displayFunction
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // Endgame = 1 significa que ocorreu colisão
-    if(endGame)
+    if(endGame != 0)
     {
-        char s[20] = {"Game Over"};
-        glColor3f(0,0,0);
-        escreveTexto(GLUT_BITMAP_HELVETICA_18, s, 0, 0);
+        if(endGame == 2)
+        {
+            char s[20] = {"Voce venceu!!"};
+            glColor3f(0,0,0);
+            escreveTexto(GLUT_BITMAP_HELVETICA_18, s, 0, 0);
+        }
+
+        if(endGame == 1)
+        {
+            char s[20] = {"Game Over"};
+            glColor3f(0,0,0);
+            escreveTexto(GLUT_BITMAP_HELVETICA_18, s, 0, 0);
+        }
     }
+    // Endgame = 1 significa que ocorreu colisão
+
 
     // Se não tiver acabado o programa, executa normalmente
     else
@@ -52,27 +68,34 @@ void display()
 
         glColor3ub(255,20,22);
 
-        // hitBox = true: desenha hitboxes
-        if(hitBox)
-        {
-            glBegin(GL_LINES);
-                for(int e=0; e < entityList.size(); e++){
-                    for(int i=0, j=1; i<4; i++,j=(i+1)%4){
-                        glVertex2f(entityList[e].alteredHitbox[i].x, entityList[e].alteredHitbox[i].y);
-                        glVertex2f(entityList[e].alteredHitbox[j].x, entityList[e].alteredHitbox[j].y);
-                    }
-                } 
-            glEnd();
+        // Controla o desenho das hitboxes 
 
-            glBegin(GL_LINES);
-                for(int e=0; e < shotsList.size(); e++){
-                    for(int i=0, j=1; i<4; i++,j=(i+1)%4){
-                        glVertex2f(shotsList[e].alteredHitbox[i].x, shotsList[e].alteredHitbox[i].y);
-                        glVertex2f(shotsList[e].alteredHitbox[j].x, shotsList[e].alteredHitbox[j].y);
-                    }
-                } 
-            glEnd();
-        }
+        for(int i=0, j=1; i<4; i++,j=(i+1)%4)
+        {   
+            if(hitBox)        // hitBox = true: desenha hitboxes
+            {
+                glBegin(GL_LINES);
+                    for(int e=0; e < entityList.size(); e++){
+                        if(entityList[e].drawHitbox)
+                        {
+                            glVertex2f(entityList[e].alteredHitbox[i].x, entityList[e].alteredHitbox[i].y);
+                            glVertex2f(entityList[e].alteredHitbox[j].x, entityList[e].alteredHitbox[j].y);
+                        }
+                            
+                    } 
+                glEnd();
+
+                glBegin(GL_LINES);
+                    for(int e=0; e < shotsList.size(); e++){
+                        if(shotsList[e].drawHitbox)
+                        {
+                            glVertex2f(shotsList[e].alteredHitbox[i].x, shotsList[e].alteredHitbox[i].y);
+                            glVertex2f(shotsList[e].alteredHitbox[j].x, shotsList[e].alteredHitbox[j].y);
+                        }
+                    } 
+                glEnd();
+            }
+        } 
     }
 
     //coloca esses desenhos na tela
@@ -191,69 +214,45 @@ void setas(int key, int x, int y)
 // Callback da timerFunction.
 void timer(int t)
 {
-    // Se ocorrer, determina os valores X e Y de todas as entidades para seus valores default,
+    // Se ocorrer colisao, determina os valores X e Y de todas as entidades para seus valores default,
     // com o intuito de reiniciar a animação.
-    if(endGame){
-        endGame = 0;
-        inicializaPosicoes();
-    }
+
+    confereEndGame();
     
     // Movimenta o jogador.
-    movimentacaoJogador();
+    playerMovement();
     movimentaShots();
     atirar();
 
-    // Movimenta os NPCs.
+    // Confere se ainda existem inimigos vivos
+    if(voceVenceu())
+    {   endGame = 2;
+        glutTimerFunc(2000, timer, 16);
+    }
+
+    // Gerencia o game over por colisao entre jogador e inimigo
     for(int i=1; i < entityList.size(); i++)
     {
-        //movimentaNPC(i);
-        enemyHitbox(i);
+        enemyMovement(&entityList[i]);
+        enemyHitboxMovement(&entityList[i]);   
+    }
 
+
+
+    for(int i=1; i<entityList.size(); i++)
+    {
         // Se ocorrer colisao entre o player e um dos 5 NPCs, começa o proceso def reiniciar a animação
         if(colisaoGeral(&entityList[0],&entityList[i]))
         {
+            printf("Game over com %d\n",i);
             endGame = 1;
             glutTimerFunc(2000, timer, 16); // Se ocorrer a colisão, o período da timer é momentaneamente definido para
                                             // 2 segundos, para a mensagem de "Game Over" aparecer na tela durante 2 segundos.
         }
     }
 
-    for(int i=0; i < shotsList.size(); i++)
-    {
-        shotHitbox(i);
-
-        //if(colisaoGeral(&entityList[0],&shotsList[0]))
-        /*if(colisaoGeral(&shotsList[0],&entityList[0])) // entre o tiro e o personagem NESSA ORDEM
-        {
-            
-            endGame = 1;
-            glutTimerFunc(2000, timer, 16); // Se ocorrer a colisão, o período da timer é momentaneamente definido para
-                                            // 2 segundos, para a mensagem de "Game Over" aparecer na tela durante 2 segundos.
-        }*/
-    }
-
-    for(int i=0; i < shotsList.size(); i++){
-        for(int j=1; j < entityList.size(); j++){
-            if(colisaoGeral(&shotsList[i],&entityList[j]))
-            {
-                entityList[j].onScreen = GL_FALSE;
-
-                for(int i=0; i<shotsList.size(); i++){
-                shotsList[i].centro.x = (shotsList[i].x_max + shotsList[i].x_min)/2;
-                shotsList[i].centro.y = (shotsList[i].y_max + shotsList[i].y_min)/2;
-                shotsList[i].angulo = 0; 
-                shotsList[i].continuar = 0;  
-                }
-
-                    shotsList[0].centro.x += 10;
-                    shotsList[0].centro.y += -50;
-
-                    shotsList[1].centro.x += -10;
-                    shotsList[1].centro.y += -50;
-
-            }                
-        }
-    }
+    // Gerencia as colisões netre shot e inimigo
+    shotsReposiotioning();
 
     // Função que garante que player fique na tela.
     dentroTela(&entityList[0]);

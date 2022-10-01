@@ -132,22 +132,25 @@ void movimentaNPC(int e)
 
 void movimentaShots()
 {
-    for(int e=0; e<shotsList.size(); e++)
+    if(dentroTela(&entityList[0]))
     {
-        if(dentroTela(&entityList[0]))
+        for(int e=0; e<shotsList.size(); e++)
         {
             shotsList[e].angulo = entityList[0].angulo;
+            //shotsList[e].angulo += (on_off[4] - on_off[5]) * shotsList[e].angularSpeed;
 
             double aux_angle = grausParaRadianos(shotsList[e].angulo);
 
             // Aumenta a angulação da entidade com '+' e diminui com '-'
-            //shotsList[e].angulo += (on_off[4] - on_off[5]) * shotsList[e].angularSpeed;
+            //
 /*
             shotsList[e].centro.x = 20 * cos(aux_angle + M_PI/4) + entityList[0].centro.x;
             shotsList[e].centro.y = 20 * sin(aux_angle + M_PI/4) + entityList[0].centro.y;
 */
         
             // Movimenta para cima e para baixo com 'w' e 's' ou 'cima' e 'baixo'
+            printf("Vel: %.2f\n",(on_off[0] - on_off[1]) * cos(aux_angle) * shotsList[e].vetorialSpeed);
+
             shotsList[e].centro.x += (on_off[0] - on_off[1]) * cos(aux_angle) * shotsList[e].vetorialSpeed;
             shotsList[e].centro.y += (on_off[0] - on_off[1]) * sin(aux_angle) * shotsList[e].vetorialSpeed;
 
@@ -164,7 +167,7 @@ void movimentaShots()
                 x = shotsList[e].hitbox[i].x;
                 y = shotsList[e].hitbox[i].y;
 
-                //printf("%.3f\n", shotsList[e].hitbox[0].x);
+                printf("%.3f\n",shotsList[e].centro.x);
 
                 // Altera o valor das coordenadas x e y da hitbox de acordo com as rotações
                 shotsList[e].alteredHitbox[i].x = x * cos(aux_angle + M_PI/2) - y * sin(aux_angle + M_PI/2);
@@ -205,13 +208,32 @@ void shotHitbox(int e)
     }
 }
 
-void enemyHitbox(int e)
+void enemyHitbox(entidade* e)
 {
     for(int i=0; i<4; i++)
     {
-        entityList[e].alteredHitbox[i].x = entityList[e].hitbox[i].x + entityList[e].centro.x;
-        entityList[e].alteredHitbox[i].y = entityList[e].hitbox[i].y + entityList[e].centro.y;
+        e->alteredHitbox[i].x = e->hitbox[i].x + e->centro.x;
+        e->alteredHitbox[i].y = e->hitbox[i].y + e->centro.y;
     }
+}
+
+void removeHitbox(entidade* e)
+{
+    for(int i=0; i<4; i++)
+    {
+        e->alteredHitbox[i].x = 0;
+        e->alteredHitbox[i].y = 0;
+    }
+}
+
+int voceVenceu()
+{
+    for(int i=1; i < entityList.size(); i++)
+    {
+        if(entityList[i].onScreen) // se houver algum inimigo vivo, o jogo continua
+            return 0;
+    }
+    return 1; // se ninguem está na tela, retorna que acabou
 }
 
 int colisaoGeral(entidade* e1, entidade* e2)

@@ -19,8 +19,12 @@ int dentroTela(entidade* e);
 // Ativa e altera os valores dos vertices da hitbox dos tiros
 void shotHitbox(int e);
 
+int voceVenceu();
+
+void removeHitbox(entidade* e);
+
 // Ativa e altera os valores dos vertices da hitbox dos NPC
-void enemyHitbox(int e);
+void enemyHitbox(entidade* e);
 
 // Detecta colisões
 int colisaoGeral(entidade* e1, entidade* e2);

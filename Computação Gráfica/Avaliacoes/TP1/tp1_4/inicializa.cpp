@@ -14,7 +14,8 @@ void listaStructsEntidades()
         .vetorialSpeed = 1,
         .angulo = 0,
         .onScreen = GL_TRUE, 
-        .model = aviaoDisplayList
+        .model = aviaoDisplayList,
+        .drawHitbox = GL_TRUE
     };
 
     entityList.push_back(player);
@@ -31,7 +32,8 @@ void listaStructsEntidades()
         .x_move = 1, .y_move = 0,
         .ladoHorizontal = -1, .ladoVertical = 0,
         .onScreen = GL_TRUE, 
-        .model = aviaoDisplayList1
+        .model = aviaoDisplayList1,
+        .drawHitbox = GL_TRUE
     };
 
     entityList.push_back(aviao1Struct);
@@ -44,7 +46,8 @@ void listaStructsEntidades()
         .ladoHorizontal = 0,
         .ladoVertical = 1, 
         .onScreen = GL_TRUE, 
-        .model = aviaoDisplayList2
+        .model = aviaoDisplayList2,
+        .drawHitbox = GL_TRUE
     };
 
     entityList.push_back(aviao2Struct);
@@ -57,13 +60,14 @@ void listaStructsShots()
         .x_max = 3.5, .x_min = -3.5,
         .y_max = 3.5, .y_min = -3.5,
         .x_move = 1, .y_move = 1,
-        .angularSpeed = 2,
+        .angularSpeed = 1,
         .vetorialSpeed = 1,
         .angulo = 0,
         .onScreen = GL_TRUE, 
         .model = shotDisplayList,
         .bulletSpeed = 2,
-        .continuar = 0
+        .continuar = 0,
+        .drawHitbox = GL_TRUE
     };
 
     shotsList.push_back(defaultShot);
@@ -98,24 +102,26 @@ void inicializaDisplayLists()
     glEndList();
 }
 
-void inicializaPosicoes()
+void posicaoInicialJogador()
 {
-    for(int i=0; i<6; i++){
-        entityList[i].centro.x = (entityList[i].x_max + entityList[i].x_min)/2;
-        entityList[i].centro.y = (entityList[i].y_max + entityList[i].y_min)/2;
-        entityList[i].angulo = 0;
-    }
-
-    for(int i=0; i<shotsList.size(); i++){
-        shotsList[i].centro.x = (shotsList[i].x_max + shotsList[i].x_min)/2;
-        shotsList[i].centro.y = (shotsList[i].y_max + shotsList[i].y_min)/2;
-        shotsList[i].angulo = 0;   
-    }
+    entityList[0].centro.x = (entityList[0].x_max + entityList[0].x_min)/2;
+    entityList[0].centro.y = (entityList[0].y_max + entityList[0].y_min)/2;
+    entityList[0].angulo = 0;
 
     entityList[0].angulo = 90;
 
     entityList[0].centro.x +=  0;
     entityList[0].centro.y += -70;
+}
+
+void posicaoInicialInimigos()
+{
+    for(int i=1; i<6; i++)
+    {
+        entityList[i].centro.x = (entityList[i].x_max + entityList[i].x_min)/2;
+        entityList[i].centro.y = (entityList[i].y_max + entityList[i].y_min)/2;
+        entityList[i].angulo = 0;
+    }
 
     //aviao principal NPC
     entityList[1].centro.x +=  -70;
@@ -136,13 +142,39 @@ void inicializaPosicoes()
     //aviao2_2
     entityList[5].centro.x += 70;
     entityList[5].centro.y += 0;
+}
+
+void posicaoInicialShots()
+{
+    for(int i=0; i<shotsList.size(); i++){
+        shotsList[i].centro.x = (shotsList[i].x_max + shotsList[i].x_min)/2;
+        shotsList[i].centro.y = (shotsList[i].y_max + shotsList[i].y_min)/2;
+        shotsList[i].angulo = 0;   
+        shotsList[i].continuar = 0;
+    }
 
     shotsList[0].centro.x += 10;
     shotsList[0].centro.y += -50;
 
     shotsList[1].centro.x += -10;
     shotsList[1].centro.y += -50;
+}
 
+void inicializaOnScreen()
+{
+    for(int i=0; i < entityList.size(); i++)
+        entityList[i].onScreen = GL_TRUE;
+
+    for(int i=0; i< shotsList.size(); i++)
+        shotsList[i].onScreen = GL_TRUE;
+
+}
+
+void inicializaPosicoes()
+{
+    posicaoInicialJogador();
+    posicaoInicialInimigos();
+    posicaoInicialShots();
 }
 
 void inicializaEscala()
@@ -199,6 +231,8 @@ void inicializaHitbox()
 
 void inicializar()
 {
+    inicializaOnScreen();
+
     // Cria as displaylists de desenho
     inicializaDisplayLists();
 

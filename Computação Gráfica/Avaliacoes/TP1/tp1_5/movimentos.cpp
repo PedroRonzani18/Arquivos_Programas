@@ -1,4 +1,4 @@
-#include "inicializa.h"
+#include "colisoes.h"
 #include "movimentos.h"
 
 #define radianoParaGraus(radianos) (radianos * (180.0 / M_PI))
@@ -6,7 +6,8 @@
 
 using namespace std;
 
-int continuar = 0;
+double aux_angle; //TEM que ser variavel global pra preservar seu valor como constante
+//senao fica redeclarando
 
 int dentroTela(entidade* e)
 {
@@ -130,60 +131,116 @@ void movimentaNPC(int e)
 
 }
 
+void movimentaShotsHitbox(entidade* e)
+{
+    for(int i=0; i<4; i++)
+    {
+        // Usadas no calculo dos valores de x' e y' ao rotacionar a entidade
+        double x = e->hitbox[i].x;
+        double y = e->hitbox[i].y;
+
+        // Altera o valor das coordenadas x e y da hitbox de acordo com as rotações
+        e->alteredHitbox[i].x = x * cos(aux_angle + M_PI/2) - y * sin(aux_angle + M_PI/2);
+        e->alteredHitbox[i].y = x * sin(aux_angle + M_PI/2) + y * cos(aux_angle + M_PI/2);
+
+        // Altera o valor das coordenadas x e y da hitbox de acordo com as translações
+        e->alteredHitbox[i].x += e->centro.x;
+        e->alteredHitbox[i].y += e->centro.y;
+    }     
+}
+
 void movimentaShots()
+{
+    if(dentroTela(&entityList[0]))
+    {
+        for(int e=0; e<shotsList.size(); e++)
+            if(!shotsList[e].continuar) // se o tiro não tiver sido liberado, o player ainda controla sua posição
+            {
+                shotsList[e].angulo = entityList[0].angulo;
+                //shotsList[e].angulo += (on_off[4] - on_off[5]) * shotsList[e].angularSpeed;
+
+                double aux_angle = grausParaRadianos(shotsList[e].angulo);
+
+                // Aumenta a angulação da entidade com '+' e diminui com '-'
+                
+    /*
+                shotsList[e].centro.x = 20 * cos(aux_angle + M_PI/4) + entityList[0].centro.x;
+                shotsList[e].centro.y = 20 * sin(aux_angle + M_PI/4) + entityList[0].centro.y;
+    */
+            
+                // Movimenta para cima e para baixo com 'w' e 's' ou 'cima' e 'baixo'
+
+                shotsList[e].centro.x += (on_off[0] - on_off[1]) * cos(aux_angle) * shotsList[e].vetorialSpeed;
+                shotsList[e].centro.y += (on_off[0] - on_off[1]) * sin(aux_angle) * shotsList[e].vetorialSpeed;
+
+                // Movimenta para direita e esquerda com 'd' e 'a' ou '->' e '<-'
+                shotsList[e].centro.x += (on_off[2] - on_off[3]) * cos(aux_angle - M_PI/2) * shotsList[e].vetorialSpeed;
+                shotsList[e].centro.y += (on_off[2] - on_off[3]) * sin(aux_angle - M_PI/2) * shotsList[e].vetorialSpeed;
+            
+                // Variáveis auxiliares
+                double x,y;
+
+                movimentaShotsHitbox(&shotsList[e]);
+            }
+    }
+}
+
+//TIRO "TELEGUIADO"
+
+void atirar()
 {
     for(int e=0; e<shotsList.size(); e++)
     {
-        if(dentroTela(&entityList[0]))
+        if(shotsList[e].continuar == 0)
+            aux_angle = grausParaRadianos(entityList[0].angulo);
+
+        if(on_off[6] || shotsList[e].continuar == 1)
         {
-            shotsList[e].angulo = entityList[0].angulo;
+            shotsList[e].continuar = 1;
+            shotsList[e].centro.x += cos(aux_angle) * shotsList[e].bulletSpeed;
+            shotsList[e].centro.y += sin(aux_angle) * shotsList[e].bulletSpeed;
 
-            double aux_angle = grausParaRadianos(shotsList[e].angulo);
-
-            // Aumenta a angulação da entidade com '+' e diminui com '-'
-            //shotsList[e].angulo += (on_off[4] - on_off[5]) * shotsList[e].angularSpeed;
-/*
-            shotsList[e].centro.x = 20 * cos(aux_angle + M_PI/4) + entityList[0].centro.x;
-            shotsList[e].centro.y = 20 * sin(aux_angle + M_PI/4) + entityList[0].centro.y;
-*/
-        
-            // Movimenta para cima e para baixo com 'w' e 's' ou 'cima' e 'baixo'
-            shotsList[e].centro.x += (on_off[0] - on_off[1]) * cos(aux_angle) * shotsList[e].vetorialSpeed;
-            shotsList[e].centro.y += (on_off[0] - on_off[1]) * sin(aux_angle) * shotsList[e].vetorialSpeed;
-
-            // Movimenta para direita e esquerda com 'd' e 'a' ou '->' e '<-'
-            shotsList[e].centro.x += (on_off[2] - on_off[3]) * cos(aux_angle - M_PI/2) * shotsList[e].vetorialSpeed;
-            shotsList[e].centro.y += (on_off[2] - on_off[3]) * sin(aux_angle - M_PI/2) * shotsList[e].vetorialSpeed;
-        
-            // Variáveis auxiliares
-            double x,y;
-
-            for(int i=0; i<4; i++)
-            {
-                // Usadas no calculo dos valores de x' e y' ao rotacionar a entidade
-                x = shotsList[e].hitbox[i].x;
-                y = shotsList[e].hitbox[i].y;
-
-                //printf("%.3f\n", shotsList[e].hitbox[0].x);
-
-                // Altera o valor das coordenadas x e y da hitbox de acordo com as rotações
-                shotsList[e].alteredHitbox[i].x = x * cos(aux_angle + M_PI/2) - y * sin(aux_angle + M_PI/2);
-                shotsList[e].alteredHitbox[i].y = x * sin(aux_angle + M_PI/2) + y * cos(aux_angle + M_PI/2);
-
-                // Altera o valor das coordenadas x e y da hitbox de acordo com as translações
-                shotsList[e].alteredHitbox[i].x += shotsList[e].centro.x;
-                shotsList[e].alteredHitbox[i].y += shotsList[e].centro.y;
-            }   
+            movimentaShotsHitbox(&shotsList[e]);
         }
     }
 }
 
+
+// TIRO TEORICAMENTE NORMAL
+ /*
+void atirar()
+{
+    double aux_angle;
+
+    for(int e=0; e<shotsList.size(); e++)
+    {        
+        if(shotsList[e].continuar == 0)
+            aux_angle = grausParaRadianos(entityList[0].angulo);
+        
+        printf("Continuar: %d | Angulo: %.3f\n",shotsList[e].continuar,radianoParaGraus( aux_angle));
+        printf("Cx: %.3f | Cy: %.3f\n",shotsList[e].centro.x,shotsList[e].centro.y);
+
+         if(on_off[6] || shotsList[e].continuar == 1)
+        {
+            shotsList[e].continuar = 1;
+            //shotsList[e].centro.x += cos(aux_angle) * shotsList[e].bulletSpeed;
+            shotsList[e].centro.y += sin(aux_angle) * shotsList[e].bulletSpeed;
+        }
+    }
+}
+*/
+
+//TIRO "TELEGUIADO"
+/*
 void atirar()
 {
     double aux_angle = grausParaRadianos(entityList[0].angulo);
 
-    for(int e=0; e<2; e++)
+    for(int e=0; e<shotsList.size(); e++)
     {
+        if(!shotsList[e].continuar)
+            aux_angle = grausParaRadianos(entityList[0].angulo);
+
         if(on_off[6] || shotsList[e].continuar)
         {
             shotsList[e].continuar = 1;
@@ -192,78 +249,4 @@ void atirar()
         }
     }
 }
-
-void shotHitbox(int e)
-{
-    if(!shotsList[e].onScreen) // coloca a hitbox na posição inicial
-    {
-        for(int i=0; i<4; i++)
-        {
-            shotsList[e].alteredHitbox[i].x = shotsList[e].hitbox[i].x + shotsList[e].centro.x;
-            shotsList[e].alteredHitbox[i].y = shotsList[e].hitbox[i].y + shotsList[e].centro.y;
-        }
-    }
-}
-
-void enemyHitbox(int e)
-{
-    for(int i=0; i<4; i++)
-    {
-        entityList[e].alteredHitbox[i].x = entityList[e].hitbox[i].x + entityList[e].centro.x;
-        entityList[e].alteredHitbox[i].y = entityList[e].hitbox[i].y + entityList[e].centro.y;
-    }
-}
-
-int colisaoGeral(entidade* e1, entidade* e2)
-{
-    vertice iniDiag, fimDiag, iniLado, fimLado, deltaVet;
-    double l=0, d1=0, d2=0;
-    int overlap = 0;
-
-    iniDiag.x = e1->centro.x;
-    iniDiag.y = e1->centro.y;
-    
-    for(int i=0; i<4; i++)
-    {
-        deltaVet.x = 0;
-        deltaVet.y = 0;
-
-        fimDiag.x = e1->alteredHitbox[i].x;
-        fimDiag.y = e1->alteredHitbox[i].y;
-
-        for(int j=0, s=1; j<4; j++, s=(j+1)%4) 
-        {
-            iniLado = e2->alteredHitbox[j];
-            fimLado = e2->alteredHitbox[s];
-
-            l = (fimLado.x - iniLado.x) * (iniDiag.y - fimDiag.y) - (iniDiag.x - fimDiag.x) * (fimLado.y - iniLado.y);
-
-            d1 = ((iniLado.y - fimLado.y) * (iniDiag.x - iniLado.x) + (fimLado.x - iniLado.x) * (iniDiag.y - iniLado.y)) / l;
-
-            d2 = ((iniDiag.y - fimDiag.y) * (iniDiag.x - iniLado.x) + (fimDiag.x - iniDiag.x) * (iniDiag.y - iniLado.y)) / l;
-
-            if((0.0 <= d1 && d1 < 1.0) && (0.0 <= d2 && d2 < 1.0))
-            {
-                deltaVet.x += (1.0 - d1) * (fimDiag.x - iniDiag.x);
-                deltaVet.y += (1.0 - d1) * (fimDiag.y - iniDiag.y);
-                overlap = 1;
-            }
-
-            //ACHO Q É ESSE O PROBLEMA
-            e1->centro.x += deltaVet.x * -1;
-            e1->centro.y += deltaVet.y * -1;
-        }
-    }
-    return overlap;
-}
-
-void escreveTexto(void * font, char *s, float x, float y)
-{
-    glPushMatrix();
-        glLoadIdentity();
-        glRasterPos2d(x - 20, y);
-
-        for (int i = 0; i < strlen(s); i++) 
-            glutBitmapCharacter(font, s[i]);
-    glPopMatrix();
-}
+*/

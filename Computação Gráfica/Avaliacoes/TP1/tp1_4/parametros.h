@@ -55,6 +55,7 @@ typedef struct ENTIDADE
     GLuint model; // ID da displayList de desenho.
     double bulletSpeed;
     double continuar;
+    GLboolean drawHitbox;
 }
 entidade;
 

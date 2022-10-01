@@ -54,7 +54,8 @@ typedef struct ENTIDADE
     GLboolean onScreen; // Objeto se econtra dentro da caixa de visualização ou não.
     GLuint model; // ID da displayList de desenho.
     double bulletSpeed;
-    double continuar;
+    GLuint continuar;
+    GLboolean drawHitbox;
 }
 entidade;
 
