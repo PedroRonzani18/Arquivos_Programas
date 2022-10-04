@@ -1,4 +1,4 @@
-//FUNCIONA TUDO menos a rotação dos tiros ao redor do player
+// movimentos coloados na mesma função, mas deixiei os anteriores comentador
 
 #include "parametros.h"
 #include "desenhos.h"
@@ -219,8 +219,11 @@ void timer(int t)
     
     // Movimenta o jogador.
     playerMovement();
+
+    shotsGeneralMovement();
+/*
     movimentaShots();
-    atirar();
+    atirar();*/
 
     // Confere se ainda existem inimigos vivos
     if(voceVenceu())
@@ -229,13 +232,7 @@ void timer(int t)
     }
 
     // Gerencia o game over por colisao entre jogador e inimigo
-    for(int i=1; i < entityList.size(); i++)
-    {
-        enemyMovement(&entityList[i]);
-        enemyHitboxMovement(&entityList[i]);   
-    }
-
-
+    enemyMovement();
 
     for(int i=1; i<entityList.size(); i++)
     {

@@ -218,9 +218,11 @@ void timer(int t)
     confereEndGame();
     
     // Movimenta o jogador.
-    playerMovement();
-    movimentaShots();
-    atirar();
+    playerGeneralMovement();
+    shotsGeneralMovement();
+
+    //movimentaShots();
+    //atirar();
 
     // Confere se ainda existem inimigos vivos
     if(voceVenceu())
@@ -229,11 +231,13 @@ void timer(int t)
     }
 
     // Gerencia o game over por colisao entre jogador e inimigo
+    enemyGeneralMovement();
+    /*
     for(int i=1; i < entityList.size(); i++)
     {
         enemyMovement(&entityList[i]);
         enemyHitboxMovement(&entityList[i]);   
-    }
+    }*/
 
 
 

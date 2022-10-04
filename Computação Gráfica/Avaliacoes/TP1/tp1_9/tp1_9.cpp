@@ -1,10 +1,13 @@
-//FUNCIONA TUDO menos a rotação dos tiros ao redor do player
+// falta fazer com que tiros não se movam quando chega na borda
+// igual ao anterior mas com CLASSES
 
+#include "desenhos.h"
 #include "parametros.h"
 #include "desenhos.h"
 #include "inicializa.h"
 #include "movimentos.h"
 #include "colisoes.h"
+#include "entityClass.h"
 
 using namespace std;
 
@@ -40,26 +43,26 @@ void display()
     {
         // Desenha todas as imagens
         for(int i=0; i<entityList.size(); i++){
-            if(entityList[i].onScreen)
+            if(entityList[i].getOnScreen())
             {   
                 glPushMatrix();
-                    glTranslatef(entityList[i].centro.x, entityList[i].centro.y, 0);
+                    glTranslatef(entityList[i].getCentroX(), entityList[i].getCentroY(), 0);
                     if(i==0)
-                        glRotatef(entityList[0].angulo-90,0,0,1);
-                    glScalef(entityList[i].resize.x,entityList[i].resize.y,1);
-                    glCallList(entityList[i].model);
+                        glRotatef(entityList[0].getAngulo()-90,0,0,1);
+                    glScalef(entityList[i].getResizeX(),entityList[i].getResizeY(),1);
+                    glCallList(entityList[i].getModel());
                 glPopMatrix();
             }
         }
 
         for(int i=0; i<shotsList.size(); i++){
-            if(shotsList[i].onScreen)
+            if(shotsList[i].getOnScreen())
             {   
                 glPushMatrix();
-                    glTranslatef(shotsList[i].centro.x, shotsList[i].centro.y, 0);
-                    glRotatef(shotsList[i].angulo-90,0,0,1);
-                    glScalef(shotsList[i].resize.x,shotsList[i].resize.y,1);
-                    glCallList(shotsList[i].model);
+                    glTranslatef(shotsList[i].getCentroX(), shotsList[i].getCentroY(), 0);
+                    glRotatef(shotsList[i].getAngulo()-90,0,0,1);
+                    glScalef(shotsList[i].getResizeX(),shotsList[i].getResizeY(),1);
+                    glCallList(shotsList[i].getModel());
                 glPopMatrix();
             }
         }
@@ -74,10 +77,10 @@ void display()
             {
                 glBegin(GL_LINES);
                     for(int e=0; e < entityList.size(); e++){
-                        if(entityList[e].drawHitbox)
+                        if(entityList[e].getDrawHitbox())
                         {
-                            glVertex2f(entityList[e].alteredHitbox[i].x, entityList[e].alteredHitbox[i].y);
-                            glVertex2f(entityList[e].alteredHitbox[j].x, entityList[e].alteredHitbox[j].y);
+                            glVertex2f(entityList[e].getAlteredHitbox()[i].x, entityList[e].getAlteredHitbox()[i].y);
+                            glVertex2f(entityList[e].getAlteredHitbox()[j].x, entityList[e].getAlteredHitbox()[j].y);
                         }
                             
                     } 
@@ -85,10 +88,10 @@ void display()
 
                 glBegin(GL_LINES);
                     for(int e=0; e < shotsList.size(); e++){
-                        if(shotsList[e].drawHitbox)
+                        if(shotsList[e].getDrawHitbox())
                         {
-                            glVertex2f(shotsList[e].alteredHitbox[i].x, shotsList[e].alteredHitbox[i].y);
-                            glVertex2f(shotsList[e].alteredHitbox[j].x, shotsList[e].alteredHitbox[j].y);
+                            glVertex2f(shotsList[e].getAlteredHitbox()[i].x, shotsList[e].getAlteredHitbox()[i].y);
+                            glVertex2f(shotsList[e].getAlteredHitbox()[j].x, shotsList[e].getAlteredHitbox()[j].y);
                         }
                     } 
                 glEnd();
