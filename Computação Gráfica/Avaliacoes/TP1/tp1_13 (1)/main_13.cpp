@@ -60,7 +60,6 @@ void display()
                     glRotatef(shotsList[i].angulo-90,0,0,1);
                     glScalef(shotsList[i].resize.x,shotsList[i].resize.y,1);
                     glCallList(shotsList[i].model);
-
                 glPopMatrix();
             }
         }
@@ -218,6 +217,7 @@ void timer(int t)
     confereEndGame();
     
     // Movimenta todas as entidades separadamente
+    playerMovement();
     shotsGeneralMovement();
     enemyGeneralMovement();
 

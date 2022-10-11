@@ -1,0 +1,51 @@
+package org.example;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+class Parser
+{
+    private CommandWords commands;  // holds all valid command words
+
+    public Parser(){commands = new CommandWords();}
+
+    public Command getCommand()
+    {
+        String inputLine = "";   // will hold the full input line
+        String word1;
+        String word2;
+
+        System.out.print("> ");     // print prompt
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            inputLine = reader.readLine();
+        }
+        catch(java.io.IOException exc) {
+            System.out.println ("There was an error during reading: "
+                    + exc.getMessage());
+        }
+
+        StringTokenizer tokenizer = new StringTokenizer(inputLine);
+
+        if(tokenizer.hasMoreTokens())
+            word1 = tokenizer.nextToken();      // get first word
+        else
+            word1 = null;
+        if(tokenizer.hasMoreTokens())
+            word2 = tokenizer.nextToken();      // get second word
+        else
+            word2 = null;
+
+        try {
+            commands.isCommand(word1);
+            return new Command(word1, word2);
+
+        }catch (InvalidCommandException e){
+            // exibo mensagem de exceçãoo
+            System.err.print(e.getMessage());
+            return new Command(null, word2);
+        }
+    }
+}

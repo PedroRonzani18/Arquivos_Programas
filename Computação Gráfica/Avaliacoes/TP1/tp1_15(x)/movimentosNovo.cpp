@@ -1,10 +1,12 @@
 #include "colisoes.h"
-#include "movimentos.h"
+#include "movimentosNovo.h"
 
 #define radianoParaGraus(radianos) (radianos * (180.0 / M_PI))
 #define grausParaRadianos(graus) ((graus * M_PI) / 180.0)
 
 using namespace std;
+
+int posicao1, posicao2;
 
 //angulos TEM que ser variaveis globais pra preservar seu valor como constante, senao fica redeclarando
 
@@ -172,7 +174,36 @@ void enemyGeneralMovement()
 
 
 
-void shotsReposiotioning()
+
+
+void colocaShotDentroVector()
+{
+    listaStructsShots();
+}
+
+void posicionaShotComPlayer()
+{
+    aux_angle = grausParaRadianos(entityList[0].angulo);
+
+    posicao1 = shotsList.size()-2; // posicao primeiro tiro
+    posicao2 = shotsList.size()-1; // posicao segundo tiro
+
+    shotsList[posicao1].centro.x = 12 * cos(aux_angle + M_PI/6) + entityList[0].centro.x;
+    shotsList[posicao1].centro.y = 12 * sin(aux_angle + M_PI/6) + entityList[0].centro.y; 
+
+    shotsList[posicao2].centro.x = 12 * cos(aux_angle - M_PI/6) + entityList[0].centro.x;
+    shotsList[posicao2].centro.y = 12 * sin(aux_angle - M_PI/6) + entityList[0].centro.y;
+
+}
+
+void shotsAloneMovement(int e)
+{
+    shotsList[e].continuar = 1;
+    shotsList[e].centro.x += cos(aux_angle) * shotsList[e].bulletSpeed;
+    shotsList[e].centro.y += sin(aux_angle) * shotsList[e].bulletSpeed;
+}
+
+void retiraShotCasoColisao()
 {
     for(int i=0; i < shotsList.size(); i++){
         shotHitbox(i); 
@@ -183,83 +214,54 @@ void shotsReposiotioning()
             {
                 entityList[j].onScreen = GL_FALSE; // não desenha o personagem
                 printf("Colidiu com %d\n",j);
-                posicaoInicialShots();
-                removeHitbox(&entityList[j]);   
+                entityList.erase(entityList.begin() + i);
+
+                //posicaoInicialShots();
+                //removeHitbox(&entityList[j]);   
             }
 
             else if(!dentroTela(&shotsList[i])) // se o tiro sair da tela, ele volta para a posição inicial
             {
                 printf("Saiu da tela\n");
-                posicaoInicialShots();
-                removeHitbox(&entityList[j]);
+                entityList.erase(entityList.begin() + i);
+
+                //posicaoInicialShots();
+                //removeHitbox(&entityList[j]);
             }               
         }
     }
 }
 
-void shotsMovementWithPlayer(int e)
+void shotsGeneralMovement()
 {
-    aux_angle = grausParaRadianos(entityList[0].angulo);
-
-    shotsList[e].angulo = entityList[0].angulo;
-
-    //double aux_angle = grausParaRadianos(shotsList[e].angulo);
-
-    if(e==0){
-        shotsList[e].centro.x = 12 * cos(aux_angle + M_PI/6) + entityList[0].centro.x;
-        shotsList[e].centro.y = 12 * sin(aux_angle + M_PI/6) + entityList[0].centro.y; 
-    }
-
-    if(e==1){
-        shotsList[e].centro.x = 12 * cos(aux_angle - M_PI/6) + entityList[0].centro.x;
-        shotsList[e].centro.y = 12 * sin(aux_angle - M_PI/6) + entityList[0].centro.y;
-    }
-}
-
-void shotsAloneMovement(int e)
-{
-    shotsList[e].continuar = 1;
-    shotsList[e].centro.x += cos(aux_angle) * shotsList[e].bulletSpeed;
-    shotsList[e].centro.y += sin(aux_angle) * shotsList[e].bulletSpeed;
-}
-
-void shotsGeneralMovement()     
-{
-    for(int e=0; e<shotsList.size(); e++)
+    //printf("Atira1: %d\n",atira);
+    if(on_off[6])
     {
-        // se o tiro não tiver sido liberado, o player ainda controla sua posição
-        if(!shotsList[e].continuar) 
-        {
-            if(dentroTela(&entityList[0]))
-               shotsMovementWithPlayer(e); 
-        }
-
-        // Se o tiro tiver sido liberad0, ele anda sozinho
-        if(shotsList[e].continuar || on_off[6])
-            shotsAloneMovement(e);
-
-        //move a hitbox do tiro junto do tiro
-        generalHitboxMovement(&shotsList[e],aux_angle);
+        //colocaShotDentroVector();
+        //printf("Atira2: %d\n",atira);
+        posicionaShotComPlayer();
+        //atira = 0;
     }
-}
+        //printf("Atira3: %d\n",atira);
+    
 
-//TIRO "TELEGUIADO" (a hitbox não está acompanhando)
-/*
-void atirar()
-{
-    double aux_angle = grausParaRadianos(entityList[0].angulo);
-
-    for(int e=0; e<shotsList.size(); e++)
+    for(int i=0; i<shotsList.size(); i++)
     {
-        if(!shotsList[e].continuar)
-            aux_angle = grausParaRadianos(entityList[0].angulo);
+        // percorre a lista e faz todos os tiros se movimentarem
+        shotsAloneMovement(i);
 
-        if(on_off[6] || shotsList[e].continuar)
-        {
-            shotsList[e].continuar = 1;
-            shotsList[e].centro.x += cos(aux_angle) * shotsList[e].bulletSpeed;
-            shotsList[e].centro.y += sin(aux_angle) * shotsList[e].bulletSpeed;  
-        }
+        //shotsAloneMovement(posicao1);
+        //shotsAloneMovement(posicao2);
+        generalHitboxMovement(&shotsList[i],aux_angle);
     }
+
+
+    /*
+    confere se apertou tecla,e  coloca ele no vector
+    se apertou, colocar ele na tela na posição do jogador
+    fazer andar direto para frente
+    */
 }
-*/
+
+
+

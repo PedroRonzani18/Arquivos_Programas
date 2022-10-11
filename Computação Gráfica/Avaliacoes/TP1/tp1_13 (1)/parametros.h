@@ -45,8 +45,10 @@ typedef struct ENTIDADE
     int ladoHorizontal, ladoVertical; // LH = 1: anda na horizontal. 
                                       // LV = 1: anda na vertical.
     vertice centro;  // Coordenadas do ponto central.
+
     vertice hitbox[4]; // Modelo de hitbox do objeto
     vertice alteredHitbox[4]; // Modelo alterado por rotação e translação do objeto
+    
     vertice resize; // Escalas de redimensionamento das coordenadas.
     double angularSpeed; // Velocidade angular do objeto
     double vetorialSpeed; // Velocidade vetorial do objeto
@@ -58,7 +60,7 @@ typedef struct ENTIDADE
     GLboolean drawHitbox;
 }
 entidade;
-    
+
 // Vector que armazena as Structs das entidades.
 extern vector<entidade> entityList;
 

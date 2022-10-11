@@ -3,8 +3,8 @@
 #include "parametros.h"
 #include "desenhos.h"
 #include "inicializa.h"
-#include "movimentos.h"
 #include "colisoes.h"
+#include "movimentosNew.h"
 
 using namespace std;
 
@@ -57,9 +57,11 @@ void display()
             {   
                 glPushMatrix();
                     glTranslatef(shotsList[i].centro.x, shotsList[i].centro.y, 0);
+                    printf("Tx: %.3f, Ty: %.3f",shotsList[i].centro.x, shotsList[i].centro.y);
                     glRotatef(shotsList[i].angulo-90,0,0,1);
                     glScalef(shotsList[i].resize.x,shotsList[i].resize.y,1);
                     glCallList(shotsList[i].model);
+                    printf("Desenhei %d\n",i);
 
                 glPopMatrix();
             }
@@ -117,6 +119,7 @@ void reshape(int w, int h)
 // Callback do evento de pressionamento de tecla (sem ser setas)
 void keyboard(unsigned char key, int x, int y)
 {
+    //printf("ENTREI\n");
     /*Dependendo da tecla pressionada, um vetor sinaliza
     0 mostrando que uma tecla foi desligada, ou
     1 mostrando que uma tecla foi ligada*/
@@ -168,10 +171,8 @@ void keyboard(unsigned char key, int x, int y)
             else on_off[5] = 1;
             break;
 
-        case ' ': // Atira 
-            if(on_off[6] == 0)
-                on_off[6] = 1;
-            else on_off[6] = 0;
+        case 'p': // Atira 
+            on_off[6] = 1;
             break;
     }
 }
@@ -213,20 +214,36 @@ void setas(int key, int x, int y)
 // Callback da timerFunction.
 void timer(int t)
 {
+    if(on_off[6])
+    {
+        colocaShotDentroVector();
+        posicionaShotComPlayer();
+        on_off[6] = 0;
+
+        for(int i=0; i<shotsList.size(); i++)
+        {
+            printf("Px de %d: %.3f | Py de %d: %.3f\n",i,shotsList[i].centro.x, i,shotsList[i].centro.y);
+        }
+    }
+
+    if(shotsList.size() > 0)
+        shotsGeneralMovement();
+
+
+
     // Se ocorrer colisao, determina os valores X e Y de todas as entidades para seus valores default,
     // com o intuito de reiniciar a animação.
     confereEndGame();
     
     // Movimenta todas as entidades separadamente
-    shotsGeneralMovement();
+    playerMovement();
     enemyGeneralMovement();
 
-    // Confere se ainda existem inimigos vivos
+        // Confere se ainda existem inimigos vivos
     if(voceVenceu())
     {   endGame = 2;
         glutTimerFunc(2000, timer, 16);
     }
-
 
     for(int i=1; i<entityList.size(); i++)
     {
@@ -239,11 +256,7 @@ void timer(int t)
                                             // 2 segundos, para a mensagem de "Game Over" aparecer na tela durante 2 segundos.
         }
     }
-
-    // Gerencia as colisões netre shot e inimigo
-    shotsReposiotioning();
-
-    // Função que garante que player fique na tela.
+        // Função que garante que player fique na tela.
     dentroTela(&entityList[0]);
 
     // Na proxima iteração da mainloop, a display() deve ser chamada.
@@ -252,6 +265,9 @@ void timer(int t)
     // Se a animação não tiver acabado, a timerfunc tem seu timer preservado.
     if(!endGame)
         glutTimerFunc(t, timer, t);
+
+    //printf("Tamanho: %ld, atira: %d\n",shotsList.size(),on_off[6]);
+
 }
 
 // Função main
@@ -271,6 +287,9 @@ int main(int argc, char **argv)
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboard);
+
+    glutSetKeyRepeat(0);
+
     glutSpecialFunc(setas);
     glutSpecialUpFunc(setas);
     glutTimerFunc(16, timer, 16);

@@ -3,8 +3,8 @@
 #include "parametros.h"
 #include "desenhos.h"
 #include "inicializa.h"
-#include "movimentos.h"
 #include "colisoes.h"
+#include "movimentosNovo.h"
 
 using namespace std;
 
@@ -60,7 +60,6 @@ void display()
                     glRotatef(shotsList[i].angulo-90,0,0,1);
                     glScalef(shotsList[i].resize.x,shotsList[i].resize.y,1);
                     glCallList(shotsList[i].model);
-
                 glPopMatrix();
             }
         }
@@ -218,8 +217,13 @@ void timer(int t)
     confereEndGame();
     
     // Movimenta todas as entidades separadamente
-    shotsGeneralMovement();
+    playerMovement();
     enemyGeneralMovement();
+
+    if(on_off[6])
+        colocaShotDentroVector();
+
+        shotsGeneralMovement();
 
     // Confere se ainda existem inimigos vivos
     if(voceVenceu())
@@ -239,9 +243,6 @@ void timer(int t)
                                             // 2 segundos, para a mensagem de "Game Over" aparecer na tela durante 2 segundos.
         }
     }
-
-    // Gerencia as colisões netre shot e inimigo
-    shotsReposiotioning();
 
     // Função que garante que player fique na tela.
     dentroTela(&entityList[0]);

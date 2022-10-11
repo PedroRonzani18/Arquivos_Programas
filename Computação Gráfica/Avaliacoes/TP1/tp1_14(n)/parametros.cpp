@@ -6,5 +6,7 @@ GLboolean hitBox = true;
 GLfloat aspectRatio;
 GLuint aviaoDisplayList, aviaoDisplayList1, aviaoDisplayList2, shotDisplayList;
 
+int atira = 0;
+
 vector<entidade> entityList;
 vector<entidade> shotsList;

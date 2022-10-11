@@ -69,7 +69,7 @@ void Entity::setModel(GLuint model){this->model = model;}
 double Entity::getBulletSpeed(){return this->bulletSpeed;}
 void Entity::setBulletSpeed(double bulletSpeed){this->bulletSpeed = bulletSpeed;}
 
-int Entity::getContinuar(){return this->continuar;}
+int Entity::getContinuar(){return this->continuar;  }
 void Entity::setContinuar(int continuar){this->continuar = continuar;}
 
 GLboolean Entity::getDrawHitbox(){return this->drawHitbox;}

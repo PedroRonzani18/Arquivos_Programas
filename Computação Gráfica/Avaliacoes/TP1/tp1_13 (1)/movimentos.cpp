@@ -69,20 +69,17 @@ void playerModelMovement()
     entityList[0].angulo += (on_off[4] - on_off[5]) * entityList[0].angularSpeed;
 
     // Movimenta para cima e para baixo com 'w' e 's' ou 'cima' e 'baixo'
-    entityList[0].centro.x += (on_off[0] - on_off[1]) * cos(aux_angle_player) * entityList[0].vetorialSpeed;
-    entityList[0].centro.y += (on_off[0] - on_off[1]) * sin(aux_angle_player) * entityList[0].vetorialSpeed;
+    entityList[0].centro.x += (on_off[0] - on_off[1]) * cos(aux_angle) * entityList[0].vetorialSpeed;
+    entityList[0].centro.y += (on_off[0] - on_off[1]) * sin(aux_angle) * entityList[0].vetorialSpeed;
 
     // Movimenta para direita e esquerda com 'd' e 'a' ou '->' e '<-'
-    entityList[0].centro.x += (on_off[2] - on_off[3]) * cos(aux_angle_player - M_PI/2) * entityList[0].vetorialSpeed;
-    entityList[0].centro.y += (on_off[2] - on_off[3]) * sin(aux_angle_player - M_PI/2) * entityList[0].vetorialSpeed;
+    entityList[0].centro.x += (on_off[2] - on_off[3]) * cos(aux_angle - M_PI/2) * entityList[0].vetorialSpeed;
+    entityList[0].centro.y += (on_off[2] - on_off[3]) * sin(aux_angle - M_PI/2) * entityList[0].vetorialSpeed;
 }
 
 void playerMovement()
 {
     aux_angle_player = grausParaRadianos(entityList[0].angulo);
-
-        printf("Angulo: %.3f\n",entityList[0].angulo);
-
 
     playerModelMovement();
     generalHitboxMovement(&entityList[0],aux_angle_player);
@@ -223,7 +220,7 @@ void shotsAloneMovement(int e)
     shotsList[e].centro.y += sin(aux_angle) * shotsList[e].bulletSpeed;
 }
 
-void shotsGeneralMovement()     
+void shotsGeneralMovement()
 {
     for(int e=0; e<shotsList.size(); e++)
     {

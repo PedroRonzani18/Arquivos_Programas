@@ -7,6 +7,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdio.h>
+#include <algorithm>
 #include <stdbool.h>
 
 using namespace std;
@@ -29,6 +30,8 @@ extern GLboolean hitBox;
 
 // Variavel da razão aspecto da tela.
 extern GLfloat aspectRatio;
+
+extern int atira;
 
 // Struct de um ponto com 2 coordenadas(x,y).
 typedef struct VERTICE
@@ -58,7 +61,7 @@ typedef struct ENTIDADE
     GLboolean drawHitbox;
 }
 entidade;
-    
+
 // Vector que armazena as Structs das entidades.
 extern vector<entidade> entityList;
 
