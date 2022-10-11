@@ -1,9 +1,10 @@
-#ifndef _MOVEMENTENTITY_H
-#define _MOVEMENTENTITY_H
+#ifndef _MOVABLEENTITY_H
+#define _MOVABLEENTITY_H
 
 #include "Entity.h"
+#include "OrderedPair.h"
 
-class MovementEntity: public Entity{
+class MovableEntity: public Entity{
 
     private:
         OrderedPair velocity;
@@ -15,7 +16,6 @@ class MovementEntity: public Entity{
         int angularMoveType;
 
     public:
-
         OrderedPair getVelocity();
         void setVelocity(OrderedPair Velocity);
 
@@ -34,7 +34,6 @@ class MovementEntity: public Entity{
         void move(); // movimentação padrão da entidade
         void angularMove(); // movimentação angula padrão da entidade
         void scaleMove(double scale); // movimentação usando escala de uma entidade
-
 };
 
 #endif
