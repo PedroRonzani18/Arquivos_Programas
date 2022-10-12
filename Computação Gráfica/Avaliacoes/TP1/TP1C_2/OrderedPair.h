@@ -12,8 +12,6 @@ class OrderedPair{
 
         double getY();
         void setY(double y);
-
-        void* getEnd();
 };
 
 #endif

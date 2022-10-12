@@ -1,33 +1,61 @@
 #include "Entity.h"
 
+#include <vector>
 #include <stdio.h>
 
-int Entity::Entity::getDisplayListModel(){return this->displayListModel;}
-void Entity::setDisplayListModel(int displayListModel){this->displayListModel = displayListModel;}
+int Entity::Entity::getDisplayListModel()
+{
+    return this->displayListModel;
+}
+void Entity::setDisplayListModel(int displayListModel)
+{
+    this->displayListModel = displayListModel;
+}
 
-double Entity::getHp(){return this->hp;}
-void Entity::setHp(double hp){this->hp = hp;}
+GLboolean Entity::getOnScreen()
+{
+    return this->onScreen;
+}
+void Entity::setOnScreen(GLboolean onScreen)
+{
+    this->onScreen = onScreen;
+}
 
-GLboolean Entity::getOnScreen(){return this->onScreen;}
-void Entity::setOnScreen(GLboolean onScreen){this->onScreen = onScreen;}
+OrderedPair Entity::getMidPoint()
+{
+    return this->midPoint;
+}
+void Entity::setMidPoint(double x, double y)
+{
+    this->midPoint.setX(x);
+    this->midPoint.setY(y);
+}
 
-OrderedPair Entity::getMidPoint(){
-    //printf("Entrei getMidPoint\n");
-    return this->midPoint;}
+OrderedPair Entity::getMax()
+{
+    return this->max;
+}
+void Entity::setMax(double x, double y)
+{
+    this->max.setX(x);
+    this->max.setY(y);
+}
 
-void Entity::setMidPoint(OrderedPair midPoint){
-        //printf("added setMidPoint\n");
+OrderedPair Entity::getMin()
+{
+    return this->min;
+}
+void Entity::setMin(double x, double y)
+{
+    this->min.setX(x);
+    this->min.setY(y);
+}
 
-    this->midPoint = midPoint;}
-
-OrderedPair Entity::getMax(){return this->max;}
-void Entity::setMax(OrderedPair max){this->max = max;}
-
-OrderedPair Entity::getMin(){return this->min;}
-void Entity::setMin(OrderedPair min){this->min = min;}
-
-OrderedPair* Entity::getHitbox(){return this->hitbox;}
-void Entity::setHitbox(OrderedPair* hitbox){
-    for(int i=0; i < sizeof(this->hitbox) / sizeof(OrderedPair); i++)
-        this->hitbox[i] = hitbox[i];
+std::vector<OrderedPair> Entity::getHitbox()
+{
+    return this->hitbox;
+}
+void Entity::setHitbox(std::vector<OrderedPair> hitbox)
+{
+    this->hitbox = hitbox;
 }

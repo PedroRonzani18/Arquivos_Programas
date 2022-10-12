@@ -11,29 +11,33 @@ class MovableEntity: public Entity{
 
         double angle;
         double angularSpeed;
+        double hp;
 
         int moveType;
         int angularMoveType;
 
     public:
-        OrderedPair getVelocity();
-        void setVelocity(OrderedPair Velocity);
+        virtual OrderedPair getVelocity();
+        virtual void setVelocity(OrderedPair Velocity);
 
-        double getAngle();
-        void setAngle(double angle);
+        virtual double getAngle();
+        virtual void setAngle(double angle);
 
-        double getAngularSpeed();
-        void setAngularSpeed(double angularSpeed);
+        virtual double getAngularSpeed();
+        virtual void setAngularSpeed(double angularSpeed);
 
-        int getMoveType();
-        void setMoveType(int moveType);
+        virtual double getHp();
+        virtual void setHp(double hp);
 
-        int getAngularMoveType();
-        void setAngularMoveType(int angularMoveType);
+        virtual int getMoveType();
+        virtual void setMoveType(int moveType);
 
-        void move(); // movimentação padrão da entidade
-        void angularMove(); // movimentação angula padrão da entidade
-        void scaleMove(double scale); // movimentação usando escala de uma entidade
+        virtual int getAngularMoveType();
+        virtual void setAngularMoveType(int angularMoveType);
+
+        virtual void move(); // movimentação padrão da entidade
+        virtual void angularMove(); // movimentação angula padrão da entidade
+        virtual void scaleMove(double scale); // movimentação usando escala de uma entidade
 };
 
 #endif
