@@ -5,8 +5,6 @@
 #include "Player.h"
 #include "globalParameters.h"
 #include "StageManager.h"
-#include "colisionManager.h"
-#include "drawings.h"
 
 #include <stdio.h>
 #include <string>
@@ -22,9 +20,39 @@ int sposition = -30;
 int flag =1;
 int tempo=0;
 
+
+void selec() {
+
+    glColor3f(1, 0, 0);
+    glLineWidth(1);
+    glPushMatrix();
+    glScaled(0.5, 0.5, 0.5);
+
+    glBegin(GL_LINES);
+
+        glVertex2f(7, 10);
+        glVertex2f(-47, 10);
+
+
+        glVertex2f(7, -10);
+        glVertex2f(-47, -10);
+
+
+        glVertex2f(5, 10);
+        glVertex2f(5, -10);
+
+
+        glVertex2f(-44.5, 10);
+        glVertex2f(-44.5, -10);
+   
+
+    glEnd();
+    glPopMatrix();
+}
+
 void display()
 {
-    if (stageManager.getState() == 0) // desenha as coisas do menu
+    if (stageManager.getState() == 0)
     {
         glClearColor(0, 0, 0, 0);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -80,7 +108,7 @@ void display()
                 }
             }
             glTranslatef(0,sposition,0);
-            drawSelec();
+            selec();
         glPopMatrix();
         glutSwapBuffers();
     }
@@ -162,6 +190,7 @@ void keyboard(unsigned char key, int x, int y)
 
 void setas(int key, int x, int y)
 {
+   
     switch (key){
         case 27: 
             exit(0); 
@@ -194,13 +223,16 @@ void setas(int key, int x, int y)
     }
 }
 
+void colisionManager()
+{
+
+}
+
 void timer(int t)
 {
-    //colisionManager();
+    colisionManager();
     tempo+=16;
-
-    if(tempo>350)
-    {
+    if(tempo>350){
         flag=1;
         tempo=0;
     }

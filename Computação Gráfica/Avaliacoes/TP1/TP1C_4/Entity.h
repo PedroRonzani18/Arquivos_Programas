@@ -7,7 +7,7 @@
 #include "OrderedPair.h"
 
 class Entity{
-    private:
+    public:
         int displayListModel;
         double hp;
         
@@ -19,9 +19,6 @@ class Entity{
         std::vector<OrderedPair> hitbox;
 
     public:
-        Entity(int displayListModel, double hp, GLboolean onScreen, OrderedPair midPoint, 
-                OrderedPair max,OrderedPair min);
-
         virtual int getDisplayListModel();
         virtual void setDisplayListModel(int displayListModel);
 

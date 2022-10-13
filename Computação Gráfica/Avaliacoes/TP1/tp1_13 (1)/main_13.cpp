@@ -233,7 +233,7 @@ void timer(int t)
         // Se ocorrer colisao entre o player e um dos 5 NPCs, começa o proceso def reiniciar a animação
         if(colisaoGeral(&entityList[0],&entityList[i]))
         {
-            printf("Game over com %d\n",i);
+            printf("Game over com %d\n",i); 
             endGame = 1;
             glutTimerFunc(2000, timer, 16); // Se ocorrer a colisão, o período da timer é momentaneamente definido para
                                             // 2 segundos, para a mensagem de "Game Over" aparecer na tela durante 2 segundos.

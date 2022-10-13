@@ -16,6 +16,7 @@ class Stage {
     public:
         virtual void stageKeybord();
         
+        
         int getCdStage();
         void setCdStage(int cdStage);
 

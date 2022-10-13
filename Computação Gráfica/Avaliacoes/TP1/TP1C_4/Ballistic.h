@@ -10,7 +10,7 @@ class Ballistic{
         Projectile currentProjectile;
 
     public:
-        //virtual Projectile* fire(); // instancia um novo projectile que será futuramente adicionado na lista de entidades
+        virtual Projectile* fire(); // instancia um novo projectile que será futuramente adicionado na lista de entidades
                             
 };
 

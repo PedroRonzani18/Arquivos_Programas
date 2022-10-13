@@ -182,35 +182,6 @@ void drawShot()
     glEnd();
 }
 
-void drawSelec() {
-
-    glColor3f(1, 0, 0);
-    glLineWidth(1);
-    glPushMatrix();
-    glScaled(0.5, 0.5, 0.5);
-
-    glBegin(GL_LINES);
-
-        glVertex2f(7, 10);
-        glVertex2f(-47, 10);
-
-
-        glVertex2f(7, -10);
-        glVertex2f(-47, -10);
-
-
-        glVertex2f(5, 10);
-        glVertex2f(5, -10);
-
-
-        glVertex2f(-44.5, 10);
-        glVertex2f(-44.5, -10);
-   
-
-    glEnd();
-    glPopMatrix();
-}
-
 void inicializaDisplayLists()
 {
     aviaoDisplayList = glGenLists(1);

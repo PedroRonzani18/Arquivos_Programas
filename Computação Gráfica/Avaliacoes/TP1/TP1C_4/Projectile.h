@@ -11,7 +11,7 @@ class Projectile: public MovableEntity{
         int owner; // dono do tiro. usado na hora de analizar colisões
 
     public:
-        
+        Projectile() = default; // construtor default
         Projectile(double damage, double defaultFireRate, int owner);
 
         double getDamage();

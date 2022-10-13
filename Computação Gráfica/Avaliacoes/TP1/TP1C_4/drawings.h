@@ -5,9 +5,6 @@ void desenhaPlayer();
 void drawPlane1();
 void drawPlane2();
 void drawShot();
-void drawMenu();
-
-void drawSelec();
 
 void inicializaDisplayLists();
 

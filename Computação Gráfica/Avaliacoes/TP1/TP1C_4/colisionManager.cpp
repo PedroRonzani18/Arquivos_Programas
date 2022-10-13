@@ -78,4 +78,3 @@ int insideScreen(Entity* e)
 
     return 1;
 }
-

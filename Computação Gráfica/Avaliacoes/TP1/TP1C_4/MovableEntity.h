@@ -4,8 +4,8 @@
 #include "Entity.h"
 #include "OrderedPair.h"
 
-class MovableEntity: public Entity
-{
+class MovableEntity: public Entity{
+
     private:
         OrderedPair velocity;
 

@@ -3,7 +3,6 @@
 
 #include "MovableEntity.h"
 #include "Ballistic.h"
-#include "Projectile.h"
 
 class Player: public MovableEntity, public Ballistic
 {
@@ -16,7 +15,7 @@ class Player: public MovableEntity, public Ballistic
         GLboolean getShield();
         void setShield(GLboolean shied);
 
-        //Projectile* fire();
+        Projectile* fire();
 };
 
 #endif
