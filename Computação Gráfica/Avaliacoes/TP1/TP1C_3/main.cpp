@@ -4,8 +4,10 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "globalParameters.h"
+#include "StageManager.h"
 
 #include <stdio.h>
+#include <string>
 #include <iostream>
 
 using namespace std;
@@ -13,22 +15,103 @@ using namespace std;
 #define radianoParaGraus(radianos) (radianos * (180.0 / M_PI))
 #define grausParaRadianos(graus) ((graus * M_PI) / 180.0)
 
+StageManager stageManager;
+int sposition = -30;
+int flag =1;
+int tempo=0;
+
+
+void selec() {
+
+    glColor3f(1, 0, 0);
+    glLineWidth(1);
+    glPushMatrix();
+    glScaled(0.5, 0.5, 0.5);
+
+    glBegin(GL_LINES);
+
+        glVertex2f(7, 10);
+        glVertex2f(-47, 10);
+
+
+        glVertex2f(7, -10);
+        glVertex2f(-47, -10);
+
+
+        glVertex2f(5, 10);
+        glVertex2f(5, -10);
+
+
+        glVertex2f(-44.5, 10);
+        glVertex2f(-44.5, -10);
+   
+
+    glEnd();
+    glPopMatrix();
+}
+
 void display()
 {
-    glClearColor(0, 0, 0, 0);
-    glClear(GL_COLOR_BUFFER_BIT);asdasdasd
+    if (stageManager.getState() == 0)
+    {
+        glClearColor(0, 0, 0, 0);
+        glClear(GL_COLOR_BUFFER_BIT);
 
 
-    glPushMatrix();
-        glLoadIdentity();
-        glColor3f(1, 1, 0);
-        glRasterPos2d(-30,50);
-        const unsigned char aux[5] = {"MENU"};
-        glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24,aux); 
-    glPopMatrix();
+        glPushMatrix();
+            glLoadIdentity();
+            glColor3f(1, 1, 0);
+            glRasterPos2d(-50,50);
+            const unsigned char menu_txt[30] = {"BEM VINDO AO MENU"};
+            glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24,menu_txt); 
 
-    glutSwapBuffers();
+            //glutStrokeString()
+            
+        glPopMatrix();
 
+
+        glPushMatrix();
+            glLoadIdentity();
+            glColor3f(1, 1, 0);
+            glRasterPos2d(-20, -32);
+            const unsigned char init[30] = {"INICAR"};
+            glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, init); 
+        glPopMatrix();
+        
+        glPushMatrix();
+            glLoadIdentity();
+            glColor3f(1, 1, 0);
+            glRasterPos2d(-20, -42); 
+            const unsigned char ajuda[30] = {"AJUDA"};
+            glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, ajuda); 
+        glPopMatrix();
+
+        
+        glPushMatrix();
+            if(keys[0]==1 && flag==1){
+               flag=0;
+                if (sposition == -30){
+                        sposition = -40;
+                    }
+                    else{
+                        sposition = -30;
+                    }
+            }
+
+            if(keys[1]==1 && flag==1){
+                flag=0;
+                if (sposition == -40){
+                    sposition = -30;
+                }
+                else{
+                    sposition = -40;
+                }
+            }
+            glTranslatef(0,sposition,0);
+            selec();
+        glPopMatrix();
+        glutSwapBuffers();
+    }
 }
 
 void reshape(int w, int h)
@@ -107,6 +190,7 @@ void keyboard(unsigned char key, int x, int y)
 
 void setas(int key, int x, int y)
 {
+   
     switch (key){
         case 27: 
             exit(0); 
@@ -135,17 +219,31 @@ void setas(int key, int x, int y)
                 keys[3] = 0;
             else keys[3] = 1;
             break;
+    
     }
+}
+
+void colisionManager()
+{
+
 }
 
 void timer(int t)
 {
-
+    colisionManager();
+    tempo+=16;
+    if(tempo>350){
+        flag=1;
+        tempo=0;
+    }
+    glutPostRedisplay();
+    glutTimerFunc(t, timer, t);
 }
 
 int main(int argc, char **argv)
 {
-    MovableEntity e;
+    
+    /*MovableEntity e;
     e.setAngle(1);
     e.setMidPoint(4,5);
 
@@ -161,9 +259,10 @@ int main(int argc, char **argv)
     Enemy en;
 
     p.fire();
-    en.fire();
+    en.fire();*/
 
     // Prepara a tela
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(500, 500);
@@ -172,13 +271,20 @@ int main(int argc, char **argv)
     // Configura o valor inicial de algumas variáveis de estado
     //inicializar();
 
+
     // Registra callbacks para alguns eventos
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
+
+    glutIgnoreKeyRepeat(1); 
+    
     glutKeyboardFunc(keyboard);
-    glutKeyboardUpFunc(keyboard);
+    glutKeyboardUpFunc(keyboard);    
+
     glutSpecialFunc(setas);
+    
     glutSpecialUpFunc(setas);
+    
     glutTimerFunc(16, timer, 16);
 
     glutMainLoop();

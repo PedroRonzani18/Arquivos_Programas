@@ -271,6 +271,9 @@ int main(int argc, char **argv)
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboard);
+
+    glutIgnoreKeyRepeat(1);
+
     glutSpecialFunc(setas);
     glutSpecialUpFunc(setas);
     glutTimerFunc(16, timer, 16);
