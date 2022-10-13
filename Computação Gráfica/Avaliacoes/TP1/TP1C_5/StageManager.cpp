@@ -8,6 +8,8 @@ int StageManager::colision()
         {
             if(colided(this->currentStage.getEntity(i), this->currentStage.getEntity(i)))
                 return 1;
+
+            //if(colisaoGeral(&entityList[0],&entityList[i]))
         }
     }
     return 0;
