@@ -1,10 +1,13 @@
-#include "OrderedPair.h"
-#include "Entity.h"
-#include "MovableEntity.h"
-#include "Enemy.h"
-#include "Player.h"
-#include "globalParameters.h"
-#include "StageManager.h"
+#include "BaseClasses/Header/OrderedPair.h"
+#include "BaseClasses/Header/Entity.h"
+#include "BaseClasses/Header/MovableEntity.h"
+#include "BaseClasses/Header/Enemy.h"
+#include "BaseClasses/Header/Player.h"
+
+#include "GenaralFiles/Header/globalParameters.h"
+#include "GenaralFiles/Header/drawings.h"
+
+#include "Stages/Header/StageManager.h"
 
 #include <stdio.h>
 #include <string>
@@ -20,41 +23,9 @@ int sposition = -30;
 int flag =1;
 int tempo=0;
 
-
-void selec() {
-
-    glColor3f(1, 0, 0);
-    glLineWidth(1);
-    glPushMatrix();
-    glScaled(0.5, 0.5, 0.5);
-
-    glBegin(GL_LINES);
-
-        glVertex2f(7, 10);
-        glVertex2f(-47, 10);
-
-
-        glVertex2f(7, -10);
-        glVertex2f(-47, -10);
-
-
-        glVertex2f(5, 10);
-        glVertex2f(5, -10);
-
-
-        glVertex2f(-44.5, 10);
-        glVertex2f(-44.5, -10);
-   
-
-    glEnd();
-    glPopMatrix();
-}
-
-void display()
+void displayMenu()
 {
-    if (stageManager.getState() == 0)
-    {
-        glClearColor(0, 0, 0, 0);
+    glClearColor(0, 0, 0, 0);
         glClear(GL_COLOR_BUFFER_BIT);
 
 
@@ -111,6 +82,68 @@ void display()
             selec();
         glPopMatrix();
         glutSwapBuffers();
+}
+
+void diaplayLevel1()
+{
+    Stage auxStage = stageManager.getCurrentStage();
+    
+    //translada, rotaciona e desenha
+    for(int i=0; i< stageManager.getCurrentStage().getEntities()->size(); i++)
+    {
+        if(auxStage.getEntity(i)->getOnScreen())
+        {   
+            auto auxEnt = *auxStage.getEntity(i);
+
+            glPushMatrix();
+                glTranslatef(auxStage.getEntity(i)->getMidPoint().getX(),
+                             auxStage.getEntity(i)->getMidPoint().getY(),
+                             0);
+       
+                //if(auxStage.getEntity(i) instanceof MovableEntity)
+                //if(dynamic_cast<MovableEntity*>(&auxEnt) != nullptr)
+
+//Mae: Entity
+//Filha: MovableEntity
+//*
+                if(instanceof<MovableEntity>(&auxEnt))
+                {
+                    /*MovableEntity* auxAux = new MovableEntity();
+                    auxAux = reinterpret_cast<MovableEntity*> (&auxEnt);
+
+                    glRotatef(auxAux->getAngle(),0,0,1);
+
+                    printf("Angulo: %f\n",auxAux->getAngle());
+                    //aux reinterpret_cast<MovableEntity*>(&auxEnt);*/
+                }
+                
+                
+                
+                glScalef(auxStage.getEntity(i)->getResize(),
+                         auxStage.getEntity(i)->getResize(),
+                         1);
+
+                glCallList(auxStage.getEntity(i)->getDisplayListModel());
+
+            glPopMatrix();
+        }
+    }
+
+    glColor3ub(255,20,22);
+}
+
+
+void display()
+{
+    switch (stageManager.getState())
+    {
+    case 0:
+        displayMenu();
+        break;
+    
+    case 2:
+        diaplayLevel1();
+        break;
     }
 }
 
@@ -223,14 +256,10 @@ void setas(int key, int x, int y)
     }
 }
 
-void colisionManager()
-{
-
-}
-
 void timer(int t)
 {
-    colisionManager();
+    stageManager.colision();
+
     tempo+=16;
     if(tempo>350){
         flag=1;
@@ -242,49 +271,23 @@ void timer(int t)
 
 int main(int argc, char **argv)
 {
-    
-    /*MovableEntity e;
-    e.setAngle(1);
-    e.setMidPoint(4,5);
-
-    printf("(%.0f,%.0f)\n",e.getMidPoint().getX(),e.getMidPoint().getY());
-
-    printf("\n");
-
-    e.setMidPoint(2,e.getMidPoint().getY());
-
-    printf("(%.0f,%.0f)\n",e.getMidPoint().getX(),e.getMidPoint().getY());
-
-    Player p;
-    Enemy en;
-
-    p.fire();
-    en.fire();*/
-
-    // Prepara a tela
+    StageManager stageManager;
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(500, 500);
     glutCreateWindow("Lista 2");
 
-    // Configura o valor inicial de algumas variáveis de estado
-    //inicializar();
-
+    stageManager.gameInit();
 
     // Registra callbacks para alguns eventos
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
-
     glutIgnoreKeyRepeat(1); 
-    
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboard);    
-
     glutSpecialFunc(setas);
-    
     glutSpecialUpFunc(setas);
-    
     glutTimerFunc(16, timer, 16);
 
     glutMainLoop();
