@@ -254,9 +254,9 @@ void keyboard(unsigned char key, int x, int y)
             break;
 
         case ' ': // Atira 
-            if(keys[4] == 1)
-                keys[4] = 0;
-            else keys[4] = 1;
+            if(keys[4] == 0)
+                keys[4] = 1;
+            else keys[4] = 0;
             break;
 
         case '-': // Rotaciona sentido anti-hotário
@@ -310,7 +310,7 @@ void setas(int key, int x, int y)
 
 void timer(int t)
 {
-    stageManager.stageKeyboard();
+    stageManager.menuKeyboardManager();
 
     tempo+=16;
     if(tempo>400){
@@ -323,33 +323,6 @@ void timer(int t)
 
 int main(int argc, char **argv)
 {
-    /*
-    Menu menu1;
-
-    Button emphasisButton;
-    emphasisButton.setDisplayListModel(drawEmphassisMenuButton);
-    emphasisButton.setFunctionality(1);
-    emphasisButton.setMidPoint(13, 30);
-    menu1.setFocusButton(emphasisButton);
-    menu1.setFocus(30);
-    
-    printf("Func antes: %d\n",menu1.getFocusButton().getFunctionality());
-    
-
-    Stage currentStage = menu1;
-    
-    printf("Foco: %d\n", reinterpret_cast<Menu*>(&currentStage)->getFocusButton().getFunctionality());
-
-    stageManager.setCurrentStage(menu1);
-
-    Stage stage = stageManager.getCurrentStage();
-
-    printf("Foco: %d\n", reinterpret_cast<Menu*>(&stage)->getFocusButton().getFunctionality());
-
-    Button auxFocusButton = reinterpret_cast<Menu*> (&this->currentStage)->getFocusButton();
-*/
-
-    
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(900, 1000);
@@ -369,6 +342,5 @@ int main(int argc, char **argv)
     glutTimerFunc(16, timer, 16);
 
     glutMainLoop();
-    
     return 0;
 }

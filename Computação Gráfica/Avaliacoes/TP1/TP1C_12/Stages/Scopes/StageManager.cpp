@@ -1,10 +1,9 @@
 #include "../Header/StageManager.h"
 #include <stdio.h>
-#include <iostream>
 
-using namespace std;
-
-StageManager::StageManager(){}
+StageManager::StageManager()
+{
+}
 
 void StageManager::initializeStages(){
     Menu menu;
@@ -51,7 +50,6 @@ void StageManager::gameInit()
     // Define a cor do fundo como 'ciano'
     glClearColor(0, 0, 0, 0); 
 }
-
 
 void StageManager::menuKeyboardManager()
 {
@@ -121,18 +119,7 @@ void StageManager::levelKeyboardManager()
 
 void StageManager::stageKeyboard()
 {
-
-    
-    //printf("entre na stageKeyboardGERAL\n");
-
-    Menu *menu;
-
-    //cout << typeid(&currentStage).name() << endl;
-
-    if(typeid(&currentStage) == typeid(menu)){
-        printf("asfgernbvr");
-    }
-
+    printf("entre na stageKeyboardGERAL\n");
     if(instanceof<Menu>(&currentStage))
     {
         printf("entre na stageKeyboardMenu\n");
@@ -154,5 +141,4 @@ void StageManager::stageKeyboard()
 
         levelKeyboardManager();
     }
-    
 }

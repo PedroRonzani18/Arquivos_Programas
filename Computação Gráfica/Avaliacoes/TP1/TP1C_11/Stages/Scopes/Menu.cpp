@@ -2,8 +2,6 @@
 #include "../../GenaralFiles/Header/globalParameters.h"
 #include "../../GenaralFiles/Header/drawings.h"
 
-#include <stdio.h>
-
 Menu::Menu() : Stage()
 {
     getEntities().resize(0);
@@ -24,9 +22,7 @@ Menu::Menu() : Stage()
 
     Button emphasisButton;
     emphasisButton.setDisplayListModel(drawEmphassisMenuButton);
-    emphasisButton.setFunctionality(1);
+    helpButton.setFunctionality(1);
     emphasisButton.setMidPoint(startButton.getMidPoint().getX(), startButton.getMidPoint().getY());
     this->setFocusButton(emphasisButton);
-    
-    
 }

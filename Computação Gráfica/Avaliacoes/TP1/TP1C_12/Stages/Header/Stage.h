@@ -14,13 +14,12 @@ class Stage
         int background;
         std::vector<Entity> entities;
         Button focusButton;
-        
 
     public:
 
         Stage();
 
-        virtual void stageKeyboard();
+        virtual void stageKeyboard(){}
 
         int getFocus(){return focus;}
         void setFocus(int focus){this->focus = focus;}

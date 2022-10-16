@@ -7,9 +7,15 @@
 
 class Menu: public Stage {
 
+    private:
+        
+
     public:
         Menu();
+
         Menu(const int& background);
+
+        
 };
 
 

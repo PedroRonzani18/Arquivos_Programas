@@ -7,9 +7,16 @@
 
 class Menu: public Stage {
 
+    private:
+        Button focusButton;
+
     public:
         Menu();
+
         Menu(const int& background);
+
+        Button& getFocusButton(){return this->focusButton;}
+        void setFocusButton(const Button& focusButton){this->focusButton = focusButton;}
 };
 
 
