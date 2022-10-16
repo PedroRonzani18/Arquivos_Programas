@@ -70,7 +70,7 @@ int colisaoGeral(entidade* e1, entidade* e2)
         {
             iniLado = e2->alteredHitbox[j];
             fimLado = e2->alteredHitbox[s];
-
+    
             l = (fimLado.x - iniLado.x) * (iniDiag.y - fimDiag.y) - (iniDiag.x - fimDiag.x) * (fimLado.y - iniLado.y);
 
             d1 = ((iniLado.y - fimLado.y) * (iniDiag.x - iniLado.x) + (fimLado.x - iniLado.x) * (iniDiag.y - iniLado.y)) / l;
