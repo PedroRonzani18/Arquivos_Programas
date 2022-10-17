@@ -1,5 +1,7 @@
 #include "../Header/StageManager.h"
 #include <stdio.h>
+#include <typeinfo>
+#include <typeindex>
 
 StageManager::StageManager()
 {
@@ -119,7 +121,21 @@ void StageManager::levelKeyboardManager()
 
 void StageManager::stageKeyboard()
 {
-    printf("entre na stageKeyboardGERAL\n");
+    //printf("entre na stageKeyboardGERAL\n");
+    
+    Stage *base = &currentStage;
+
+    std::type_index ti(typeid(*base));
+    
+    if (ti == std::type_index(typeid(Menu)))
+        printf("SOU MENU");
+
+
+
+
+
+
+
     if(instanceof<Menu>(&currentStage))
     {
         printf("entre na stageKeyboardMenu\n");

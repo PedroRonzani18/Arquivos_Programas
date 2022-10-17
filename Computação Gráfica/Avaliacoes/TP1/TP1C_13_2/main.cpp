@@ -145,15 +145,15 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT);
     drawBackground();
     
-    Stage aux = stageManager.getCurrentStage();
+    Stage *aux = stageManager.getCurrentStage();
 
-    for(int i=0; i<aux.getEntities().size(); i++)
+    for(int i=0; i<aux->getEntities().size(); i++)
     {
         glPushMatrix();
-            glTranslatef(aux.getEntity(i).getMidPoint().getX(),
-                         aux.getEntity(i).getMidPoint().getY(),
+            glTranslatef(aux->getEntity(i).getMidPoint().getX(),
+                         aux->getEntity(i).getMidPoint().getY(),
                          0);
-            glCallList(aux.getEntity(i).getDisplayListModel());
+            glCallList(aux->getEntity(i).getDisplayListModel());
         glPopMatrix();
     }    
     glutSwapBuffers();
