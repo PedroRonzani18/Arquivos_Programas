@@ -197,7 +197,8 @@ void shotsReposiotioning()
 void shotsMovementWithPlayer(int e)
 {
     aux_angle = grausParaRadianos(entityList[0].angulo);
-
+    printf("Angulo: %.2f\n",entityList[0].angulo);
+    
     shotsList[e].angulo = entityList[0].angulo;
 
     //double aux_angle = grausParaRadianos(shotsList[e].angulo);
