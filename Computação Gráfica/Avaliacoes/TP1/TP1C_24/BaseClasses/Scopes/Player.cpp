@@ -27,10 +27,11 @@ Player::Player() : MovableEntity(), Ballistic()
 
 void Player::move()
 {   
-    this->setMidPoint(this->getMidPoint().getX() + (keys[2] - keys[3]) * (this->getVelocity().getX()),
-                      this->getMidPoint().getY() + (keys[0] - keys[1]) * (this->getVelocity().getY()));
+    this->setMidPoint(this->midPoint.getX() + (keys[2] - keys[3]) * (this->velocity.getX()),
+                      this->midPoint.getY() + (keys[0] - keys[1]) * (this->velocity.getY()));
     generalHitBoxMovement();
 }
+
 void Player::scaleMove(const double& scale){}
 
 std::vector<Projectile> Player::fire()
@@ -39,7 +40,7 @@ std::vector<Projectile> Player::fire()
     if(getNumberOfShots() == 1)
     {
         Projectile projectile;
-        projectile.setMidPoint(this->getMidPoint().getX() , this->getMidPoint().getY() + this->getMax().getY());
+        projectile.setMidPoint(this->midPoint.getX() , this->midPoint.getY() + this->max.getY());
         vec.push_back(projectile);
     }
     return vec;

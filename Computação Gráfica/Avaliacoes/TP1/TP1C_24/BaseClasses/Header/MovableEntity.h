@@ -7,7 +7,7 @@
 
 class MovableEntity: public Entity
 {
-    private:
+    protected:
         OrderedPair velocity;
         double angle;
         double angularSpeed;

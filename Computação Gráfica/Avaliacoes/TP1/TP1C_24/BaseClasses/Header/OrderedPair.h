@@ -2,7 +2,7 @@
 #define _ORDEREDPAIR_H
 
 class OrderedPair{
-    private:
+    protected:
         double x;
         double y;
 

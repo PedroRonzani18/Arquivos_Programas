@@ -12,7 +12,7 @@
 
 class Stage 
 {
-    private:
+    protected:
         int ammountOfButtons;
         int background;
         std::vector<Button> buttons;
@@ -56,13 +56,7 @@ class Stage
 
         std::vector<Projectile> getProjectiles(){return this->projectiles;}
 
-
-
         Projectile& getProjectile(const int& i){return  this->projectiles[i];}
-        
-        
-        
-        
         
         void addProjectile(const Projectile& e){projectiles.push_back(e);}
         void removeProjectile(const int& i){this->projectiles.erase(this->projectiles.begin() + i);}

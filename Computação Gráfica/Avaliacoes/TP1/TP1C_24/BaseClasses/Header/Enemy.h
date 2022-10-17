@@ -5,7 +5,7 @@
 #include "Ballistic.h"
 
 class Enemy: public MovableEntity, public Ballistic{
-    private:
+    protected:
         double killValue; // valor em pontos de matar o inimigo
 
     public:

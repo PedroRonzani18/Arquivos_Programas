@@ -7,7 +7,7 @@
 #include "OrderedPair.h"
 
 class Entity{
-    private:
+    protected:
         int displayListModel;
         GLboolean onScreen;
         OrderedPair midPoint;

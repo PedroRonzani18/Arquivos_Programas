@@ -17,42 +17,40 @@ int Level::stageKeyboard()
 
 void Level::movements()
 {
-    this->getPlayer().move();
-    this->getBoss().move();
+    this->player.move();
+    this->boss.move();
 
-    for(int i = 0; i < getEnemies().size(); i++)
-        getEnemy(i).move();
+    for(int i = 0; i < enemies.size(); i++)
+        enemies[i].move();
 
-    for(int i=0; i<getProjectiles().size(); i++)
+    for(int i=0; i < projectiles.size(); i++)
     {
-        getProjectile(i).move();
-        if(!getProjectile(i).getOnScreen())
+        projectiles[i].move();
+        if(!projectiles[i].getOnScreen())
         {
-            this->removeProjectile(i);
+            this->projectiles.erase(this->projectiles.begin() + i);
         }
     }
-    
-    printf("Tamanho: %ld\n",getProjectiles().size());
 
-    for(int i = 0; i < getColectibles().size(); i++)
-        getColectible(i).move();
+    for(int i = 0; i < colectibles.size(); i++)
+        colectibles[i].move();
 }
 
 void Level::drawEntities()
 {
-    drawModel(&this->getPlayer());
-    drawHitbox(&this->getPlayer());
-    drawModel(&this->getBoss());
-    drawHitbox(&this->getBoss());
-    for (Enemy e : getEnemies()){
+    drawModel(&this->player);
+    drawHitbox(&this->player);
+    drawModel(&this->boss);
+    drawHitbox(&this->boss);
+    for (Enemy e : enemies){
         drawModel(&e);
         drawHitbox(&e);
     }
-    for (Projectile p : getProjectiles()){
+    for (Projectile p : projectiles){
         drawModel(&p);
         drawHitbox(&p);
     }
-    for (Colectible c : getColectibles()){
+    for (Colectible c : colectibles){
         drawModel(&c);
         drawHitbox(&c);
     }
@@ -61,7 +59,7 @@ void Level::drawEntities()
 void Level::colider()
 {
     for(int i=0; i<getProjectiles().size(); i++)
-        verifyVisibility(getProjectile(i));
+        verifyVisibility(projectiles[i]);
         
-    mantainInsideScreen(getPlayer());
+    mantainInsideScreen(player);
 }

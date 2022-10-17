@@ -21,7 +21,7 @@ Projectile::Projectile() : MovableEntity()
 
 void Projectile::move()
 {  
-    this->getMidPoint().setY(this->getMidPoint().getY() + this->getVelocity().getY());
+    this->midPoint.setY(this->midPoint.getY() + this->velocity.getY());
     this->generalHitBoxMovement();
 }
 void Projectile::scaleMove(const double& scale){}

@@ -2,6 +2,7 @@
 #include "../../GeneralFiles/Header/globalParameters.h"
 #include "../../GeneralFiles/Header/drawings.h"
 #include <stdio.h>
+#include <typeinfo>
 
 Menu::Menu()
 {

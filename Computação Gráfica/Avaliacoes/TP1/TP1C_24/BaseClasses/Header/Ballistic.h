@@ -4,7 +4,7 @@
 #include "Projectile.h"
 
 class Ballistic{
-    private:
+    protected:
         
         Projectile currentProjectile; //modelo do tiro atual
         int numberOfShots; // numero de tiros lançados por vez (1, 2, 3)
