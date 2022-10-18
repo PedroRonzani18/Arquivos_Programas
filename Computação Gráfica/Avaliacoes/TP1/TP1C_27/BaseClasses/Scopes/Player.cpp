@@ -18,7 +18,7 @@ Player::Player() : MovableEntity(), Ballistic()
     this->setHitbox();
     this->setMidPoint();
     this->setType(0);
-    this->setNumberOfShots(1);
+    this->setNumberOfShots(3);
     this->setOnScreen(GL_TRUE);
     this->setShield(0);
     this->setVelocity(1,1);
@@ -37,18 +37,8 @@ void Player::scaleMove(const double& scale){}
 std::vector<Projectile> Player::fire()
 {
     std::vector<Projectile> vec;
-    /*
-    if(numberOfShots == 1)
-    {
-        Projectile projectile;
-        projectile.setMidPoint(this->midPoint.getX() , this->midPoint.getY() + this->max.getY());
-        vec.push_back(projectile);
-    }
-    */
 
     Projectile projectile1;
-    Projectile projectile2;
-    Projectile projectile3;
 
     switch(numberOfShots)
     {
@@ -59,22 +49,22 @@ std::vector<Projectile> Player::fire()
         case 2:
             projectile1.setMidPoint(12 * cos(this->angle +  M_PI/4) + this->midPoint.getX(),
                                     12 * sin(this->angle +  M_PI/4) + this->midPoint.getY());
-            projectile2.setMidPoint(12 * cos(this->angle + M_PI/2 + M_PI/4) + this->midPoint.getX(),
+            vec.push_back(projectile1);
+            projectile1.setMidPoint(12 * cos(this->angle + M_PI/2 + M_PI/4) + this->midPoint.getX(),
                                     12 * sin(this->angle + M_PI/2 + M_PI/4) + this->midPoint.getY());
             vec.push_back(projectile1);
-            vec.push_back(projectile2);
             break;
         case 3:
             projectile1.setMidPoint(this->midPoint.getX(),this->midPoint.getY() + this->max.getY());
-            projectile2.setMidPoint(12 * cos(this->angle +  M_PI/4) + this->midPoint.getX(),
-                                    12 * sin(this->angle +  M_PI/4) + this->midPoint.getY());
-            projectile3.setMidPoint(12 * cos(this->angle + M_PI/2 + M_PI/4) + this->midPoint.getX(),
-                                    12 * sin(this->angle + M_PI/2 + M_PI/4) + this->midPoint.getY());
             vec.push_back(projectile1);
-            vec.push_back(projectile2);
-            vec.push_back(projectile3);
+            projectile1.setMidPoint(12 * cos(this->angle +  M_PI/4) + this->midPoint.getX(),
+                                    12 * sin(this->angle +  M_PI/4) + this->midPoint.getY());
+            vec.push_back(projectile1);
+            projectile1.setMidPoint(12 * cos(this->angle + M_PI/2 + M_PI/4) + this->midPoint.getX(),
+                                    12 * sin(this->angle + M_PI/2 + M_PI/4) + this->midPoint.getY());
+            
+            vec.push_back(projectile1);
             break;
-
     }
 
     return vec;
