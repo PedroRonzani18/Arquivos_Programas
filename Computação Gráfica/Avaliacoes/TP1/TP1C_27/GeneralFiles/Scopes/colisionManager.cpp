@@ -3,6 +3,7 @@
 
 int colided(Entity& e1, Entity& e2)
 {
+    /*
     OrderedPair iniDiag, fimDiag, iniLado, fimLado, deltaVet;
     double l=0, d1=0, d2=0;
     int overlap = 0;
@@ -37,12 +38,20 @@ int colided(Entity& e1, Entity& e2)
                 overlap = 1;
             }
 
-            e1.setMidPoint(e1.getMidPoint().getX() + (deltaVet.getX() * -1),  //e1.centro.x += deltaVet.x * -1;
-                            e1.getMidPoint().getY() + (deltaVet.getY() * -1)); //e1.centro.y += deltaVet.y * -1;            
+            //e1.setMidPoint(e1.getMidPoint().getX() + (deltaVet.getX() * -1),  //e1.centro.x += deltaVet.x * -1;
+            //                e1.getMidPoint().getY() + (deltaVet.getY() * -1)); //e1.centro.y += deltaVet.y * -1;            
             
         }
     }
     return overlap;
+    */
+
+         if(e1.getMidPoint().getY() + e1.getMax().getY() < e2.getMidPoint().getY() + e2.getMin().getY()) return 0;
+    else if(e1.getMidPoint().getY() + e1.getMin().getY() > e2.getMidPoint().getY() + e2.getMax().getY()) return 0;
+    else if(e1.getMidPoint().getX() + e1.getMax().getX() < e2.getMidPoint().getX() + e2.getMin().getX()) return 0;
+    else if(e1.getMidPoint().getX() + e1.getMin().getX() > e2.getMidPoint().getX() + e2.getMax().getX()) return 0;
+    
+    return 1;
 }
 
 void mantainInsideScreen(Entity& e)

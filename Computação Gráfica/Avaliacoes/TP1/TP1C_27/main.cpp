@@ -164,10 +164,10 @@ void timer(int t)
     stageManager.movements();
     stageManager.callWave();
 
-    tempo+=16;
-    if(tempo>530){
+    tempo+=8;
+    if(tempo>270){
         flag=1;
-        tempo=0;
+        tempo=0;    
     }
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);

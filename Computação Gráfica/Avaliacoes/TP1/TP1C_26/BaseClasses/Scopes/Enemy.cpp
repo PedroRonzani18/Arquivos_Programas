@@ -17,8 +17,8 @@ Enemy::Enemy(int type) : MovableEntity()
         this->hp = 3;
         this->onscreenTestable = GL_FALSE;  
         this->setDisplayListModel(drawPlane1);
-        this->setMax(20,25);
-        this->setMin(-20,-30);
+        this->setMax(20,20);
+        this->setMin(-20,-20);
         this->setVelocity(1, 1);
         this->setResize(0.5);
         this->setHitbox();

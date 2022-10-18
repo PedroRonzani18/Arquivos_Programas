@@ -1,9 +1,7 @@
 #include "../Header/StageManager.h"
 #include <stdio.h>
 
-StageManager::StageManager()
-{
-}
+StageManager::StageManager(){}
 
 void StageManager::draw(){
     currentStage->drawEntities();    

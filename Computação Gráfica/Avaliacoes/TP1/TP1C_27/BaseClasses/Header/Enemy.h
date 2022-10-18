@@ -7,7 +7,7 @@
 class Enemy: public MovableEntity, public Ballistic{
     protected:
         double killValue; // valor em pontos de matar o inimigo
-        double dropPercentage; //probbilidade do inimigo dropar um coletavel 
+        int dropPercentage; //probbilidade do inimigo dropar um coletavel 
         GLboolean onscreenTestable;
         
         void move1();
@@ -19,6 +19,9 @@ class Enemy: public MovableEntity, public Ballistic{
 
         double getKillValue(){return this->killValue;}
         void setKillValue(const double& killValue){this->killValue = killValue;}
+
+        int getDropPercentage(){return this->dropPercentage;}
+        void setDropPercentage(const int& dropPercentage){this->dropPercentage = dropPercentage;}
 
         GLboolean getOnscreenTestable(){return this->onscreenTestable;}
         void setOnscreenTestable(const GLboolean& onscreenTestable){this->onscreenTestable = onscreenTestable;}

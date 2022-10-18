@@ -7,14 +7,14 @@
 class Player: public MovableEntity, public Ballistic
 {
     private:
-        GLboolean shield; // permite que player colida com 1 shot e não perca vida
+        GLboolean imortality; // permite que player colida com 1 shot e não perca vida
         double alteredFireRate; // fire rate alterado por coletável
         
     public:
         Player();
 
-        GLboolean getShield(){return shield;}
-        void setShield(const GLboolean& shied){this->shield = shield;}
+        GLboolean getShield(){return imortality;}
+        void setImortality(const GLboolean& shied){this->imortality = imortality;}
 
         void move() override; // movimentação padrão da entidade
         void scaleMove(const double& scale) override;
@@ -23,6 +23,8 @@ class Player: public MovableEntity, public Ballistic
 
         double getAlteredFireRate(){return alteredFireRate;}
         void setAlteredFireRate(const double& alteredFireRate){this->alteredFireRate = alteredFireRate;}
+
+        void upgradeManager(int upgradeType);
 };
 
 #endif

@@ -18,9 +18,9 @@ Player::Player() : MovableEntity(), Ballistic()
     this->setHitbox();
     this->setMidPoint();
     this->setType(0);
-    this->setNumberOfShots(3);
+    this->setNumberOfShots(1);
     this->setOnScreen(GL_TRUE);
-    this->setShield(0);
+    this->setImortality(0);
     this->setVelocity(1,1);
     this->setHp(3);
 }
@@ -39,6 +39,7 @@ std::vector<Projectile> Player::fire()
     std::vector<Projectile> vec;
 
     Projectile projectile1;
+    projectile1.setOwner(1);
 
     switch(numberOfShots)
     {
@@ -70,3 +71,7 @@ std::vector<Projectile> Player::fire()
     return vec;
 }
 
+void Player::upgradeManager(int upgradeType)
+{
+    
+}
