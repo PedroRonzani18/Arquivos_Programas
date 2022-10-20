@@ -14,7 +14,9 @@ class Projectile: public MovableEntity{
         int owner; // dono do tiro. usado na hora de analizar colisões
 
     public:
-        Projectile();
+        Projectile(){}
+
+        Projectile(const int& type);
 
         double getDamage(){return damage;}
         void setDamage(const double& damage){this->damage = damage;}

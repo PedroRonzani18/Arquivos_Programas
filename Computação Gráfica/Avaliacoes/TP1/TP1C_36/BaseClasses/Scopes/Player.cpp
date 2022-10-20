@@ -7,23 +7,25 @@
 
 Player::Player() : MovableEntity(), Ballistic()
 {
-    this->setAlteredFireRate(1);
-    this->setAngle(0);
-    this->setAngularSpeed(0);
-    this->setCurrentProjectile(Projectile());
+    this->type = 0;
+    this->alteredFireRate = 1;
+    this->angle = 0;
+    this->angularSpeed = 0;
+    this->currentProjectile = Projectile(0);
+    this->displayListModel = textures[0];
+    this->numberOfShots = 1;
+    this->onScreen =GL_TRUE;
+    this->imortality = 0;
+    this->hp = 3;
+    this->fireRatePeriod = 0;
 
-    this->setDisplayListModel(textures[0]);
     this->setMax(20,20);
     this->setMin(-20,-20);
     this->setResize(0.5);
     this->setHitbox();
     this->setMidPoint();
-    this->setType(0);
-    this->setNumberOfShots(1);
-    this->setOnScreen(GL_TRUE);
-    this->setImortality(0);
     this->setVelocity(1.7,1.7);
-    this->setHp(3);
+    
 }
 
 void Player::move()
@@ -39,7 +41,7 @@ std::vector<Projectile> Player::fire()
 {
     std::vector<Projectile> vec;
 
-    Projectile projectile1;
+    Projectile projectile1(0);
     projectile1.setOwner(1);
 
     switch(numberOfShots)
@@ -76,5 +78,30 @@ std::vector<Projectile> Player::fire()
 
 void Player::upgradeManager(int upgradeType)
 {
+    switch (upgradeType)
+    {
+    case 1: //type 1: aumenta o tanto de tiro 
+        if(this->numberOfShots < 3)
+            this->numberOfShots += 1;
+        break;
     
+    case 2: //type 2: aumeta o fireRate
+        this->alteredFireRate /= 1.23;
+        break;
+
+    case 3: //type 3: troca de projetil
+        this->typeTiroManager ++;
+        if(this->typeTiroManager == 3) 
+            this->typeTiroManager = 0;
+        this->currentProjectile = Projectile(typeTiroManager);
+        break;
+
+    case 4: //type 4: aumenta vida
+        if(this->hp < 3)
+            this->hp ++;
+        break;
+
+    case 5:  //type 5: aumenta o dano
+        break;
+    }
 }

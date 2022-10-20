@@ -37,11 +37,12 @@ void Level::callWaves()
 
 int Level::stageKeyboard()
 {
-    if(keys[4] && player.getAlteredFireRate() <= 0) //space
+    if(keys[4] && player.getFireRatePeriod() <= 0) //space
     {
         for(Projectile p : getPlayer().fire())
         {
-            player.setAlteredFireRate(100);
+            player.setFireRatePeriod(player.getCurrentProjectile().getDefaultFireRate() * player.getAlteredFireRate());
+            //printf("Valor: %.d\n", player.getFireRatePeriod());
             this->addProjectile(p);
         }
     }
@@ -112,11 +113,11 @@ void Level::drawAndMove()
 
 void Level::timeCounter()
 {
-    if(player.getAlteredFireRate() >= 0)
-        player.setAlteredFireRate(player.getAlteredFireRate() - 8);
+    if(player.getFireRatePeriod() >= 0)
+        player.setFireRatePeriod(player.getFireRatePeriod() - frames);
 
-    if(player.getImortality() >=0)
-        player.setImortality(player.getImortality() - 8);
+    if(player.getImortality() >= 0)
+        player.setImortality(player.getImortality() - frames);
 }
 
 void Level::colider()

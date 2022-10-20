@@ -159,7 +159,7 @@ int main(int argc, char **argv)
     glutReshapeFunc(redimensionada);
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboard);    
-    glutTimerFunc(8, timer, 8);
+    glutTimerFunc(frames, timer, frames);
 
     glutMainLoop();
     return 0;

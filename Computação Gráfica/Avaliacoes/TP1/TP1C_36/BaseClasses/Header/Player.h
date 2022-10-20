@@ -10,6 +10,8 @@ class Player: public MovableEntity, public Ballistic
         int imortality; // permite que player colida com 1 shot e não perca vida
         double alteredFireRate; // fire rate alterado por coletável
                                 // tempo entre cada tiro
+        int fireRatePeriod;
+        int typeTiroManager;
         
     public:
         Player();
@@ -24,6 +26,9 @@ class Player: public MovableEntity, public Ballistic
 
         double getAlteredFireRate(){return alteredFireRate;}
         void setAlteredFireRate(const double& alteredFireRate){this->alteredFireRate = alteredFireRate;}
+
+        int getFireRatePeriod(){return this->fireRatePeriod;}
+        void setFireRatePeriod(const int& fireRatePeriod){this->fireRatePeriod = fireRatePeriod;}
 
         void upgradeManager(int upgradeType);
 };
