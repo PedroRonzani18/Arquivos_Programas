@@ -1,8 +1,9 @@
 CC = g++
 FLAGS= -g -lglut -lGL -lGLU -lSOIL
 OUTPUT= main
+INCLUDEDIR = -I /Header -I /Scopes
 all:
-		$(CC) -g *.cpp */*/*.cpp $(FLAGS) -o $(OUTPUT)
+		$(CC) $(INCLUDEDIR) -g *.cpp */*/*.cpp $(FLAGS) -o $(OUTPUT)
 
 run: all
 	./$(OUTPUT)
