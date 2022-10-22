@@ -5,7 +5,7 @@
 #include "../../BaseClasses/Header/OrderedPair.h"
 #include <stdbool.h>
 
-int colided(Entity* e1, Entity* e2);
+int colided(Entity& e1, Entity& e2);
 
 int mantainInsideScreen(Entity& e);
 

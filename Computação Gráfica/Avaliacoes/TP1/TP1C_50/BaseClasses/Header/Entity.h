@@ -43,8 +43,6 @@ class Entity{
         std::vector<OrderedPair> getHitbox(){return this->hitbox;}
         void setHitbox();
         std::vector<OrderedPair> getAlteredHitbox(){return this->alteredHitbox;}
-        OrderedPair getAlteredHitbox(int i){return this->alteredHitbox[i];}
-
         void setAlteredHitbox(const int& i, const int& x, const int& y ){this->alteredHitbox[i].setX(x); this->alteredHitbox[i].setY(y);}
         
         double getResize(){return this->resize;}

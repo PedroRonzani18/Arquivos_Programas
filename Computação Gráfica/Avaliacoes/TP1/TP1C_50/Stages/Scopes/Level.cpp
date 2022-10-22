@@ -136,21 +136,20 @@ void Level::colider()
         {
             if(projectiles[i].getOwner() == 1)
             {
-                if(colided(&projectiles[i], &enemies[j])) //colisao dos tiros do player com o inimido
+                if(colided(projectiles[i], enemies[j])) //colisao dos tiros do player com o inimido
                 {
-                    printf("colidiu %f\n", projectiles[i].getMidPoint().getX());
                     projectiles[i].setHp(projectiles[i].getHp() - 1);
                     enemies[j].setHp(enemies[j].getHp() - projectiles[i].getDamage());
                 }
             }else if(projectiles[i].getOwner() == 2){
-                if(colided(&projectiles[i], &player)){ //colisao dos tiros dos inimigos com o player
+                if(colided(projectiles[i], player)){ //colisao dos tiros dos inimigos com o player
                     projectiles[i].setHp(projectiles[i].getHp() - 1);
                     player.setHp(player.getHp() - 1);
                 }
             }
         }
 
-        if(colided(&enemies[j], &player)){ //colisao dos inimigos com o player
+        if(colided(enemies[j], player)){ //colisao dos inimigos com o player
             if(player.getImortality() <= 0) //quando ele nao ta imortal
             {
                 player.setHp(player.getHp() - 1);
@@ -162,7 +161,7 @@ void Level::colider()
     }
 
     for(int i=0; i<colectibles.size(); i++){
-        if(colided(&colectibles[i], &player)){ //colidiu coletavel com player
+        if(colided(colectibles[i], player)){ //colidiu coletavel com player
             player.upgradeManager(colectibles[i].getUpgradeType());
             colectibles[i].setHp(colectibles[i].getHp() -1);
         }
