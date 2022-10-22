@@ -61,8 +61,6 @@ void generalHitboxMovement(entidade* e, double seuAngulo)
     }  
 }
 
-
-
 void playerModelMovement()
 {
         // Aumenta a angulação da entidade com '+' e diminui com '-'
