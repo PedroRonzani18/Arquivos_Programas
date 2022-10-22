@@ -1,10 +1,6 @@
 #include "../Header/Projectile.h"
 #include <stdio.h>
 
-#define grausParaRadianos(graus) ((graus * M_PI) / 180.0)
-#define radianoParaGraus(radianos) (radianos * (180.0 / M_PI))
-
-
 Projectile::Projectile(const int& type) : MovableEntity()
 {
     this->type = type;
@@ -58,14 +54,17 @@ Projectile::Projectile(const int& type) : MovableEntity()
             this->angularSpeed = 0;
             this->hp = 1;
             this->damage = 1;
-            this->defaultFireRate = 200;
+            this->defaultFireRate = 120;
             this->owner = 0; 
             this->setMax(4, 4);
             this->setMin(-4, -4);
             this->setResize(0.5);
             this->setHitbox();
             this->setMidPoint();
-            this->setVelocity(1,1);
+            this->setVelocity(3,3);
+            break;
+    
+        default:
             break;
     }    
 }
@@ -93,22 +92,16 @@ void Projectile::bouncyMove()
 
 void Projectile::folllowMove()
 {
-    followedEnemy->setMidPoint(0,80);
+    double x = 0, y = 80;
 
-    double auxAngle = atan((this->midPoint.getY() - followedEnemy->getMidPoint().getY())/
-                           (this->midPoint.getX() - followedEnemy->getMidPoint().getX())
-                          );
+    double dx = x - this->midPoint.getX();
+    double dy = y - this->midPoint.getY();
 
-    //double auxAngle = M_PI/4;
+    double angle = atan2(dy,dx);
 
-    this->angle = auxAngle;
+    this->midPoint.setX(this->midPoint.getX() + cos(angle) * 2);
+    this->midPoint.setY(this->midPoint.getY() + sin(angle) * 2);
 
-    this->midPoint.setX(midPoint.getX() + (cos(auxAngle) * velocity.getX()));
-    this->midPoint.setY(midPoint.getY() + (sin(auxAngle) * velocity.getY()));
-
-    printf("Angulo: %.2f Pe (%.2f,%.2f)  Pp (%.2f,%.2f)\n",radianoParaGraus(auxAngle),midPoint.getX(),midPoint.getY(),followedEnemy->getMidPoint().getX(),followedEnemy->getMidPoint().getY());
-
-//    this->midPoint.setY(midPoint.getY() * sin(auxAngle) * velocity.getY());
     
 }
 

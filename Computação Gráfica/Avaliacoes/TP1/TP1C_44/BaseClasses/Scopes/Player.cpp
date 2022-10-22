@@ -107,11 +107,9 @@ std::vector<Projectile> Player::fire()
             case 1:
             case 2:
             case 3:
-                
-            projectile1.setMidPoint(this->midPoint.getX(),this->midPoint.getY() + this->max.getY());
-            vec.push_back(projectile1);
-            break;
-
+                projectile1.setMidPoint(this->midPoint.getX(),this->midPoint.getY() + this->max.getY());
+                vec.push_back(projectile1);
+                break;
             }
             
             

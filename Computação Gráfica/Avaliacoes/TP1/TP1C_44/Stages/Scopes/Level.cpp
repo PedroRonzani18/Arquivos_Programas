@@ -62,15 +62,13 @@ int Level::stageKeyboard()
 {
     if(keys[4] && player.getFireRatePeriod() <= 0) //space
     {
+
         for(int i=0; i<getPlayer().fire().size(); i++)
         {
-            std::vector<Projectile> v = getPlayer().fire();
-            /*if(v[i].getType() == 2)
+            if(getPlayer().fire()[i].getType() == 2)
             {
-                v[i].setFollowedEnemy(smallestDistanceEnemyPlayer());
-            }*/
-
-            
+                getPlayer().fire()[i].setFollowedEnemy(smallestDistanceEnemyPlayer());
+            }
             this->addProjectile(getPlayer().fire()[i]);
         }
 /*

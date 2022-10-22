@@ -214,7 +214,7 @@ void shotsMovementWithPlayer(int e)
     }
 }
 
-void shotsAloneMovement(int e)
+void shotsAloneMovement(int e) 
 {
     shotsList[e].continuar = 1;
     shotsList[e].centro.x += cos(aux_angle) * shotsList[e].bulletSpeed;
