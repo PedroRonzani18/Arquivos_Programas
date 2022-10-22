@@ -53,15 +53,15 @@ Projectile::Projectile(const int& type) : MovableEntity()
             this->angle = 0;
             this->angularSpeed = 0;
             this->hp = 1;
-            this->damage = 1;
-            this->defaultFireRate = 120;
+            this->damage = 4;
+            this->defaultFireRate = 800;
             this->owner = 0; 
             this->setMax(4, 4);
             this->setMin(-4, -4);
             this->setResize(0.5);
             this->setHitbox();
             this->setMidPoint();
-            this->setVelocity(3,3);
+            this->setVelocity(3,4);
             break;
     
         default:
@@ -102,8 +102,8 @@ void Projectile::folllowMove()
     double angle = atan2(followedEnemy->getMidPoint().getY() - this->midPoint.getY(),
                          followedEnemy->getMidPoint().getX() - this->midPoint.getX());
 
-    this->midPoint.setX(this->midPoint.getX() + cos(angle) * 2);
-    this->midPoint.setY(this->midPoint.getY() + sin(angle) * 2);
+    this->midPoint.setX(this->midPoint.getX() + cos(angle) * this->velocity.getX());
+    this->midPoint.setY(this->midPoint.getY() + sin(angle) * this->velocity.getY());
 }
 
 void Projectile::move() //movimentação geral do projectile

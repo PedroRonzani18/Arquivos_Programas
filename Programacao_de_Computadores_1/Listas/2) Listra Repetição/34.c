@@ -10,7 +10,7 @@ int potencia(int x, int n)
 	return produto;
 }
 
-main()
+int main()
 {	int num, contador=0, casa=-1, soma=0, posi=-1;
 
 	printf ("Digite um numero: ");

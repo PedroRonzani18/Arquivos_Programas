@@ -35,28 +35,27 @@ void Level::callWaves()
     }        
 }
 
-Enemy* Level::smallestDistanceEnemyPlayer()
+Enemy* Level::smallestDistanceEnemyPlayer(MovableEntity* m1)
 {
-    Enemy *auxEnemy;
+    Enemy *auxEnemy = new Enemy();
+    auxEnemy->setMidPoint(0, 200);
 
-    double smallesDist = sqrt(pow((player.getMidPoint().getX() - enemies[0].getMidPoint().getX()), 2) + 
-                              pow((player.getMidPoint().getY() - enemies[0].getMidPoint().getY()), 2));
+    double smallesDist = 10000;
+   
     double auxD;
 
-    for(Enemy e : enemies)
+    for(int i=0; i<enemies.size(); i++)
     {
-        auxD = sqrt(pow((player.getMidPoint().getX() - e.getMidPoint().getX()), 2) + 
-                    pow((player.getMidPoint().getY() - e.getMidPoint().getY()), 2));
+        auxD = sqrt(pow((m1->getMidPoint().getX() - enemies[i].getMidPoint().getX()), 2) + 
+                    pow((m1->getMidPoint().getY() - enemies[i].getMidPoint().getY()), 2));
 
-        printf("auxD: %.2f, Smallest: %.2f\n",auxD,smallesDist);
-
-        if(auxD < smallesDist)
+        if(auxD < smallesDist && &enemies[i] != nullptr)
         {
-            auxEnemy = &e;
+            auxEnemy = &enemies[i];
             smallesDist = auxD;
         }
     }
-
+    
     return auxEnemy;
 }
 
@@ -66,22 +65,16 @@ int Level::stageKeyboard()
     {
         for(int i=0; i<player.fire().size(); i++)
         {
-            if(player.fire()[i].getType() == 2)
-            {
-                player.fire()[i].setFollowedEnemy(smallestDistanceEnemyPlayer());
-                printf("SETTED\n");
-            }
             this->addProjectile(player.fire()[i]);
         }
-/*
-        for(Projectile p : getPlayer().fire())
-        {
-            if(p.getType() == 2){ //Tiro que segue
-                p.setFollowedEnemy(&smallestDistanceEnemyPlayer());
-            }
-            this->addProjectile(p);
+
+    }
+
+    for(int i = 0; i < projectiles.size(); i++){
+        if(projectiles[i].getType() == 2){
+            Enemy *e = smallestDistanceEnemyPlayer(&projectiles[i]);
+            projectiles[i].setFollowedEnemy(e);
         }
-*/
     }
 
     return 2;
