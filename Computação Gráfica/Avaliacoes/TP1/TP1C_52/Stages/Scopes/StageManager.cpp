@@ -60,6 +60,7 @@ void StageManager::keyboardOfStage()
 void StageManager::gameInit()
 {
     glClearColor(0, 0, 0, 1); 
+    carregaSpritesExplosão();
 
     initializeTextures();    //carrega texturas a usar
 

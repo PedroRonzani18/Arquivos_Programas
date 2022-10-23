@@ -10,7 +10,7 @@ void StageManager::initializeStages()
     Ajuda *ajuda = new Ajuda();
     Level *level1 = new Level();
     
-    std::vector<int> auxWaves = {2,2,1,1,2};
+    std::vector<int> auxWaves = {2,2,1,1,2,2,1,1,2,2,1,1,2,2};
 
     level1->addWaves(auxWaves);
 /*

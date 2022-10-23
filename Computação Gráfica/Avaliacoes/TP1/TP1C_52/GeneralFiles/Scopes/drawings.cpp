@@ -8,6 +8,7 @@
 #define ALTURA_DO_MUNDO  100
 
 std::vector<GLuint> textures;
+std::vector<GLuint> explosionSprites;
 
 void textureModule(void templateSquare(double, double, GLuint),double x, double y, GLuint z)
 {
@@ -24,7 +25,28 @@ void templateSquare(double x, double y, GLuint id)
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, id);
     glColor3f(1,1,1);
+
     glBegin(GL_TRIANGLE_FAN);
+        glTexCoord2f(0,0); 
+        glVertex2f (-x,-y);
+
+        glTexCoord2f(1,0);
+        glVertex2f (x,-y);
+
+        glTexCoord2f(1,1);
+        glVertex2f (x,y);
+
+        glTexCoord2f(0,1);
+        glVertex2f(-x,y);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+}
+
+void templateSquare2(double x, double y, GLuint id, double div, double sect)
+{
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, id);
+    glColor3f(1,1,1);
 
     glBegin(GL_TRIANGLE_FAN);
         glTexCoord2f(0,0); 
@@ -57,6 +79,14 @@ GLuint loadTexture(const char* arquivo)
     return idTextura;
 }
 
+void carregaSpritesExplosão()
+{
+    for(int i=0; i<10; i++)
+    {
+        explosionSprites.push_back(loadTexture("PNG_deposit/mario.png"));
+    }
+}
+
 void initializeTextures()
 {
     // Cria um quadrado com dimensoes x y, carrega a textura em questão e armazena os IDs gerados no vector "textures"
@@ -76,6 +106,7 @@ void initializeTextures()
     /*[12]*/textureModule(templateSquare,50,15,loadTexture("PNG_deposit/spaceship2.png"));
     /*[13]*/textureModule(templateSquare,10,10,loadTexture("PNG_deposit/spaceship3.png"));
     /*[14]*/textureModule(templateSquare,20,20,loadTexture("PNG_deposit/spaceship4.png"));
+    /*15-24*/textureModule(templateSquare,10,10,explosionSprites[explosionCounter]);
 }
 
 void drawModel(MovableEntity *m)
@@ -111,4 +142,18 @@ void drawHitbox(MovableEntity* m)
         glEnd();
     }
     
+}
+
+void drawExplosionAnimation(OrderedPair mid)
+{
+    printf("asdasdasdsa\n");
+    for(int i=15; i<25; i++)
+    {
+        glPushMatrix();
+            glTranslatef(mid.getX(),
+                         mid.getY(),
+                        0);
+            glCallList(textures[i]);
+        glPopMatrix();
+    }
 }

@@ -96,13 +96,22 @@ void Level::drawAndMove()
     //drawHitbox(&this->boss);
 
     for(int i = 0; i < enemies.size(); i++){
-        enemies[i].move(); // movimentação gerall de cada inimigo
-        drawModel(&enemies[i]);
-        drawHitbox(&enemies[i]);
+        
+        if(enemies[i].getHp() > 0)
+        {
+            enemies[i].move(); // movimentação gerall de cada inimigo
+            drawModel(&enemies[i]);
+            drawHitbox(&enemies[i]);
 
-        if(enemies[i].getFireRatePeriod() <= 0){
-            std::vector<Projectile> p = enemies[i].fire();
-            projectiles.insert(projectiles.end(), p.begin(), p.end());
+            if(enemies[i].getFireRatePeriod() <= 0){
+                std::vector<Projectile> p = enemies[i].fire();
+                projectiles.insert(projectiles.end(), p.begin(), p.end());
+            }
+        }
+        else
+        {
+            printf("aojsdjaisbdnjas dji asd iasj\n");
+            drawExplosionAnimation(enemies[i].getMidPoint());
         }
     }
 
@@ -132,6 +141,9 @@ void Level::timeCounter()
 
     if(player.getImortality() >= 0)
         player.setImortality(player.getImortality() - 1);
+
+    explosionCounter++;
+
 }
 
 void Level::colider()
@@ -147,15 +159,18 @@ void Level::colider()
                     projectiles[i].setHp(projectiles[i].getHp() - 1);
                     enemies[j].setHp(enemies[j].getHp() - projectiles[i].getDamage());
                 }
-            }else if(projectiles[i].getOwner() == 2){
-                if(colided(projectiles[i], player)){ //colisao dos tiros dos inimigos com o player
-                    projectiles[i].setHp(projectiles[i].getHp() - 1);
-                    player.setHp(player.getHp() - 1);
-                }
+
+            }else if(projectiles[i].getOwner() == 2)
+                {
+                    if(colided(projectiles[i], player)){ //colisao dos tiros dos inimigos com o player
+                        projectiles[i].setHp(projectiles[i].getHp() - 1);
+                        player.setHp(player.getHp() - 1);
+                    }
             }
         }
 
-        if(colided(enemies[j], player)){ //colisao dos inimigos com o player
+        if(colided(enemies[j], player)) //colisao dos inimigos com o player
+        { 
             if(player.getImortality() <= 0) //quando ele nao ta imortal
             {
                 player.setHp(player.getHp() - 1);
@@ -166,8 +181,10 @@ void Level::colider()
         }
     }
 
-    for(int i=0; i<colectibles.size(); i++){
-        if(colided(colectibles[i], player)){ //colidiu coletavel com player
+    for(int i=0; i<colectibles.size(); i++)
+    {
+        if(colided(colectibles[i], player)) //colidiu coletavel com player
+        { 
             player.upgradeManager(colectibles[i].getUpgradeType());
             colectibles[i].setHp(colectibles[i].getHp() -1);
         }
@@ -183,11 +200,13 @@ void Level::remover()
         int aux = 0;
         if(enemies[i].getHp() <= 0)
         {
+            drawExplosionAnimation(enemies[i].getMidPoint());
+
             score += enemies[i].getKillValue();
             
             int r = rand()%100;
             r = 0;
-            printf("R: %d\n",r);
+            //printf("R: %d\n",r);
 
             if(r <= enemies[i].getDropPercentage())
             {

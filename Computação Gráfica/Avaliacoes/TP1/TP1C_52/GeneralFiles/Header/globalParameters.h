@@ -9,7 +9,7 @@ extern int sposition;
 extern int flag, tempo, cont;
 
 extern int top, bottom, left, right;
-
+extern int explosionCounter;
 extern int frames;
 
 template<typename Base, typename T>

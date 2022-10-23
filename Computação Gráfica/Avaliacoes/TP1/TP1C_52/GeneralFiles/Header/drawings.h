@@ -25,6 +25,8 @@ void drawDeaultShot();
 void drawBackground();
 void drawStartButton();
 
+void drawExplosionAnimation(OrderedPair mid);
+void carregaSpritesExplosão();
 void drawEmphassisMenuButton();
 
 void drawModel(MovableEntity* m);
