@@ -93,42 +93,17 @@ std::vector<Projectile> Enemy::fire()
     switch (this->typeTiroManager)
     {
         case 0: 
-            // projectile1.setMidPoint(this->midPoint.getX(), this->midPoint.getY() - this->min.getY());
-            // vec.push_back(projectile1);
-
             vec.push_back(createProject(&projectile1, 3*M_PI/2));
             break;
         
         case 1: 
-
-            // projectile1.setMidPoint(12 * cos(this->angle +  M_PI/4) - this->midPoint.getX(),
-            //                         12 * sin(this->angle +  M_PI/4) - this->midPoint.getY());
-            // vec.push_back(projectile1);
-
             vec.push_back(createProject(&projectile1, -M_PI/4));
-
-            // projectile1.setMidPoint(12 * cos(this->angle + M_PI/2 + M_PI/4) - this->midPoint.getX(),
-            //                         12 * sin(this->angle + M_PI/2 + M_PI/4) - this->midPoint.getY());
-            // vec.push_back(projectile1);
-
             vec.push_back(createProject(&projectile1, -3*M_PI/4));
             break;
         
         case 2: 
-            // projectile1.setMidPoint(this->midPoint.getX(),this->midPoint.getY() - this->min.getY());
-            // vec.push_back(projectile1);
             vec.push_back(createProject(&projectile1, 3*M_PI/2));
-
-            // projectile1.setMidPoint(12 * cos(this->angle) - this->midPoint.getX(),
-            //                         12 * sin(this->angle) - this->midPoint.getY());
-            // vec.push_back(projectile1);
-
             vec.push_back(createProject(&projectile1, -M_PI/4));
-
-            // projectile1.setMidPoint(12 * cos(this->angle + M_PI) - this->midPoint.getX(),
-            //                         12 * sin(this->angle + M_PI) - this->midPoint.getY());
-            // vec.push_back(projectile1);
-            
             vec.push_back(createProject(&projectile1, -3*M_PI/4));
             break;
     }

@@ -37,13 +37,6 @@ void Player::move()
 
 void Player::scaleMove(const double& scale){}
 
-// Projectile Player::createProject(double xPlus, double yPlus, int xVel, int yVel, Projectile* auxP)
-// {
-//     auxP->setMidPoint(this->midPoint.getX() + xPlus,this->midPoint.getY() + yPlus);
-//     auxP->setVelocity(this->velocity.getX() * xVel, this->velocity.getY() * yVel);
-//     return *auxP;
-// }
-
 Projectile Player::createProject(Projectile* auxP, double angle)
 {
     auxP->setMidPoint(this->max.getX() * cos(this->angle +  angle) + this->midPoint.getX(),
@@ -65,29 +58,15 @@ std::vector<Projectile> Player::fire()
             switch(numberOfShots)
             {
                 case 3:
-                    //projectile1.setMidPoint(this->midPoint.getX(),this->midPoint.getY() + this->max.getY());
-                    //vec.push_back(projectile1);
-                    //vec.push_back(createProject(0,max.getY(), 1, 1, &projectile1));
                     vec.push_back(createProject(&projectile1, M_PI/2));
                     
                 case 2:
-                    //projectile1.setMidPoint(12 * cos(this->angle +  M_PI/4) + this->midPoint.getX(),
-                    //                        12 * sin(this->angle +  M_PI/4) + this->midPoint.getY());
-                    //vec.push_back(projectile1);
-                    //projectile1.setMidPoint(12 * cos(this->angle + M_PI/2 + M_PI/4) + this->midPoint.getX(),
-                    //                        12 * sin(this->angle + M_PI/2 + M_PI/4) + this->midPoint.getY());
-                    //vec.push_back(projectile1);
-                    //vec.push_back(createProject(12 * cos(this->angle +   M_PI/4),12 * sin(this->angle +   M_PI/4), 1, 1, &projectile1));
-                    //vec.push_back(createProject(12 * cos(this->angle + 3*M_PI/4),12 * sin(this->angle + 3*M_PI/4), 1, 1, &projectile1));
                     vec.push_back(createProject(&projectile1, M_PI/4));
                     vec.push_back(createProject(&projectile1, 3*M_PI/4));
                     
                     break;
 
                 case 1:
-                    //projectile1.setMidPoint(this->midPoint.getX(),this->midPoint.getY() + this->max.getY());
-                    //vec.push_back(projectile1);
-                    //vec.push_back(createProject(0,max.getY(), 1, 1, &projectile1));
                     vec.push_back(createProject(&projectile1, M_PI/2));
                     break;
                 
@@ -107,19 +86,7 @@ std::vector<Projectile> Player::fire()
                     projectile1.setHp(4);
                     break;
             }
-            //projectile1.setMidPoint(12 * cos(this->angle +  M_PI/4) + this->midPoint.getX(),
-            //                        12 * sin(this->angle +  M_PI/4) + this->midPoint.getY());
-            
-            //vec.push_back(projectile1);
-            //vec.push_back(createProject(12 * cos(this->angle +   M_PI/4), 12 * sin(this->angle +   M_PI/4),1,1, &projectile1));
             vec.push_back(createProject(&projectile1, M_PI/4));
-
-            //projectile1.getVelocity().setX(-projectile1.getVelocity().getX());
-            
-            //projectile1.setMidPoint(12 * cos(this->angle + M_PI/2 + M_PI/4) + this->midPoint.getX(),
-            //                        12 * sin(this->angle + M_PI/2 + M_PI/4) + this->midPoint.getY());
-            //vec.push_back(projectile1);
-            //vec.push_back(createProject(12 * cos(this->angle + 3*M_PI/4), 12 * sin(this->angle + 3*M_PI/4),-1,1, &projectile1));
 
             projectile1.getVelocity().setX(-projectile1.getVelocity().getX());
             vec.push_back(createProject(&projectile1, 3*M_PI/4));
@@ -130,38 +97,16 @@ std::vector<Projectile> Player::fire()
             switch (numberOfShots)
             {
             case 1:
-                // projectile1.setMidPoint(this->midPoint.getX(),this->midPoint.getY() + this->max.getY());
-                // vec.push_back(projectile1);
-                vec.push_back(createProject(&projectile1, M_PI/2));
+                vec.push_back(createProject(&projectile1,   M_PI/2));
                 break;
             case 2:
-                // projectile1.setMidPoint(12 * cos(this->angle) + this->midPoint.getX(),
-                //                         12 * sin(this->angle) + this->midPoint.getY());
-                // vec.push_back(projectile1);
-                vec.push_back(createProject(&projectile1, M_PI/4));
-                
-                // projectile1.setMidPoint(12 * cos(this->angle + M_PI) + this->midPoint.getX(),
-                //                         12 * sin(this->angle + M_PI) + this->midPoint.getY());
-                // vec.push_back(projectile1);
+                vec.push_back(createProject(&projectile1,   M_PI/4));
                 vec.push_back(createProject(&projectile1, 3*M_PI/4));
                 break;
             case 3:
-                //projectile1.setMidPoint(this->midPoint.getX(),this->midPoint.getY() + this->max.getY());
-                //vec.push_back(projectile1);
-                vec.push_back(createProject(&projectile1, M_PI/2));
-
-
-                //projectile1.setMidPoint(12 * cos(this->angle) + this->midPoint.getX(),
-                //                       12 * sin(this->angle) + this->midPoint.getY());
-            
-                //vec.push_back(projectile1);
                 vec.push_back(createProject(&projectile1, 0));
-
-
-                //projectile1.setMidPoint(12 * cos(this->angle + M_PI) + this->midPoint.getX(),
-                //                        12 * sin(this->angle + M_PI) + this->midPoint.getY());
-                //vec.push_back(projectile1);
-                vec.push_back(createProject(&projectile1, M_PI));
+                vec.push_back(createProject(&projectile1,   M_PI/2));
+                vec.push_back(createProject(&projectile1,   M_PI));
 
                 break;
             }
@@ -171,8 +116,6 @@ std::vector<Projectile> Player::fire()
     this->fireRatePeriod = this->currentProjectile.getDefaultFireRate() * this->alteredFireRate;
     return vec;
 }
-
-
 
 void Player::upgradeManager(int upgradeType)
 {

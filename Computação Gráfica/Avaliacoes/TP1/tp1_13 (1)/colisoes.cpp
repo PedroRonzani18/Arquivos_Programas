@@ -54,7 +54,6 @@ int colisaoGeral(entidade* e1, entidade* e2)
     vertice iniDiag, fimDiag, iniLado, fimLado, deltaVet;
     double l=0, d1=0, d2=0;
     int overlap = 0;
-
     iniDiag.x = e1->centro.x;
     iniDiag.y = e1->centro.y;
     
