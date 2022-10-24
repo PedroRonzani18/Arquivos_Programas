@@ -4,9 +4,10 @@
 #include <stdio.h>
 
 GLuint idTexturaMario;
-float cont=0.9;
+long double cont=8.0/9;
 
-GLuint carregaTextura(const char* arquivo) {
+GLuint carregaTextura(const char* arquivo) 
+{
     GLuint idTextura = SOIL_load_OGL_texture(
                            arquivo,
                            SOIL_LOAD_AUTO,
@@ -21,7 +22,8 @@ GLuint carregaTextura(const char* arquivo) {
     return idTextura;
 }
 
-void inicializa() {
+void inicializa() 
+{
     glClearColor(1, 1, 1, 1);
 
     // habilita mesclagem de cores, para termos suporte a texturas
@@ -33,7 +35,7 @@ void inicializa() {
 }
 
 
-void templateRetangulo(double x, double y, GLuint64 id)
+void templateRetangulo(long double x, long double y, GLuint64 id)
 {
     glClear(GL_COLOR_BUFFER_BIT);
         glColor3f (1, 1, 1);
@@ -60,25 +62,25 @@ void templateRetangulo(double x, double y, GLuint64 id)
             glVertex3f(-1,  1,  0);
         */
 
-            glTexCoord2f(0, cont);
+            glTexCoord2f(0, 5.0/9);
             glVertex3f(-1, -1,  0);
 
-            glTexCoord2f(0.11, cont);
+            glTexCoord2f(1.0/9, 5.0/9);
             glVertex3f( 1, -1,  0);
 
-            glTexCoord2f(0.11, cont + 0.1);
+            glTexCoord2f(1.0/9, 5.0/9 + 1.0/9);
             glVertex3f( 1,  1,  0);
 
-            glTexCoord2f(0, cont + 0.1);
+            glTexCoord2f(0, 5.0/9 + 1.0/9);
             glVertex3f(-1,  1,  0);
         glEnd();
     glDisable(GL_TEXTURE_2D);
 }
 
-void desenha() {
-    
-    templateRetangulo(0.11,cont,idTexturaMario);
-    printf("Cont: %f\n",cont);
+void desenha() 
+{   
+    templateRetangulo(1.0/9,cont,idTexturaMario);
+    printf("Cont: %Lf\n",cont);
     /*
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f (1, 1, 1);
@@ -127,9 +129,9 @@ void teclado(unsigned char key, int x, int y) {
 
 void timer(int t)
 {
-    cont -= 0.1;
-    if(cont <= 0)
-        cont = 0.9;
+    cont -= 1.0/9;
+    if(cont < 0)
+        cont = 8.0/9;
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);
 }
