@@ -111,16 +111,16 @@ void initializeTextures()
     /*[13]*/textureModule(templateSquare,10,10,loadTexture("PNG_deposit/spaceship3.png"));
     /*[14]*/textureModule(templateSquare,20,20,loadTexture("PNG_deposit/spaceship4.png"));
     /*[15]*/textureModule(templateSquare,90,100,loadTexture("PNG_deposit/backGroundAjuda.png"));
-    textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 1098.0/1242, 0, 131.0/1242, 1);
-    textureModule(templateSquare, 2, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 0        , 0,  53.0/1242, 1);
-    textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 60.0/1242, 0, 131.0/1242, 1);
-    textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 181.0/1242, 0, 131.0/1242, 1);
-    textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 312.0/1242, 0, 131.0/1242, 1);
-    textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 443.0/1242, 0, 131.0/1242, 1);
-    textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 574.0/1242, 0, 131.0/1242, 1);
-    textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 705.0/1242, 0, 131.0/1242, 1);
-    textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 836.0/1242, 0, 131.0/1242, 1);
-    textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 967.0/1242, 0, 131.0/1242, 1);
+    /*[16]*/textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 1098.0/1242, 0, 131.0/1242, 1);
+    /*[17]*/textureModule(templateSquare, 2, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 0        , 0,  53.0/1242, 1);
+    /*[18]*/textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 60.0/1242, 0, 131.0/1242, 1);
+    /*[19]*/textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 181.0/1242, 0, 131.0/1242, 1);
+    /*[20]*/textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 312.0/1242, 0, 131.0/1242, 1);
+    /*[21]*/textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 443.0/1242, 0, 131.0/1242, 1);
+    /*[22]*/textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 574.0/1242, 0, 131.0/1242, 1);
+    /*[23]*/textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 705.0/1242, 0, 131.0/1242, 1);
+    /*[24]*/textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 836.0/1242, 0, 131.0/1242, 1);
+    /*[25]*/textureModule(templateSquare, 4, 4, loadTexture("PNG_deposit/letrinhasDemasiadamenteMuitoCria.png"), 967.0/1242, 0, 131.0/1242, 1);
 }
 
 void drawModel(MovableEntity *m)
