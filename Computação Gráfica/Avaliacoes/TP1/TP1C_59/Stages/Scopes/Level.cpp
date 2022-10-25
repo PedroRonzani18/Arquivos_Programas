@@ -6,24 +6,29 @@
 Level::Level() 
 {
     srand(time(0));
-    initBackgrounds();
     this->scorePontis = Score(0);
 }
 
-void Level::initBackgrounds()
+void Level::initBackgrounds(const int& typeBackground)
 {
-    backgrounds.resize(0);
+    switch (typeBackground)
+    {
+    case 0:
+        backgrounds.resize(0);
 
-    Background b1;
-    b1.setDisplayListModel(textures[9]);
-    b1.setMidPoint(0,0);
-    backgrounds.push_back(b1);
+        Background b1;
+        b1.setDisplayListModel(textures[9]);
+        b1.setMidPoint(0,0);
+        backgrounds.push_back(b1);
 
 
-    Background b2;
-    b2.setDisplayListModel(textures[10]);
-    b2.setMidPoint(0,200);
-    backgrounds.push_back(b2);
+        Background b2;
+        b2.setDisplayListModel(textures[10]);
+        b2.setMidPoint(0,200);
+        backgrounds.push_back(b2);
+        break;
+    
+    }
 }
 
 void Level::callWaves()

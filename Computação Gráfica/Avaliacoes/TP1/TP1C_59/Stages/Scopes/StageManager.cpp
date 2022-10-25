@@ -4,18 +4,26 @@
 
 StageManager::StageManager(){}
 
+void StageManager::initLevel1()
+{
+    Level *level1 = new Level();
+    level1->initBackgrounds(0);
+    std::vector<int> auxWaves = {1, 2, 3, 4, 5};
+    level1->addWaves(auxWaves);
+    stagesList.push_back(level1);
+    currentStage = level1;
+}
+
 void StageManager::initializeStages()
 {
     Menu *menu = new Menu();
     Ajuda *ajuda = new Ajuda();
-    Level *level1 = new Level();
     
-    std::vector<int> auxWaves = {1, 2, 3, 4, 5};
-    level1->addWaves(auxWaves);
     
     stagesList.push_back(menu);
     stagesList.push_back(ajuda);
-    stagesList.push_back(level1);
+
+    //stagesList.push_back(level1);
 
     this->setCurrentStage(menu);
 }
@@ -32,7 +40,7 @@ void StageManager::movements()
 
 void StageManager::colision()
 {
-    currentStage->colider();
+     currentStage->colider();
 }
 
 void StageManager::timer()
@@ -47,7 +55,24 @@ void StageManager::callWave()
 
 void StageManager::keyboardOfStage()
 {
-    this->setCurrentStage(stagesList[(*currentStage).stageKeyboard()]);
+    int auxStageIndicator = currentStage->stageKeyboard();
+    
+    printf("AUX: %d\n",auxStageIndicator);
+
+    if(auxStageIndicator >= 0){
+        this->setCurrentStage(stagesList[auxStageIndicator]);
+    }
+    else
+    {
+        switch(auxStageIndicator)
+        {
+            case -1:
+                initLevel1();
+                break;
+            case -2:
+                break;
+        }
+    }
 }
 
 void StageManager::gameInit()

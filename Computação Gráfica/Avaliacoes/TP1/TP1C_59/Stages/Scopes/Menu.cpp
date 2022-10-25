@@ -93,7 +93,7 @@ int Menu::stageKeyboard()
             {
             case 1: // LEVEL
                 printf("Entrei no level\n");
-                return 2;
+                return -1;
 
                 break;
 

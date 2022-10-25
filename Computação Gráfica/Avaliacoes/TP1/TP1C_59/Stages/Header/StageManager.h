@@ -27,6 +27,8 @@ class StageManager {
         void initializeStages();
         void callWave();
         void timer();
+        void initLevel1();
+
 
         int gameOverVerify();
         void colision();
