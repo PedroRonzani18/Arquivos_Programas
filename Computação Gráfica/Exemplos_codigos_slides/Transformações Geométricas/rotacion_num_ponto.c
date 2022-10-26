@@ -106,6 +106,7 @@ void desenhaCena(void) {
     // casinha 1
     configuraViewport(0, 3);
     desenhaEixos();
+    
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glColor3f(1, .5, .5);
     glPushMatrix();

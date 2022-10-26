@@ -36,6 +36,7 @@ class Projectile: public MovableEntity{
         void straightMove(); // projecile anda para frente
         void bouncyMove();
         void folllowMove();
+        void followPlayerMove();
         void scaleMove(const double& scale) override;
 };
 

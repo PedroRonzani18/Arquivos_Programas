@@ -23,6 +23,10 @@ std::vector<Enemy> waveCaller(int waveType)
     case 5:
         return wave5();
         break;
+
+    case 6:
+        return wave6();
+        break;
     }
     std::vector<Enemy> e; // retorna vazio para função não reclamar >_<
     return e;
@@ -40,11 +44,6 @@ Enemy createEnemyTemplate(int type, int typeMove, int numberOfShots, double vx, 
 std::vector<Enemy> wave1() // direita esquerda
 {
     std::vector<Enemy> aux;
-    //Enemy e1(1);
-    //e1.setTypeMove(0);
-    //e1.setNumberOfShots(3);
-    
-    //e1.setTypeTiroManager(3);
     Enemy e1 = createEnemyTemplate(1,0,3,0.5,1);
 
     e1.setMidPoint(right + 50, 0);
@@ -62,9 +61,6 @@ std::vector<Enemy> wave1() // direita esquerda
 std::vector<Enemy> wave2() // kamikaze
 {
     std::vector<Enemy> aux;
-    //Enemy e1(0);
-    //e1.setTypeMove(3);
-    //e1.setNumberOfShots(0);
     Enemy e1 = createEnemyTemplate(0,3,0,1,1);
 
     e1.setMidPoint(0, top + 50);
@@ -82,10 +78,6 @@ std::vector<Enemy> wave2() // kamikaze
 std::vector<Enemy> wave3()
 {
     std::vector<Enemy>aux;
-    //Enemy e1(2);
-    //e1.setNumberOfShots(2);
-    //e1.setTypeMove(4);
-    //e1.setVelocity(0.75, 0.75);
     Enemy e1 = createEnemyTemplate(2,4,2,0.75,0.75);
 
     e1.setMidPoint(0, 320);
@@ -198,10 +190,6 @@ std::vector<Enemy> wave3()
 std::vector<Enemy> wave4()
 {
     std::vector<Enemy> aux;
-    //Enemy e1(3);
-    //e1.setNumberOfShots(1);
-    //e1.setTypeMove(4);
-    //e1.setVelocity(0.75, 0.75);
     Enemy e1 = createEnemyTemplate(3,4,1,0.75,0.75);
 
     e1.setTypeMove(7);
@@ -281,11 +269,6 @@ std::vector<Enemy> wave4()
 std::vector<Enemy> wave5()
 {
     std::vector<Enemy> aux;
-    //Enemy e1(4);
-    //e1.setNumberOfShots(0);
-    //e1.setVelocity(-0.75, -0.75);
-    //e1.setTypeMove(9);
-
     Enemy e1 = createEnemyTemplate(4,9,0,-0.75,-0.75);
 
     e1.setMidPoint(0, 0);
@@ -319,6 +302,26 @@ std::vector<Enemy> wave5()
     aux.push_back(e1);
 
     e1.setMidPoint(0, -200);
+    aux.push_back(e1);
+
+    return aux;
+}
+
+std::vector<Enemy> wave6()
+{
+    std::vector<Enemy> aux;
+    Enemy e1 = createEnemyTemplate(5,1,0, 0,1); // torreta que gira
+    Enemy e2 = createEnemyTemplate(6,1,0, 0,1); // asteroide
+
+    e1.setMidPoint(-45,200);
+    e2.setMidPoint(-50,200);
+    aux.push_back(e2);
+    aux.push_back(e1);
+
+    e1.setAngle(180);
+    e1.setMidPoint(45,200);
+    e2.setMidPoint(50,200);
+    aux.push_back(e2);
     aux.push_back(e1);
 
     return aux;

@@ -114,7 +114,7 @@ Enemy::Enemy(int type) : MovableEntity()
             this->setResize(0.5);
             break;
 
-        case 5: // torreta no asteroide
+        case 5: // torreta que estará sobre o png de asteroide  
             this->dropPercentage = 50;
             this->killValue = 10;
             this->angle = 0;
@@ -127,10 +127,30 @@ Enemy::Enemy(int type) : MovableEntity()
             this->typeMove = 4; /**/
             this->continueMove = 0;
             this->fireRatePeriod = 0; // tem que ser 0
-            this->setDisplayListModel(textures[31]);
+            this->setDisplayListModel(textures[33]);
             this->setMax(15,15);    
             this->setMin(-15,-15);
             this->setVelocity(0.5, 1); // deixar padrao no cosntrutor e talvez mmudar na wave
+            this->setResize(0.5);
+            break;
+
+        case 6: // asteroide
+            this->dropPercentage = 50;
+            this->killValue = 10;
+            this->angle = 0;
+            this->angularSpeed = 0;
+            this->currentProjectile = Projectile(3);
+            this->typeTiroManager = 3;
+            this->numberOfShots = 0;
+            this->hp = 5;
+            this->onscreenTestable = GL_FALSE;  
+            this->typeMove = 4;
+            this->continueMove = 0;
+            this->fireRatePeriod = 0;
+            this->setDisplayListModel(textures[32]);
+            this->setMax(15,15);
+            this->setMin(-15,-15);
+            this->setVelocity(0.5, 1);
             this->setResize(0.5);
             break;
     }
@@ -180,6 +200,14 @@ void Enemy::kamikazeMove()
     //printf("%d\n", this->continueMove);
 }
 
+void Enemy::aimAndShoot()
+{
+    double angle = atan2(this->followPoint.getY() - this->midPoint.getY(),
+                            this->followPoint.getX() - this->midPoint.getX());
+
+    this->angle = radianoParaGraus(angle)-90;
+}
+
 void Enemy::move()
 {
     switch (this->typeMove)
@@ -226,6 +254,12 @@ void Enemy::move()
             else 
                 parabolicMoveTemplate(-9.0/160, 27.0/4, -405.0/2);
             break;
+
+        case 10: //anda para baixo e mira para a posição do player
+            this->midPoint.setY(this->midPoint.getY() - this->velocity.getY());
+            aimAndShoot(); // rotaciona mirando para a posisção 
+            break;
+            
     }
     
     verifyVisibility(*this);
@@ -266,7 +300,6 @@ std::vector<Projectile> Enemy::fire()
             vec.push_back(createProject(&projectile1, -3*M_PI/4));
             break;
     }
-    printf("asdasdasdasdasdasd\n");
     int r = rand()%4;
     this->fireRatePeriod = this->currentProjectile.getDefaultFireRate()*(4 + r);
     printf("Valor: %d\n",r);

@@ -122,6 +122,11 @@ void Projectile::folllowMove()
     this->midPoint.setY(this->midPoint.getY() + sin(angle) * this->velocity.getY());
 }
 
+void Projectile::followPlayerMove()
+{
+    
+}
+
 void Projectile::move() //movimentação geral do projectile
 {
     switch (this->typeMove)
@@ -136,6 +141,10 @@ void Projectile::move() //movimentação geral do projectile
 
     case 2:
         folllowMove();     
+        break;
+
+    case 3:
+        followPlayerMove();
         break;
     }
     verifyVisibility(*this);

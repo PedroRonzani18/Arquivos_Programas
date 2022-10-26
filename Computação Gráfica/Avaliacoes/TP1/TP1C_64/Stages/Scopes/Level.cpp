@@ -10,12 +10,12 @@ Level::Level(const int &l)
     switch (l)
     {
     case 0:
-        auxWaves = {1, 2, 3, 4, 5, 0}; // executa todas as waves e para na wave 0
+        auxWaves = {6,6,6,6,6,6}; // executa todas as waves e para na wave 0
         initBackgrounds(0);
         break;
 
     case 1:
-        auxWaves = {1, 2, 3, 4, 5, 0};
+        auxWaves = {1, 2, 3, 4, 5, 5, 0};
         initBackgrounds(0);
         break;
     }
@@ -91,7 +91,7 @@ int Level::stageKeyboard()
         if (projectiles[i].getType() == 2)
         {
             Enemy *e = smallestDistanceEnemyPlayer(&projectiles[i]);
-            projectiles[i].setFollowedEnemy(e);
+            projectiles[i].setFollowedEnemy(e);   
         }
     }
 
@@ -125,7 +125,7 @@ void Level::drawAndMove()
     this->player.move(); // movimentação geral do player
 
     drawModel(&this->player);
-    drawHitbox(&this->player);
+    //drawHitbox(&this->player);
 
     // this->boss.move(); // movimentação geral do boss
     // drawModel(&this->boss);
@@ -135,7 +135,7 @@ void Level::drawAndMove()
     {
         enemies[i].move(); // movimentação gerall de cada inimigo
         drawModel(&enemies[i]);
-        drawHitbox(&enemies[i]);
+        //drawHitbox(&enemies[i]);
 
         printf("Periodo: %d\n",enemies[i].getFireRatePeriod());
 
@@ -150,7 +150,7 @@ void Level::drawAndMove()
     {
         projectiles[i].move();
         drawModel(&projectiles[i]);
-        drawHitbox(&projectiles[i]);
+        //drawHitbox(&projectiles[i]);
     }
 
     // printf("Tamanho: %ld\n",enemies.size());
@@ -159,7 +159,7 @@ void Level::drawAndMove()
     {
         colectibles[i].move();
         drawModel(&colectibles[i]);
-        drawHitbox(&colectibles[i]);
+        //drawHitbox(&colectibles[i]);
     }
 
     player.getScoreHp().draw();
@@ -180,9 +180,13 @@ void Level::timeCounter()
 
         if (enemies[i].getTypeMove() == 3)
         {
-            // printf("enreiasdasd\n");
             enemies[i].setFollowPoint(player.getMidPoint().getX(), player.getMidPoint().getY());
             // printf("Follow: (%.2f,%.2f)\n",enemies[i].getFollowPoint().getX(),enemies[i].getFollowPoint().getY());
+        }
+
+        if(enemies[i].getTypeMove() == 10)
+        {
+            enemies[i].setFollowPoint(player.getMidPoint().getX(), player.getMidPoint().getY());
         }
     }
 

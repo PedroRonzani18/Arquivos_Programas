@@ -38,6 +38,7 @@ class Enemy: public MovableEntity, public Ballistic{
 
         int getContinueMove(){return this->continueMove;}
 
+        void aimAndShoot();
         void parabolicMoveTemplate(double a, double b, double c);
         void senoidMoveTemplate(double a, double b, double c, double d);
         void kamikazeMove();

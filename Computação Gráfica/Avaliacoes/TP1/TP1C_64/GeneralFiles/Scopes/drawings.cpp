@@ -125,6 +125,8 @@ void initializeTextures()
     /*[29]*/textureModule(templateSquare,20, 20,loadTexture("PNG_deposit/spaceship7.png"));
     /*[30]*/textureModule(templateSquare,90,100,loadTexture("PNG_deposit/backGroundMenu.png"));
     /*[31]*/textureModule(templateSquare,20, 20,loadTexture("PNG_deposit/asteroidShip.png"));
+    /*[32]*/textureModule(templateSquare,30, 30,loadTexture("PNG_deposit/asteroid.png"));
+    /*[33]*/textureModule(templateSquare,20, 20,loadTexture("PNG_deposit/rotationSpecaship.png"));
 }
 
 void drawModel(MovableEntity *m)
