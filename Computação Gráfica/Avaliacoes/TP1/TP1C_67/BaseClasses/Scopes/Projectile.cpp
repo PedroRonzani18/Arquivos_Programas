@@ -21,7 +21,7 @@ Projectile::Projectile(const int& type) : MovableEntity()
             this->displayListModel = textures[1];
             this->owner = 0; 
             this->hp = 1;
-            this->damage = 1;
+            this->damage = 100;
             this->defaultFireRate = 20;
             this->onScreen = GL_TRUE;
             this->angle = 0;
@@ -42,7 +42,7 @@ Projectile::Projectile(const int& type) : MovableEntity()
             this->angle = 0;
             this->angularSpeed = 0;
             this->hp = 1;
-            this->damage = 1;
+            this->damage = 100;
             this->defaultFireRate = 50;
             this->setMax(4, 4);
             this->setMin(-4, -4);
@@ -57,7 +57,7 @@ Projectile::Projectile(const int& type) : MovableEntity()
             this->displayListModel = textures[3];
             this->owner = 0;
             this->hp = 1;
-            this->damage = 4;
+            this->damage = 400;
             this->defaultFireRate = 76;
             this->onScreen = GL_TRUE;
             this->angle = 0;
@@ -76,7 +76,7 @@ Projectile::Projectile(const int& type) : MovableEntity()
             this->owner = 0; 
             this->hp = 1;
             this->damage = 1;
-            this->defaultFireRate = 20;
+            this->defaultFireRate = 10;
             this->onScreen = GL_TRUE;
             this->angle = 0;
             this->angularSpeed = 0;
@@ -206,6 +206,10 @@ void Projectile::move() //movimentação geral do projectile
 
     case 4:
         followPlayerMove();
+        break;
+
+    case 5:
+        this->midPoint.setY(this->midPoint.getY() - this->velocity.getY());
         break;
     }
     verifyVisibility(*this);

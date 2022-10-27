@@ -20,13 +20,13 @@ Colectible::Colectible(double midX, double midY) : MovableEntity()
             this->displayListModel = textures[13];
             break;
         case 2:
-            this->displayListModel = textures[13];
+            this->displayListModel = textures[35];
             break;
         case 3:
             this->displayListModel = textures[13];
             break;
         case 4:
-            this->displayListModel = textures[13];
+            this->displayListModel = textures[34];
             break;
         case 5:
             this->displayListModel = textures[13];

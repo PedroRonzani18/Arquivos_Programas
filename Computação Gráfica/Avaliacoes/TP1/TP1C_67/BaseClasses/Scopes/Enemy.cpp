@@ -21,12 +21,13 @@ Enemy::Enemy(int type) : MovableEntity()
         this->angularSpeed = 0;
         this->currentProjectile = Projectile(3);
         this->typeMove = 0;
-        this->typeTiroManager = 1; // determina tipo do tiro
+        this->typeTiroManager = 0; // determina tipo do tiro
         this->numberOfShots = 0;
         this->hp = 5;
         this->onscreenTestable = GL_FALSE;
         this->continueMove = 0;
         this->fireRatePeriod = 0;
+        this->alteredFireRate = 0;
         this->setDisplayListModel(textures[11]);
         this->setMax(20, 20);
         this->setMin(-20, -20);
@@ -47,6 +48,7 @@ Enemy::Enemy(int type) : MovableEntity()
         this->onscreenTestable = GL_FALSE;
         this->continueMove = 0;
         this->fireRatePeriod = 0;
+        this->alteredFireRate = 1;
         this->setDisplayListModel(textures[13]);
         this->setMax(15, 15);
         this->setMin(-15, -15);
@@ -67,6 +69,7 @@ Enemy::Enemy(int type) : MovableEntity()
         this->onscreenTestable = GL_FALSE;
         this->continueMove = 0;
         this->fireRatePeriod = 0;
+        this->alteredFireRate = 1;
         this->setDisplayListModel(textures[27]);
         this->setMax(15, 15);
         this->setMin(-15, -15);
@@ -87,6 +90,7 @@ Enemy::Enemy(int type) : MovableEntity()
         this->typeMove = 4;
         this->continueMove = 0;
         this->fireRatePeriod = 0;
+        this->alteredFireRate = 1;
         this->setDisplayListModel(textures[28]);
         this->setMax(15, 15);
         this->setMin(-15, -15);
@@ -107,6 +111,7 @@ Enemy::Enemy(int type) : MovableEntity()
         this->typeMove = 4;
         this->continueMove = 0;
         this->fireRatePeriod = 0;
+        this->alteredFireRate = 1;
         this->setDisplayListModel(textures[29]);
         this->setMax(15, 15);
         this->setMin(-15, -15);
@@ -127,10 +132,11 @@ Enemy::Enemy(int type) : MovableEntity()
         this->typeMove = 4; /**/
         this->continueMove = 0;
         this->fireRatePeriod = 0; // tem que ser 0
+        this->alteredFireRate = 0.5;
         this->setDisplayListModel(textures[33]);
         this->setMax(15, 15);
         this->setMin(-15, -15);
-        this->setVelocity(0.5, 1); // deixar padrao no cosntrutor e talvez mmudar na wave
+        this->setVelocity(1, 1); // deixar padrao no cosntrutor e talvez mmudar na wave
         this->setResize(0.5);
         break;
 
@@ -349,8 +355,8 @@ std::vector<Projectile> Enemy::fire()
         break;
     }
 
-    int r = rand() % 10;
-    this->fireRatePeriod = this->currentProjectile.getDefaultFireRate() * (4 + r);
+    int r = rand() % 25;
+    this->fireRatePeriod = this->currentProjectile.getDefaultFireRate() * (2 + r);
     // printf("Valor: %d\n",r);
 
     return vec;
