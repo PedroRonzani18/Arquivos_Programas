@@ -10,7 +10,7 @@ Level::Level(const int &l)
     switch (l)
     {
     case 0:
-        auxWaves = {5, 2, 3, 4, 5, 6, 0}; // executa todas as waves e para na wave 0
+        auxWaves = {3,3,3,3,3,3, 0}; // executa todas as waves e para na wave 0
         initBackgrounds(0);
         break;
 
