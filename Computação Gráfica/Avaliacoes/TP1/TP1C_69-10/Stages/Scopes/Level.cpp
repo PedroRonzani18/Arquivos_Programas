@@ -10,12 +10,15 @@ Level::Level(const int &l)
     switch (l)
     {
     case 0:
-        auxWaves = {0}; // executa todas as waves e para na wave 0
+        auxWaves = {25, 5, 6, 18, 23, 4, 8, 16, 20, 1, 2, 24, 21, 0}; // executa todas as waves e para na wave 0
+        //auxWaves = {0}; // executa todas as waves e para na wave 0
+
         initBackgrounds(0);
         break;
 
     case 1:
-        auxWaves = {26, 15, 18, 21, 99, 100, 27, 50, 0};
+        auxWaves = {26, 11, 18, 13, 14, 17, 19, 19, 19, 15, 22, 12, 99, 100, 27, 50, 0};
+        //auxWaves = {26, 27, 50, 0};
         initBackgrounds(1);
         break;
     }
@@ -99,7 +102,7 @@ Enemy *Level::smallestDistanceEnemyPlayer(MovableEntity *m1)
 
 int Level::stageKeyboard()
 {
-    if (keys[4] && player.getFireRatePeriod() <= 0 && player.getHp() >=0) // space
+    if (keys[4] && player.getFireRatePeriod() <= 0 && player.getHp() >= 0) // space
     {
         std::vector<Projectile> p = player.fire();
         projectiles.insert(projectiles.end(), p.begin(), p.end());
@@ -143,7 +146,7 @@ void Level::drawAndMove()
 
     this->player.move(); // movimentação geral do player
     drawModel(&this->player);
-    drawHitbox(&this->player);
+    //drawHitbox(&this->player);
 
     if(bossTime && player.getHp() >= 0){
         boss.move();
@@ -155,16 +158,17 @@ void Level::drawAndMove()
     {
         projectiles[i].move();
         drawModel(&projectiles[i]);
-        drawHitbox(&projectiles[i]);
+        //drawHitbox(&projectiles[i]);
     }
 
-
+    double hp = 0;
     for (int i = 0; i < enemies.size(); i++)
     {
         if(bossTime)
         {
             enemies[i].setMidPoint(boss.getMidPoint().getX() + enemies[i].getVelocity().getX(), 
                                    boss.getMidPoint().getY() + enemies[i].getVelocity().getY());
+            hp += enemies[i].getHp();
         }
         
         enemies[i].move(); // movimentação gerall de cada inimigo
@@ -175,7 +179,7 @@ void Level::drawAndMove()
         else
             drawModel(&enemies[i]);
 
-        drawHitbox(&enemies[i]);
+        //drawHitbox(&enemies[i]);
 
         // printf("Periodo: %d\n",enemies[i].getFireRatePeriod());
 
@@ -185,6 +189,7 @@ void Level::drawAndMove()
             projectiles.insert(projectiles.end(), p.begin(), p.end());
         }
     }
+    boss.setHp(hp);
 
     // printf("Tamanho: %ld\n",enemies.size());
 
@@ -192,9 +197,11 @@ void Level::drawAndMove()
     {
         colectibles[i].move();
         drawModel(&colectibles[i]);
-        drawHitbox(&colectibles[i]);
+        //drawHitbox(&colectibles[i]);
     }
 
+
+    boss.getHealthBar().setScore(1 - boss.getHp()/boss.getVidaTotal());
     if(bossTime) boss.getHealthBar().draw();
 
     player.getScoreHp().draw();
@@ -240,7 +247,7 @@ void Level::colider() // proibido.
             {
                 if (colided(projectiles[i], enemies[j]) && enemies[j].getType() != 10 && enemies[j].getType() != 7) // colisao dos tiros do player com o inimido
                 {
-                    projectiles[i].setHp(projectiles[i].getHp() - 1);
+                    projectiles[i].setHp(0);
                     enemies[j].setHp(enemies[j].getHp() - projectiles[i].getDamage());
                 }
             }
@@ -250,23 +257,8 @@ void Level::colider() // proibido.
                 {
                     if (player.getImortality() <= 0 && player.getHp() >= 0)
                     {
-                        projectiles[i].setHp(projectiles[i].getHp() - 1);
+                        projectiles[i].setHp(0);
                         player.damage();
-                    }
-                }
-
-                if (projectiles[i].getType() == 5)
-                {
-                    for (int j = 0; j < projectiles.size(); j++)
-                    {
-                        if (projectiles[j].getOwner() == 1)
-                        {
-                            if (colided(projectiles[i], projectiles[j]))
-                            {
-                                projectiles[i].setHp(0);
-                                projectiles[j].setHp(0);
-                            }
-                        }
                     }
                 }
             }
