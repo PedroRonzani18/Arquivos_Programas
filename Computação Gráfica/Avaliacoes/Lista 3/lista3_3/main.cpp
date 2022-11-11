@@ -5,6 +5,10 @@
 
 #include "drawings.h"
 #include "globalParameters.h"
+#include "Planet.h"
+#include "Space.h"
+
+Space space;
 
 void configuraProjecao() // determina se é p ou o e muda para ortho ou frustrum
 {
@@ -29,11 +33,36 @@ void desenha()
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    space.drawAndMove(t);
+
+    /*
     glPushMatrix();
         glTranslated(0,0,-10);
         //drawBackground(-10);
     glPopMatrix();
+    */
 
+   /*
+    glPushMatrix();
+        glTranslated(0,0,-6);// coloca ele mais para tras na tela
+        glRotated(-60,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
+
+        //drawCorpse(sun,t);
+        drawCorpse(&space.getPlaneta(0),t);
+
+        glPushMatrix();
+
+            drawCorpse(&space.getPlaneta(1),t);
+
+            glPushMatrix();
+                drawCorpse(&space.getPlaneta(2),t);
+            glPopMatrix();
+
+        glPopMatrix();
+    glPopMatrix();
+    */
+
+    /*
     glPushMatrix();
 
         drawSun(a);
@@ -49,6 +78,7 @@ void desenha()
         glPopMatrix();
 
     glPopMatrix();
+    */
 
     glutSwapBuffers();
 }
@@ -138,6 +168,29 @@ void initializeTextures()
     estrelas = loadTexture("imagens/2k_stars_milky_way.jpg");
 }
 
+Planet createPlanetTemplate(GLuint texture, double coreRadius, double rotationRadius, double angularSpeed)
+{
+    Planet p;
+    p.setTexture(texture);
+    p.setCoreRadius(coreRadius);
+    p.setRotationRadius(rotationRadius);
+    p.setAngularSpeed(angularSpeed);
+    return p;
+}
+
+void initPlanets()
+{
+    //Planet sun(sol,1,0,1);
+    Planet sun = createPlanetTemplate(sol,1,0,10);
+    space.addPlaneta(sun);
+
+    Planet earth = createPlanetTemplate(terra,0.4,1.8,20);
+    space.addPlaneta(earth);
+
+    Planet moon = createPlanetTemplate(lua,0.15,0.6,50);
+    space.addPlaneta(moon);
+}
+
 void init()
 {
     glClearColor(1,1,1,1);
@@ -146,7 +199,9 @@ void init()
     initializeTextures();
 
     Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,2,4096);
-    music1 = Mix_LoadMUS("background.mp3");
+    music1 = Mix_LoadMUS("audio/background.mp3");
+
+    initPlanets();
 }
 
 int main(int argc, char *argv[])

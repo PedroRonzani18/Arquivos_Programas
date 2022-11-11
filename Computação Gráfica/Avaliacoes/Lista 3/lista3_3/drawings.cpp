@@ -1,7 +1,8 @@
 #include "drawings.h"
 #include "globalParameters.h"
+#include "Planet.h"
 
-#include<stdio.h>
+#include <stdio.h>
 
 void drawSolidSphere(double radius, int stacks, int columns)
 {
@@ -11,6 +12,17 @@ void drawSolidSphere(double radius, int stacks, int columns)
     gluQuadricTexture(quadObj, GL_TRUE); // chama 01 glTexCoord por vértice
     gluSphere(quadObj, radius, stacks, columns); // cria os vértices de uma esfera
     gluDeleteQuadric(quadObj);
+}
+
+void drawCorpse(Planet* p, double time)
+{
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, p->getTexture());
+
+    glRotated(time * p->getAngularSpeed(),0,0,1); // rotaciona no proprio eixo 
+    glTranslated(-p->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+    //glutSolidSphere(1,slices,stacks);
+    drawSolidSphere(p->getCoreRadius(),slices,stacks);   
 }
 
 void drawSun(double angle)
