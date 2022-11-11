@@ -15,7 +15,6 @@ Level::Level(const int &l)
 
     case 1:
         auxWaves = {26, 11, 18, 13, 14, 17, 19, 19, 19, 15, 22, 12, 99, 100, 27, 49, 50, 0};
-        //auxWaves = {49,50,0};
         initBackgrounds(1);
         break;
     }
@@ -93,7 +92,7 @@ Enemy *Level::smallestDistanceEnemyPlayer(MovableEntity *m1)
                 auxEnemy = &enemies[i];
                 smallesDist = auxD;
             }
-        }
+        } 
         
     }
 
