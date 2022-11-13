@@ -9,6 +9,22 @@
 #include "Space.h"
 
 Space space;
+static bool light0Ligada = 0;   // Luz branca ligada?
+static bool light1Ligada = 0;   // Luz verde ligada?
+static float d = 1.0;           // Intensidade da cor difusa da luz branca
+static float e = 1.0;           // Intensidade da cor especular da luz branca
+static float m = 0.2;           // Intensidade da luz ambiente global
+static float p = 1.0;           // A luz branca é posicional?
+static float s = 50.0;          // Expoente especular do material (shininess)
+static bool localViewer = false;
+int xAngle = 0;
+int yAngle = 0;
+bool isLightingOn = true;
+static float xMouse = 250, yMouse = 250;        // (x,y) do ponteiro do mouse
+static float larguraJanela, alturaJanela;       // (w,h) da janela
+int matShine = 50;
+
+
 
 void configuraProjecao() // determina se é p ou o e muda para ortho ou frustrum
 {
@@ -27,58 +43,95 @@ void desenha()
 {
     configuraProjecao();
 
-    double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+     /* Propriedades das fontes de luz */
+        float lightAmb[] = { 0.0, 0.0, 0.0, 1.0 }; // ??
 
-    double a = t*10.0;
+        float lightDif0[] = { d, d, d, 1.0 }; // intensidade da difusa do branco
+        float lightSpec0[] = { e, e, e, 1.0 }; // intensidade da especular do branco
+        float lightPos0[] = { 0.0, 0.0, 3.0, p }; // posição ?? da liz
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        float lightDifAndSpec1[] = { 0.0, 1.0, 0.0, 1.0 }; // idem
+        float lightPos1[] = { 1.0, 2.0, 0.0, 1.0 }; // idem
 
-    space.drawAndMove(t);
+        float globAmb[] = { m, m, m, 1.0 };
 
-    /*
-    glPushMatrix();
-        glTranslated(0,0,-10);
-        //drawBackground(-10);
-    glPopMatrix();
-    */
+    /* Propriedades da fonte de luz LIGHT0 */
+        glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmb); // rgb da luz ambiente
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDif0);
+        glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpec0);
 
-   /*
-    glPushMatrix();
-        glTranslated(0,0,-6);// coloca ele mais para tras na tela
-        glRotated(-60,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
+    /* Propriedades da fonte de luz LIGHT1 */
+        glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmb);
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDifAndSpec1);
+        glLightfv(GL_LIGHT1, GL_SPECULAR, lightDifAndSpec1);
 
-        //drawCorpse(sun,t);
-        drawCorpse(&space.getPlaneta(0),t);
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);        // Luz ambiente global
+    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, localViewer);// Enable local viewpoint
 
+    /* Ativa fonte de luz branca */
+        if(light0Ligada) 
+            glEnable(GL_LIGHT0);
+        else glDisable(GL_LIGHT0);
+    
+    /* Ativa fonte de luz verde */
+        if (light1Ligada) 
+            glEnable(GL_LIGHT1);
+        else glDisable(GL_LIGHT1);
+    
+    /* Limpa a tela e o z-buffer */
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // Posiciona a câmera de acordo com posição x,y do mouse na janela
+        gluLookAt(1*(xMouse-larguraJanela/2)/(larguraJanela/16), -1*(yMouse-alturaJanela/2)/(alturaJanela/16) + 3, 5,
+                0, 0, 0,
+                0, 1, 0);
+
+    /* Desabilita iluminação para desenhar as esferas que representam as luzes */
+        glDisable(GL_LIGHTING);
+
+    /* Light0 e esfera indicativa (ou seta) */
         glPushMatrix();
-
-            drawCorpse(&space.getPlaneta(1),t);
-
-            glPushMatrix();
-                drawCorpse(&space.getPlaneta(2),t);
-            glPopMatrix();
-
+            glRotatef(xAngle, 1.0, 0.0, 0.0); // Rotação no eixo x
+            glRotatef(yAngle, 0.0, 1.0, 0.0); // Rotação no eixo y
+            glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+            glTranslatef(lightPos0[0], lightPos0[1], lightPos0[2]);
+            glColor3f(d, d, d);
+            
+            if (light0Ligada){
+                if (p) glutWireSphere(0.05, 8, 8); // Esfera indicativa
+                else // Seta apontando na direção da fonte de luz direcional
+                {
+                    glLineWidth(3.0);
+                    glBegin(GL_LINES);
+                        glVertex3f(0.0, 0.0, 0.25);
+                        glVertex3f(0.0, 0.0, -0.25);
+                        glVertex3f(0.0, 0.0, -0.25);
+                        glVertex3f(0.05, 0.0, -0.2);
+                        glVertex3f(0.0, 0.0, -0.25);
+                        glVertex3f(-0.05, 0.0, -0.2);
+                    glEnd();
+                    glLineWidth(1.0);
+                }
+            }
         glPopMatrix();
-    glPopMatrix();
-    */
 
-    /*
-    glPushMatrix();
-
-        drawSun(a);
-
+    /* Light1 e sua esfera indicativa */
         glPushMatrix();
-
-            drawEarth(a);
-
-            glPushMatrix();
-                drawMoon(a);
-            glPopMatrix();
-
+            glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
+            glTranslatef(lightPos1[0], lightPos1[1], lightPos1[2]);
+            glColor3f(0.0, 1.0, 0.0);
+            if (light1Ligada) glutWireSphere(0.05, 8, 8);
         glPopMatrix();
 
-    glPopMatrix();
-    */
+    if (isLightingOn) 
+        glEnable(GL_LIGHTING);
+
+    matShine = 50;
+    glMaterialf(GL_FRONT, GL_SHININESS, matShine);
+
+    glColor3f(1, 1, 1);
+    double tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+    space.drawAndMove(tempo);
 
     glutSwapBuffers();
 }
@@ -93,6 +146,9 @@ void redimensiona(int width, int height)
 {
     glViewport(0, 0, width, height);
 
+    larguraJanela = width;
+    alturaJanela = height;
+
     razaoAspecto = (float) glutGet(GLUT_WINDOW_WIDTH) / (float) glutGet(GLUT_WINDOW_HEIGHT);
 
     glMatrixMode(GL_PROJECTION);
@@ -101,58 +157,75 @@ void redimensiona(int width, int height)
     glFrustum(-razaoAspecto, razaoAspecto, -1.0, 1.0, 2, 100.0);
 
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity() ;
+    glLoadIdentity();
 }
 
 static void teclado(unsigned char key, int x, int y)
 {
-    switch (key)
+    char formattedKey = (char) toupper(key);
+
+    switch (formattedKey)
     {
         case 27 :     // Tecla 'ESC
             exit(0);
             break;
 
-        case '+':
-            slices++;
-            stacks++;
-            break;
-
-        case '-':
-            if (slices>3 && stacks>3)
-            {
-                slices--;
-                stacks--;
-            }
-            break;
-
-        case 'l':
-            angle+=2;
-            break;
-
-
-        case '1':
+        case 'M':
             if(!Mix_PlayingMusic())
                 Mix_PlayMusic(music1,-1);
             else if(Mix_PausedMusic())
                 Mix_ResumeMusic();
             else
                 Mix_PauseMusic();
+            break;
 
-    }
+        case 'R':
+            xAngle++;
+            break;
+
+        case 'E':
+            yAngle++;
+            break;
+
+        case 'L':
+            isLightingOn = !isLightingOn;
+            break;
+
+        case 'W':
+            if (light0Ligada) light0Ligada = false;
+            else light0Ligada = true;
+            break;
+
+        case 'G':
+            if (light1Ligada) light1Ligada = false;
+            else light1Ligada = true;
+            break;
+
+        case 'P':
+            if (p) p = 0.0;
+            else p = 1.0;
+            break;
+
+        case 'T':
+            usarTextura = !usarTextura;
+            break;
+        }
 
     glutPostRedisplay();
 }
 
 void enables()
 {
-    glEnable(GL_CULL_FACE);
+    // Não mostrar faces do lado de dentro
+    glEnable(GL_CULL_FACE); 
     glCullFace(GL_BACK);
 
+    // Ativa teste Z
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+    //glDepthFunc(GL_LESS);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glEnable(GL_LIGHT0); // "liga" a possivel fonte de luz 0
     glEnable(GL_NORMALIZE);
@@ -160,7 +233,7 @@ void enables()
     glEnable(GL_LIGHTING);
 }
 
-void initializeTextures()
+void configuraTextures()
 {
     sol = loadTexture("imagens/2k_sun.jpg");
     terra = loadTexture("imagens/2k_earth_daymap.jpg");
@@ -178,6 +251,20 @@ Planet createPlanetTemplate(GLuint texture, double coreRadius, double rotationRa
     return p;
 }
 
+void configuraMateriais()
+{
+    // Propriedades do material da esfera
+    float matAmbAndDif[] = {1.0, 1.0, 1.0, 1.0};    // cor ambiente e difusa: branca
+    float matSpec[] = { 1.0, 1.0, 1,0, 1.0 };       // cor especular: branca
+
+    // Definindo as propriedades do material
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
+    glMaterialf(GL_FRONT, GL_SHININESS, 50);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+}
+
 void initPlanets()
 {
     //Planet sun(sol,1,0,1);
@@ -191,16 +278,21 @@ void initPlanets()
     space.addPlaneta(moon);
 }
 
-void init()
+void configureMusic()
 {
-    glClearColor(1,1,1,1);
-
-    enables();
-    initializeTextures();
-
     Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,2,4096);
     music1 = Mix_LoadMUS("audio/background.mp3");
+}
 
+void init()
+{
+    glClearColor(0,0,0,1);
+
+    enables();
+    configuraTextures();
+    configuraMateriais();
+
+    configureMusic();
     initPlanets();
 }
 
@@ -210,8 +302,8 @@ int main(int argc, char *argv[])
     glutInitWindowSize(640,480);
     glutInitWindowPosition(10,10);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-
     glutCreateWindow("Lista 3");
+
     init();
 
     glutReshapeFunc(redimensiona);

@@ -16,47 +16,17 @@ void drawSolidSphere(double radius, int stacks, int columns)
 
 void drawCorpse(Planet* p, double time)
 {
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, p->getTexture());
+    if(usarTextura){
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, p->getTexture());
+    }
+        glRotated(time * p->getAngularSpeed(),0,0,1); // rotaciona no proprio eixo 
+        glTranslated(-p->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+        drawSolidSphere(p->getCoreRadius(),slices,stacks);   
 
-    glRotated(time * p->getAngularSpeed(),0,0,1); // rotaciona no proprio eixo 
-    glTranslated(-p->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-    //glutSolidSphere(1,slices,stacks);
-    drawSolidSphere(p->getCoreRadius(),slices,stacks);   
-}
-
-void drawSun(double angle)
-{
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, sol);
-
-    glTranslated(0,0,-6);// coloca ele mais para tras na tela
-    glRotated(-60,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
-    glRotated(angle,0,0,1); // rotaciona no proprio eixo 
-    //glutSolidSphere(1,slices,stacks);
-    drawSolidSphere(1,slices,stacks);
-}
-
-void drawEarth(double angle)
-{
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, terra);
-
-    glRotated(angle,0,0,1); 
-    glTranslated(-1.8,0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-    //glutSolidSphere(0.4,slices,stacks);
-    drawSolidSphere(0.4,slices,stacks);
-}
-
-void drawMoon(double angle)
-{
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, lua);
-
-    glRotated(angle*2,0,0,1);
-    glTranslated(-0.6,0, 0); 
-    //glutSolidSphere(0.17,slices,stacks);
-    drawSolidSphere(0.15,slices,stacks);
+    if(usarTextura)
+        glDisable(GL_TEXTURE_2D);
+    
 }
 
 void drawBackground(double z)

@@ -10,5 +10,6 @@ extern GLuint sol, terra, lua, estrelas;
 extern float razaoAspecto;
 
 extern Mix_Music* music1;
+extern bool usarTextura;
 
 #endif

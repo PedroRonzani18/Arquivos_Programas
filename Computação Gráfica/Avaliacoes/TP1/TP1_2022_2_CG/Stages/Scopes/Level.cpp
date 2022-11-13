@@ -258,8 +258,8 @@ void Level::colider() // proibido.
                             player.setMidPoint(0, -80);
                         }
                         
-                        player.setHp(player.getHp() - projectiles[i].getDamage());
-                        player.damage();
+                        //player.setHp(player.getHp() - projectiles[i].getDamage());
+                        //player.damage();
                     }
                 }
             }
@@ -274,8 +274,8 @@ void Level::colider() // proibido.
                 {
                     player.setMidPoint(0, -80);
                 }
-                player.setHp(player.getHp() - 1);
-                player.damage();
+                //player.setHp(player.getHp() - 1);
+                //player.damage();
             }
         }
     }
