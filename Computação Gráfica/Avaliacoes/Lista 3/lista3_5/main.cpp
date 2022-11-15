@@ -11,6 +11,7 @@
 Space space;
 static bool light0Ligada = 0;   // Luz branca ligada?
 static bool light1Ligada = 0;   // Luz verde ligada?
+static bool light2Ligada = 0;   // Luz verde ligada?
 static float d = 1.0;           // Intensidade da cor difusa da luz branca
 static float e = 1.0;           // Intensidade da cor especular da luz branca
 static float m = 0.2;           // Intensidade da luz ambiente global
@@ -23,16 +24,23 @@ bool isLightingOn = true;
 static float xMouse = 250, yMouse = 250;        // (x,y) do ponteiro do mouse
 static float larguraJanela, alturaJanela;       // (w,h) da janela
 int matShine = 50;
+float z=3;
 
 /* Propriedades das fontes de luz */
     float lightAmb[] = { 0.0, 0.0, 0.0, 1.0 }; // ??
 
     float lightDif0[] = { d, d, d, 1.0 }; // intensidade da difusa do branco
     float lightSpec0[] = { e, e, e, 1.0 }; // intensidade da especular do branco
-    float lightPos0[] = { 0.0, 0.0, 3.0, p }; // posição ?? da liz
+    float lightPos0[] = { 0.0, 0.0, z, p }; // posição ?? da liz
+                                            // p altera fonte direcional ou posicional (0 ou 1);
+                                            // p=1 atravessa textura, mas menor
+                                            // p=0 não atra\vessa mas é maior
 
     float lightDifAndSpec1[] = { 0.0, 1.0, 0.0, 1.0 }; // idem
     float lightPos1[] = { 1.0, 2.0, 0.0, 1.0 }; // idem
+
+    float lightDifAndSpec2[] = { 1.0, 1.0, 0.0, 1.0 }; // idem
+    float lightPos2[] = { -1.0, 2.0, 0.0, 1.0 }; // idem
 
     float globAmb[] = { m, m, m, 1.0 };
 
@@ -58,6 +66,7 @@ void atualizaPropriedadesLuz()
         lightSpec0[i] = e;
 
     lightPos0[3] = p;
+    lightPos0[2] = z;
 
     for(int i=0; i<3; i++)
         globAmb[i] = m;
@@ -76,25 +85,35 @@ void atualizaCaracteristicaLuz()
         glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDifAndSpec1);
         glLightfv(GL_LIGHT1, GL_SPECULAR, lightDifAndSpec1);
 
+    /* Propriedads da fonte de luz LIGHT2 */
+        glLightfv(GL_LIGHT2, GL_AMBIENT, lightAmb);
+        glLightfv(GL_LIGHT2, GL_DIFFUSE, lightDifAndSpec2);
+        glLightfv(GL_LIGHT2, GL_SPECULAR, lightDifAndSpec2);
+
+
+
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);        // Luz ambiente global
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, localViewer);// Enable local viewpoint
 
-    matShine = 50; // tem que variarcmom pressionamento de tela
+    matShine = 100; // tem que variarcmom pressionamento de tela
     glMaterialf(GL_FRONT, GL_SHININESS, matShine);
 }
 
 void onOffFonteLuz()
 {
-
     /* Ativa fonte de luz branca */
         if(light0Ligada) 
             glEnable(GL_LIGHT0);
         else glDisable(GL_LIGHT0);
     
     /* Ativa fonte de luz verde */
-        if (light1Ligada) 
+        if(light1Ligada) 
             glEnable(GL_LIGHT1);
         else glDisable(GL_LIGHT1);
+
+        if(light2Ligada) 
+            glEnable(GL_LIGHT2);
+        else glDisable(GL_LIGHT2);
 }
 
 void setupCamera()
@@ -111,13 +130,13 @@ void desenhaFonteLuzBranca()
         glPushMatrix();
             glRotatef(xAngle, 1.0, 0.0, 0.0); // Rotação no eixo x
             glRotatef(yAngle, 0.0, 1.0, 0.0); // Rotação no eixo y
-            
+
             glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
             glTranslatef(lightPos0[0], lightPos0[1], lightPos0[2]);
             glColor3f(d, d, d);
             
             if (light0Ligada){
-                if (p) glutWireSphere(0.05, 8, 8); // Esfera indicativa
+                if (p) glutWireSphere(0.1, 8, 8); // Esfera indicativa
                 else // Seta apontando na direção da fonte de luz direcional
                 {
                     glLineWidth(3.0);
@@ -146,6 +165,17 @@ void desenhaFonteLuzVerde()
         glPopMatrix();
 }
 
+void desenhafonteDOIDS()
+{
+    /* Light1 e sua esfera indicativa */
+        glPushMatrix();
+            glLightfv(GL_LIGHT2, GL_POSITION, lightPos2);
+            glTranslatef(lightPos2[0], lightPos2[1], lightPos2[2]);
+            glColor3f(1.0, 1.0, 0.0);
+            if (light2Ligada) glutWireSphere(0.05, 8, 8);
+        glPopMatrix();
+}
+
 void desenha()
 {
     configuraProjecao();
@@ -164,6 +194,7 @@ void desenha()
 
     desenhaFonteLuzBranca();
     desenhaFonteLuzVerde();
+    desenhafonteDOIDS();
 
     if (isLightingOn) 
         glEnable(GL_LIGHTING);
@@ -248,7 +279,17 @@ static void teclado(unsigned char key, int x, int y)
         case 'T':
             usarTextura = !usarTextura;
             break;
-        }
+
+        case 'B':
+            if (light2Ligada) light2Ligada = false;
+            else light2Ligada = true;
+            break;
+        
+
+        case 'Z':
+            z--;
+            break;
+    }
 
     glutPostRedisplay();
 }
@@ -293,13 +334,15 @@ Planet createPlanetTemplate(GLuint texture, double coreRadius, double rotationRa
 void configuraMateriais()
 {
     // Propriedades do material da esfera
-    float matAmbAndDif[] = {1.0, 1.0, 1.0, 1.0};    // cor ambiente e difusa: branca
-    float matSpec[] = { 1.0, 1.0, 1,0, 1.0 };       // cor especular: branca
+    float matAmbAndDif[] = {1.0, 1.0, 1.0, 1.0};    // cor ambiente e difusa: branca (ambiente = cor | )
+    float matSpec[] = { 1.0, 1.0, 1,0, 1.0};       // cor especular: branca
+    //float matEmiss[] = { 1, 1, 1, 1};         // faz com que todos os materiais emitam luz
 
     // Definindo as propriedades do material
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
     glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
-    glMaterialf(GL_FRONT, GL_SHININESS, 50);
+    glMaterialf(GL_FRONT, GL_SHININESS, 0);
+    //glMaterialfv(GL_FRONT, GL_EMISSION, matEmiss);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
