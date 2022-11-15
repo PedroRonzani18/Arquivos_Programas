@@ -24,7 +24,17 @@ static float xMouse = 250, yMouse = 250;        // (x,y) do ponteiro do mouse
 static float larguraJanela, alturaJanela;       // (w,h) da janela
 int matShine = 50;
 
+/* Propriedades das fontes de luz */
+    float lightAmb[] = { 0.0, 0.0, 0.0, 1.0 }; // ??
 
+    float lightDif0[] = { d, d, d, 1.0 }; // intensidade da difusa do branco
+    float lightSpec0[] = { e, e, e, 1.0 }; // intensidade da especular do branco
+    float lightPos0[] = { 0.0, 0.0, 3.0, p }; // posição ?? da liz
+
+    float lightDifAndSpec1[] = { 0.0, 1.0, 0.0, 1.0 }; // idem
+    float lightPos1[] = { 1.0, 2.0, 0.0, 1.0 }; // idem
+
+    float globAmb[] = { m, m, m, 1.0 };
 
 void configuraProjecao() // determina se é p ou o e muda para ortho ou frustrum
 {
@@ -39,22 +49,23 @@ void configuraProjecao() // determina se é p ou o e muda para ortho ou frustrum
     glLoadIdentity();
 }
 
-void desenha()
+void atualizaPropriedadesLuz()
 {
-    configuraProjecao();
+    for(int i=0; i<3; i++)
+        lightDif0[i] = d;
 
-     /* Propriedades das fontes de luz */
-        float lightAmb[] = { 0.0, 0.0, 0.0, 1.0 }; // ??
+    for(int i=0; i<3; i++)
+        lightSpec0[i] = e;
 
-        float lightDif0[] = { d, d, d, 1.0 }; // intensidade da difusa do branco
-        float lightSpec0[] = { e, e, e, 1.0 }; // intensidade da especular do branco
-        float lightPos0[] = { 0.0, 0.0, 3.0, p }; // posição ?? da liz
+    lightPos0[3] = p;
 
-        float lightDifAndSpec1[] = { 0.0, 1.0, 0.0, 1.0 }; // idem
-        float lightPos1[] = { 1.0, 2.0, 0.0, 1.0 }; // idem
+    for(int i=0; i<3; i++)
+        globAmb[i] = m;
 
-        float globAmb[] = { m, m, m, 1.0 };
+}
 
+void atualizaCaracteristicaLuz()
+{
     /* Propriedades da fonte de luz LIGHT0 */
         glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmb); // rgb da luz ambiente
         glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDif0);
@@ -68,6 +79,13 @@ void desenha()
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);        // Luz ambiente global
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, localViewer);// Enable local viewpoint
 
+    matShine = 50; // tem que variarcmom pressionamento de tela
+    glMaterialf(GL_FRONT, GL_SHININESS, matShine);
+}
+
+void onOffFonteLuz()
+{
+
     /* Ativa fonte de luz branca */
         if(light0Ligada) 
             glEnable(GL_LIGHT0);
@@ -77,22 +95,23 @@ void desenha()
         if (light1Ligada) 
             glEnable(GL_LIGHT1);
         else glDisable(GL_LIGHT1);
-    
-    /* Limpa a tela e o z-buffer */
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
 
-        // Posiciona a câmera de acordo com posição x,y do mouse na janela
+void setupCamera()
+{
+            // Posiciona a câmera de acordo com posição x,y do mouse na janela
         gluLookAt(1*(xMouse-larguraJanela/2)/(larguraJanela/16), -1*(yMouse-alturaJanela/2)/(alturaJanela/16) + 3, 5,
                 0, 0, 0,
                 0, 1, 0);
+}
 
-    /* Desabilita iluminação para desenhar as esferas que representam as luzes */
-        glDisable(GL_LIGHTING);
-
-    /* Light0 e esfera indicativa (ou seta) */
+void desenhaFonteLuzBranca()
+{
+        /* Light0 e esfera indicativa (ou seta) */
         glPushMatrix();
             glRotatef(xAngle, 1.0, 0.0, 0.0); // Rotação no eixo x
             glRotatef(yAngle, 0.0, 1.0, 0.0); // Rotação no eixo y
+            
             glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
             glTranslatef(lightPos0[0], lightPos0[1], lightPos0[2]);
             glColor3f(d, d, d);
@@ -114,7 +133,10 @@ void desenha()
                 }
             }
         glPopMatrix();
+}
 
+void desenhaFonteLuzVerde()
+{
     /* Light1 e sua esfera indicativa */
         glPushMatrix();
             glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
@@ -122,12 +144,29 @@ void desenha()
             glColor3f(0.0, 1.0, 0.0);
             if (light1Ligada) glutWireSphere(0.05, 8, 8);
         glPopMatrix();
+}
+
+void desenha()
+{
+    configuraProjecao();
+
+    atualizaPropriedadesLuz();
+    atualizaCaracteristicaLuz();
+    onOffFonteLuz();
+
+    /* Limpa a tela e o z-buffer */
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    setupCamera();
+
+    /* Desabilita iluminação para desenhar as esferas que representam as luzes */
+        glDisable(GL_LIGHTING);
+
+    desenhaFonteLuzBranca();
+    desenhaFonteLuzVerde();
 
     if (isLightingOn) 
         glEnable(GL_LIGHTING);
-
-    matShine = 50;
-    glMaterialf(GL_FRONT, GL_SHININESS, matShine);
 
     glColor3f(1, 1, 1);
     double tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
@@ -282,6 +321,7 @@ void configureMusic()
 {
     Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,2,4096);
     music1 = Mix_LoadMUS("audio/background.mp3");
+    
 }
 
 void init()
