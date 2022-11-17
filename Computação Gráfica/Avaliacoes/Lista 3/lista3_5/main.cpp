@@ -161,6 +161,7 @@ void desenhaFonteLuzVerde()
             glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
             glTranslatef(lightPos1[0], lightPos1[1], lightPos1[2]);
             glColor3f(0.0, 1.0, 0.0);
+            
             if (light1Ligada) glutWireSphere(0.05, 8, 8);
         glPopMatrix();
 }
