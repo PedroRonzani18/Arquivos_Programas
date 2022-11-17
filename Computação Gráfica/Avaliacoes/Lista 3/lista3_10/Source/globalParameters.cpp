@@ -32,3 +32,5 @@ float z=0;
     float globAmb[] = { m, m, m, 1.0 };
 
 double tempo;
+
+int keys[] = {0,0,0,0,0,0,0,0};

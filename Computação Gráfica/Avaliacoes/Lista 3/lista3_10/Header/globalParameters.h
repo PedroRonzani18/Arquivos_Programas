@@ -35,6 +35,7 @@ extern float lightSpec0[]; // intensidade da especular do branco
 extern float lightPos0[];  // posição ?? da luz
 extern float globAmb[];
 extern double tempo;
+extern int keys[];
 
 
 #endif

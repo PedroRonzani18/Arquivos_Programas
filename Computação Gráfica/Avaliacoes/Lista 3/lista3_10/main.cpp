@@ -8,10 +8,12 @@
 #include "Header/Planet.h"
 #include "Header/Space.h"
 #include "Header/lighting.h"
+#include "Header/Camera.h"
 
 Space space;
+Camera camera;
 
-void configuraProjecao() // determina se é p ou o e muda para ortho ou frustrum
+void configuraProjecao() 
 {
     float razaoAspecto = (float) glutGet(GLUT_WINDOW_WIDTH) / (float) glutGet(GLUT_WINDOW_HEIGHT);
 
@@ -26,16 +28,16 @@ void configuraProjecao() // determina se é p ou o e muda para ortho ou frustrum
 
 void setupCamera()
 {
-    gluLookAt(0, 3, 5,
-              0, 0, 0,
+    gluLookAt(camera.getCoordinates().x, camera.getCoordinates().y + 3, camera.getCoordinates().z + 5,
+              camera.getCoordinates().x, camera.getCoordinates().y, camera.getCoordinates().z,
               0, 1, 0);
 }
 
 void enables()
 {
     // Não mostrar faces do lado de dentro
-    glEnable(GL_CULL_FACE); 
-    glCullFace(GL_BACK);
+    //glEnable(GL_CULL_FACE); 
+    //glCullFace(GL_BACK);
 
     // Ativa teste Z
     glEnable(GL_DEPTH_TEST);
@@ -66,11 +68,14 @@ void initPlanets()
 
     Planet moon = Planet::createPlanetTemplate(lua,0.15,0.6,50);
     space.addPlaneta(moon);
+
+    Planet stars = Planet::createPlanetTemplate(estrelas,20,0,0);
+    space.setEstrelas(stars);
 }
 
 void initialize()
 {
-    glClearColor(0,0,0,1);
+    glClearColor(0,0,0,0);
 
     enables();
     configuraTextures();
@@ -117,54 +122,117 @@ void keyboard(unsigned char key, int x, int y)
 {
     char formattedKey = (char) toupper(key);
 
-    switch (formattedKey)
-    {
-        case 27 :     
-            exit(0);
-            break;
+    printf("%c: (%.2f, %.2f, %.2f)\n",key,camera.getCoordinates().x,camera.getCoordinates().y,camera.getCoordinates().z);
 
-        case 'M':
-            if(!Mix_PlayingMusic())
-                Mix_PlayMusic(music1,-1);
-            else if(Mix_PausedMusic())
-                Mix_ResumeMusic();
-            else
-                Mix_PauseMusic();
-            break;
+        switch (formattedKey)
+        {
+            case 27 :     
+                exit(0);
+                break;
 
-        case 'D':
-            d++;
-            break;
+            case 'M':
+                if(!Mix_PlayingMusic())
+                    Mix_PlayMusic(music1,-1);
+                else if(Mix_PausedMusic())
+                    Mix_ResumeMusic();
+                else
+                    Mix_PauseMusic();
+                break;
 
-        case 'F':
-            d--;
-            break;
+            case 'W':
+                if(keys[0]) keys[0] = 0;
+                else        keys[0] = 1;
+                break;
 
-        case 'L':
-            isLightingOn = !isLightingOn;
-            break;
+            case 'A':
+                if(keys[1]) keys[1] = 0;
+                else        keys[1] = 1;
+                break;
 
-        case 'W':
-            if (light0Ligada) light0Ligada = false;
-            else light0Ligada = true;
-            break;
+            case 'S':
+                if(keys[2]) keys[2] = 0;
+                else        keys[2] = 1;
+                break;
 
-        case 'P':
-            if (p) p = 0.0;
-            else p = 1.0;
-            break;
+            case 'D':
+                if(keys[3]) keys[3] = 0;
+                else        keys[3] = 1;
+                break;
 
-        case 'T':
-            usarTextura = !usarTextura;
-            break;
-    }
+            case ' ':
+                if(keys[4]) keys[4] = 0;
+                else        keys[4] = 1;
+                break;
+
+            case 'C':
+                if(keys[5]) keys[5] = 0;
+                else        keys[5] = 1;
+                break;
+
+            case '+':
+                if(keys[6]) keys[6] = 0;
+                else        keys[6] = 1;
+                break;
+
+            case '-':
+                if(keys[7]) keys[7] = 0;
+                else        keys[7] = 1;
+                break;
+
+
+
+
+            case 'G':
+                d++;
+                break;
+
+            case 'H':
+                d--;
+                break;
+
+            case 'L':
+                isLightingOn = !isLightingOn;
+                break;
+
+            case 'Q':
+                if (light0Ligada) light0Ligada = false;
+                else light0Ligada = true;
+                break;
+
+            case 'P':
+                if (p) p = 0.0;
+                else p = 1.0;
+                break;
+
+            case 'T':
+                usarTextura = !usarTextura;
+                break;
+        }
+    
 
     glutPostRedisplay();
 }
 
+void modifiers(unsigned)
+{
+
+}
+
+
+
 void timer(int t)
 {
     tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+    camera.move();
+
+    /*
+    if(glutGetModifiers())
+    {
+        printf("Entrei\n");
+        if(GLUT_ACTIVE_CTRL)
+            keys[5] = !keys[5];
+    }
+    */
 
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);
@@ -179,10 +247,12 @@ int main(int argc, char **argv)
     glutCreateWindow("Lista 3");
 
     initialize();
+    glutIgnoreKeyRepeat(1); 
 
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
+    glutKeyboardUpFunc(keyboard);
     glutTimerFunc(8, timer, 8);
 
     glutMainLoop();
