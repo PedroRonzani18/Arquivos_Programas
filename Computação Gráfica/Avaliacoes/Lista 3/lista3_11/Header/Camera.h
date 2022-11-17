@@ -7,9 +7,13 @@ class Camera{
     private:
         Coord midPoint;
         Coord focus;
+        Coord upVec;
         float theta;
         float fi;
+        float ro;
         Coord angle;
+        int fiStatus; // indica se teoricamente 0   < fi < 180 (fistatus = 0)
+                      //                        180 < fi < 360 (fistatus = 1)
 
     public:
         Camera();
@@ -21,6 +25,8 @@ class Camera{
         void setAngle(Coord angle){this->angle = angle;}
 
         void move();
+        float calcudlateRo();
+        void setupCamera();
 };
 
 #endif

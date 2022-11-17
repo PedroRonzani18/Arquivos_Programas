@@ -26,13 +26,6 @@ void configuraProjecao()
     glLoadIdentity();
 }
 
-void setupCamera()
-{
-    gluLookAt(camera.getCoordinates().x, camera.getCoordinates().y + 3, camera.getCoordinates().z + 5,
-              camera.getCoordinates().x, camera.getCoordinates().y, camera.getCoordinates().z,
-              0, 1, 0);
-}
-
 void enables()
 {
     // Não mostrar faces do lado de dentro
@@ -92,7 +85,7 @@ void display()
     configuraProjecao();
     atualizaPropriedadesLuz();
     onOffFonteLuz();
-    setupCamera();
+    camera.setupCamera();
     atualizaCaracteristicaLuz();
 
     space.drawAndMove(tempo);
@@ -122,7 +115,7 @@ void keyboard(unsigned char key, int x, int y)
 {
     char formattedKey = (char) toupper(key);
 
-    printf("%c: (%.2f, %.2f, %.2f)\n",key,camera.getCoordinates().x,camera.getCoordinates().y,camera.getCoordinates().z);
+    //printf("%c: (%.2f, %.2f, %.2f)\n",key,camera.getCoordinates().x,camera.getCoordinates().y,camera.getCoordinates().z);
 
         switch (formattedKey)
         {
@@ -170,6 +163,7 @@ void keyboard(unsigned char key, int x, int y)
                 break;
 
             case '+':
+            case '=':
                 if(keys[6]) keys[6] = 0;
                 else        keys[6] = 1;
                 break;
