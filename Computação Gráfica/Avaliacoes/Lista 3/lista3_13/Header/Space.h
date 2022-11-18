@@ -6,6 +6,7 @@
 
 class Space{
     private:
+        Planet sol;
         std::vector<Planet> planetas;
         Planet estrelas;
 
@@ -13,9 +14,11 @@ class Space{
         void addPlaneta(Planet p){planetas.push_back(p);}
         Planet getPlaneta(int i){return planetas[i];}
 
+        void setSol(Planet sol){this->sol = sol;}
+
         void setEstrelas(Planet estrelas){this->estrelas = estrelas;}
 
-        void drawAndMove(double t);
+        void drawAndMove(double time);
 
 };
 

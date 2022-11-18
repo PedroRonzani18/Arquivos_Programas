@@ -2,6 +2,8 @@
 #define _PLANET_H
 
 #include <GL/freeglut.h>
+#include <vector>
+#include "Moon.h"
 
 class Planet{
     private:
@@ -10,6 +12,7 @@ class Planet{
         double rotationRadius; // radio do movimento de rotação
         double angle; // angulo do movimento de rotação
         double angularSpeed; // velocidade angular do movimento de rotação
+        std::vector<Moon> moons;
 
     public:
         Planet(){}
@@ -30,7 +33,11 @@ class Planet{
         double getAngularSpeed(){return this->angularSpeed;}
         void setAngularSpeed(double angularSpeed){this->angularSpeed = angularSpeed;}
 
-        static Planet createPlanetTemplate(GLuint texture, double coreRadius, double rotationRadius, double angularSpeed);
+        static Planet createPlanetTemplate(const char* texture, double coreRadius, double rotationRadius, double angularSpeed);
+
+        std::vector<Moon> getMoons(){return this->moons;}
+        void addMoon(Moon moon){this->moons.push_back(moon);}
+
 };
 
 #endif

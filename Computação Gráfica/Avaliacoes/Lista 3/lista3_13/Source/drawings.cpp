@@ -14,15 +14,30 @@ void drawSolidSphere(double radius, int stacks, int columns)
     gluDeleteQuadric(quadObj);
 }
 
-void drawCorpse(Planet* p, double time)
+void drawCorpse(Planet* planet, double time)
 {
     if(usarTextura){
         glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, p->getTexture());
+        glBindTexture(GL_TEXTURE_2D, planet->getTexture());
     }
-        glRotated(time * p->getAngularSpeed(),0,0,1); // rotaciona no proprio eixo 
-        glTranslated(-p->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-        drawSolidSphere(p->getCoreRadius(),slices,stacks);   
+        glRotated(time * planet->getAngularSpeed(),0,0,1); // rotaciona no proprio eixo 
+        glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+        drawSolidSphere(planet->getCoreRadius(),slices,stacks);   
+
+    if(usarTextura)
+        glDisable(GL_TEXTURE_2D);
+    
+}
+
+void drawCorpse(Moon* moon, double time)
+{
+    if(usarTextura){
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, moon->getTexture());
+    }
+        glRotated(time * moon->getAngularSpeed() + moon->getAngle(),0,0,1); // rotaciona no proprio eixo 
+        glTranslated(-moon->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+        drawSolidSphere(moon->getCoreRadius(),slices,stacks);   
 
     if(usarTextura)
         glDisable(GL_TEXTURE_2D);
@@ -70,12 +85,4 @@ GLuint loadTexture(const char* arquivo)
     }
 
     return idTextura;
-}
-
-void configuraTextures()
-{
-    sol = loadTexture("imagens/2k_sun.jpg");
-    terra = loadTexture("imagens/2k_earth_daymap.jpg");
-    lua = loadTexture("imagens/2k_moon.jpg");
-    estrelas = loadTexture("imagens/space.jpg");
 }

@@ -1,4 +1,5 @@
 #include "../Header/Planet.h"
+#include "../Header/drawings.h"
 
 Planet::Planet(GLuint texture, double coreRadius, double rotationRadius, double angularSpeed){
             this->angle = 0;
@@ -7,12 +8,12 @@ Planet::Planet(GLuint texture, double coreRadius, double rotationRadius, double 
             this->angularSpeed = angularSpeed;
         }
 
-Planet Planet::createPlanetTemplate(GLuint texture, double coreRadius, double rotationRadius, double angularSpeed)
+Planet Planet::createPlanetTemplate(const char* texture, double coreRadius, double rotationRadius, double angularSpeed)
 {
-    Planet p;
-    p.setTexture(texture);
-    p.setCoreRadius(coreRadius);
-    p.setRotationRadius(rotationRadius);
-    p.setAngularSpeed(angularSpeed);
-    return p;
+    Planet planet;
+    planet.setTexture(loadTexture(texture));
+    planet.setCoreRadius(coreRadius);
+    planet.setRotationRadius(rotationRadius);
+    planet.setAngularSpeed(angularSpeed);   
+    return planet;
 }

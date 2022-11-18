@@ -20,7 +20,7 @@ void configuraProjecao()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    glFrustum(-razaoAspecto, razaoAspecto, -1.0, 1.0, 2, 1000.0);
+    glFrustum(-razaoAspecto, razaoAspecto, -1, 1, 2, 100);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -48,22 +48,18 @@ void enables()
 void configureMusic()
 {
     Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,2,4096);
-    music1 = Mix_LoadMUS("audio/music2.mp3");
+    music1 = Mix_LoadMUS("audio/background.mp3");
 }
 
 void initPlanets()
 {
-    Planet sun = Planet::createPlanetTemplate(sol,1,0,10);
-    space.addPlaneta(sun);
+    space.setEstrelas(Planet::createPlanetTemplate("imagens/space.jpg",40,0,0));
+    space.setSol(Planet::createPlanetTemplate("imagens/2k_sun.jpg",1,0,10));
 
-    Planet earth = Planet::createPlanetTemplate(terra,0.4,1.8,20);
-    space.addPlaneta(earth);
-
-    Planet moon = Planet::createPlanetTemplate(lua,0.15,0.6,50);
-    space.addPlaneta(moon);
-
-    Planet stars = Planet::createPlanetTemplate(estrelas,20,0,0);
-    space.setEstrelas(stars);
+    Planet terra = Planet::createPlanetTemplate("imagens/2k_earth_daymap.jpg",0.4,1.8,20);
+    terra.addMoon(Moon::createPlanetTemplate(0,0.15,0.6,50));
+    terra.addMoon(Moon::createPlanetTemplate(0,0.15,0.6,50));
+    space.addPlaneta(terra);
 }
 
 void initialize()
@@ -71,7 +67,6 @@ void initialize()
     glClearColor(0,0,0,0);
 
     enables();
-    configuraTextures();
     configuraMateriais();
     glShadeModel(GL_PHONG_HINT_WIN);
     configureMusic();
@@ -105,52 +100,15 @@ void reshape(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    glFrustum(-razaoAspecto, razaoAspecto, -1.0, 1.0, 2, 100.0);
-
-    printf("Valores: %.2f\n",razaoAspecto);
+    glFrustum(-razaoAspecto, razaoAspecto, -1, 1, 2, 100);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
 
-void specialKeyboard(int key, int x, int y)
-{
-    switch (key){
-        case 27: 
-            exit(0); 
-            break;
-            
-        case GLUT_KEY_UP: 
-            if(keys[0] == 1)
-                keys[0] = 0;    
-            else keys[0] = 1;
-            break;
-
-        case GLUT_KEY_DOWN: 
-            if(keys[1] == 1)
-                keys[1] = 0;
-            else keys[1] = 1;
-            break;
-
-        case GLUT_KEY_RIGHT:
-            if(keys[2] == 1)
-                keys[2] = 0;
-            else keys[2] = 1;
-            break;
-
-        case  GLUT_KEY_LEFT:
-            if(keys[3] == 1)
-                keys[3] = 0;
-            else keys[3] = 1;
-            break;
-    }
-}
-
 void keyboard(unsigned char key, int x, int y)
 {
     char formattedKey = (char) toupper(key);
-
-    //printf("%c: (%.2f, %.2f, %.2f)\n",key,camera.getCoordinates().x,camera.getCoordinates().y,camera.getCoordinates().z);
 
         switch (formattedKey)
         {
@@ -159,8 +117,12 @@ void keyboard(unsigned char key, int x, int y)
                 break;
 
             case 'M':
-            printf("kjabsdhu9svdashuda\n");
-                
+                if(!Mix_PlayingMusic())
+                    Mix_PlayMusic(music1,-1);
+                else if(Mix_PausedMusic())
+                    Mix_ResumeMusic();
+                else
+                    Mix_PauseMusic();
                 break;
 
             case 'W':
@@ -262,8 +224,6 @@ int main(int argc, char **argv)
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboard);
-    glutSpecialFunc(specialKeyboard);
-    glutSpecialUpFunc(specialKeyboard);
     glutTimerFunc(8, timer, 8);
 
     glutMainLoop();

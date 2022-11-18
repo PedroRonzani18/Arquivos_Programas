@@ -5,6 +5,7 @@
 #include <SOIL/SOIL.h>
 
 #include "Planet.h"
+#include "Moon.h"
 
 void drawSolidSphere(double radius, int stacks, int columns);
 
@@ -13,7 +14,8 @@ void drawBackground(double z);
 GLuint loadTexture(const char* arquivo);
 
 void drawCorpse(Planet* p, double time);
+void drawCorpse(Moon* p, double time);
 
-void configuraTextures();
+//void configuraTextures();
 
 #endif
