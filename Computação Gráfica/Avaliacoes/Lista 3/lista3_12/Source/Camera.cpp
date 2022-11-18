@@ -1,95 +1,84 @@
 #include "../Header/Camera.h"
 #include "../Header/globalParameters.h"
 #include <cmath>
+#include "ogldev_math_3d.h"
 
 #define radGr(radianos) (radianos * (180.0 / M_PI))
 #define grRad(graus) ((graus * M_PI) / 180.0)
 
 Camera::Camera()
 {
-    midPoint.x = 0;
-    midPoint.y = 0;
-    midPoint.z = 0;
+    position.x = 0;
+    position.y = 0;
+    position.z = 0;
 
     upVec.x = 0;
     upVec.y = 1;
     upVec.z = 0;
 
-    focus.x = 0;
-    focus.y = 3;
-    focus.z = 5;
+    viewDirection.x = 0;
+    viewDirection.y = 0;
+    viewDirection.z = -1;
 
-    fi = 0;
-    fiStatus = 0;
-    theta = 0;
-    ro = calcudlateRo()/5;
-    printf("Ro = %f\n",ro);
+    calculaVetorDiretor();
 }
 
-float Camera::calcudlateRo()
+void Camera::mouseUpdate(Coord newMousePosition)
 {
-    return sqrt(pow(midPoint.x-focus.x,2) + 
-                pow(midPoint.y-focus.y,2) + 
-                pow(midPoint.z-focus.z,2));
+    Coord mosueDelta;
+    mosueDelta.x = newMousePosition.x - oldMousePosition.x;
+    mosueDelta.y = newMousePosition.y - oldMousePosition.y;
+
+    
+
+    oldMousePosition = newMousePosition;
 }
+
 
 void Camera::move()
 {
-    
-    midPoint.x += (keys[3] - keys[1]) * 0.1;
-    midPoint.y += (keys[4] - keys[5]) * 0.1;
-    midPoint.z += (keys[2] - keys[0]) * 0.1;
-
-    focus.x += (keys[3] - keys[1]) * 0.1;
-    focus.y += (keys[4] - keys[5]) * 0.1;
-    focus.z += (keys[2] - keys[0]) * 0.1;
-    
-    float fic = fi;
-
-    /*
-    fi += (keys[6] - keys[7]) * 2;
-
-
-    if(fi == 180 + 2)
-    {
-        printf("AAAAAAAAAAAAAAAAAAAAAAAAA %.2f\n",fi);
-        theta += 180;
-        printf("Theta: %f\n",theta);
-    }
-
-    if(fi == 360 + 2)
-    {
-        printf("BBBBBBBBBBBBBBBBBAA %.2f\n",fi);
-        theta += 180;
-        fi = 2;
-        printf("Theta: %f\n",theta);
-    }
-    
-    if(theta == 360)
-        theta = 0;
-    */
+    // outra possibilidade: moder o ponto central de acordo com o vetor que liga foco com centro ( p + v = p')
 
 /*
-    printf("Theta: %f   %f\n",fi ,fic);
+    fi += (keys[6] - keys[7]) * 2;
 
-    if(fi > 180 && fic <= 180) // passou do estado de olhar para o chao
-    {
-        printf("entrei\n");
-        fiStatus = 1;
-        theta += 180;
-    } 
+    focus.z = ro * sin(grRad(fi)) * cos(grRad(theta)); 
+    focus.x = ro * sin(grRad(fi)) * sin(grRad(theta)); 
+    focus.y = ro * cos(grRad(fi));
 
-    if(fi < 180 && fic >= 180) 
-    {
-        fiStatus = 1;
-        theta -= 180;
-    }
+    calculaVetorDiretor();
+
+    position.z += (keys[0] - keys[2]) * viewDirection.z * 0.1;
+    position.y += (keys[0] - keys[2]) * viewDirection.y* 0.1;
+    position.x += (keys[0] - keys[2]) * viewDirection.x* 0.1;
+
+    focus.z += (keys[0] - keys[2]) * viewDirection.z* 0.1;
+    focus.y += (keys[0] - keys[2]) * viewDirection.y* 0.1;
+    focus.x += (keys[0] - keys[2]) * viewDirection.x* 0.1;
+
+    printf("position: (%.2f,%.2f,%.2f)   Focus: (%.2f,%.2f,%.2f)   Vetor: (%.2f,%.2f,%.2f)\n",position.x,position.y,position.z,focus.x,focus.y,focus.z,viewDirection.x,viewDirection.y,viewDirection.z);
 */
 
 /*
-    midPoint.z = sin(grRad(fi)) * cos(grRad(theta)); 
-    midPoint.x = sin(grRad(fi)) * sin(grRad(theta)); 
-    midPoint.y = cos(grRad(fi)); 
+    position.x += (keys[3] - keys[1]) * 0.1;
+    position.y += (keys[4] - keys[5]) * 0.1;
+    position.z += (keys[2] - keys[0]) * 0.1;
+    
+    focus.x += (keys[3] - keys[1]) * 0.1;
+    focus.y += (keys[4] - keys[5]) * 0.1;
+    focus.z += (keys[2] - keys[0]) * 0.1;
+*/
+    
+    /*
+    position.z += (keys[3] - keys[1]) * sin(grRad(fi)) * cos(grRad(theta)); 
+    position.x += (keys[4] - keys[5]) * sin(grRad(fi)) * sin(grRad(theta)); 
+    position.y += (keys[2] - keys[0]) * cos(grRad(fi)); 
+    */
+    
+/*
+    position.z = sin(grRad(fi)) * cos(grRad(theta)); 
+    position.x = sin(grRad(fi)) * sin(grRad(theta)); 
+    position.y = cos(grRad(fi)); 
 */
 
 /*
@@ -101,7 +90,13 @@ void Camera::move()
 
 void Camera::setupCamera()
 {
+    /*
     gluLookAt(focus.x   , focus.y   , focus.z,
-              midPoint.x, midPoint.y, midPoint.z,
+              position.x, position.y, position.z,
               upVec.x   , upVec.y   , upVec.z);
+              */
+
+    gluLookAt(position.x                  , position.y                  , position.z,
+              position.x + viewDirection.x, position.y + viewDirection.y, position.z + viewDirection.z,
+              upVec.x,upVec.y,upVec.z);
 }

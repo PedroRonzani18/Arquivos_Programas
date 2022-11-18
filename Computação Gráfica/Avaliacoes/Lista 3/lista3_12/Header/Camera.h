@@ -5,27 +5,22 @@
 
 class Camera{
     private:
-        Coord midPoint;
-        Coord focus;
+        Coord position;
         Coord upVec;
-        float theta;
-        float fi;
-        float ro;
-        Coord angle;
-        int fiStatus; // indica se teoricamente 0   < fi < 180 (fistatus = 0)
-                      //                        180 < fi < 360 (fistatus = 1)
+        Coord viewDirection;
+        Coord oldMousePosition;
+
+
+        void calculaVetorDiretor();
 
     public:
         Camera();
 
-        Coord getCoordinates(){return this->midPoint;}
-        void setCoordinates(Coord midPoint){this->midPoint = midPoint;}
-
-        Coord getAngle(){return this->angle;}
-        void setAngle(Coord angle){this->angle = angle;}
+        Coord getCoordinates(){return this->position;}
+        void setCoordinates(Coord position){this->position = position;}
 
         void move();
-        float calcudlateRo();
+        void mouseUpdate(Coord newMousePosition);
         void setupCamera();
 };
 
