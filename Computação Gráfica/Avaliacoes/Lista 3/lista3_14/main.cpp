@@ -33,9 +33,8 @@ void enables()
     //glCullFace(GL_BACK);
 
     // Ativa teste Z
-    glEnable(GL_DEPTH_TEST);
+      glEnable(GL_DEPTH_TEST);
     //glDepthFunc(GL_LESS);
-
     //glEnable(GL_BLEND);
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -53,13 +52,15 @@ void configureMusic()
 
 void initPlanets()
 {
-    space.setEstrelas(Planet::createPlanetTemplate("imagens/space.jpg",40,0,0));
-    space.setSol(Planet::createPlanetTemplate("imagens/2k_sun.jpg",1,0,10));
+    space.setEstrelas(Planet::createPlanetTemplate("imagens/space.jpg",40,0,2,0));
+    space.setSol(Planet::createPlanetTemplate("imagens/2k_sun.jpg",1,0,0,0));
 
-    Planet terra = Planet::createPlanetTemplate("imagens/2k_earth_daymap.jpg",0.4,1.8,20);
+    Planet terra = Planet::createPlanetTemplate("imagens/2k_earth_daymap.jpg",0.4,1.8,20,10);
     terra.addMoon(Moon::createPlanetTemplate(0,0.15,0.6,50));
     terra.addMoon(Moon::createPlanetTemplate(0,0.15,0.6,50));
     space.addPlaneta(terra);
+
+    space.addPlaneta(Planet::createPlanetTemplate("imagens/2k_mars.jpg",0.4,2.7,20,5));
 }
 
 void initialize()

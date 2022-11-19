@@ -11,6 +11,7 @@ class Moon{
         double rotationRadius; // radio do movimento de rotação
         double angle; // angulo inicial do movimento de rotação
         double angularSpeed; // velocidade angular do movimento de rotação
+        double orbitSpeed;
 
     public:
         Moon(){}
@@ -30,6 +31,9 @@ class Moon{
 
         double getAngularSpeed(){return this->angularSpeed;}
         void setAngularSpeed(double angularSpeed){this->angularSpeed = angularSpeed;}
+
+        double getOrbitSpeed(){return this->orbitSpeed;}
+        void setOrbitSpeed(double orbitSpeed){this->orbitSpeed = orbitSpeed;}
 
         static Moon createPlanetTemplate(double angle, double coreRadius, double rotationRadius, double angularSpeed);
 };

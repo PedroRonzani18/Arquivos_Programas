@@ -12,6 +12,7 @@ class Planet{
         double rotationRadius; // radio do movimento de rotação
         double angle; // angulo do movimento de rotação
         double angularSpeed; // velocidade angular do movimento de rotação
+        double orbitSpeed;
         std::vector<Moon> moons;
 
     public:
@@ -33,7 +34,10 @@ class Planet{
         double getAngularSpeed(){return this->angularSpeed;}
         void setAngularSpeed(double angularSpeed){this->angularSpeed = angularSpeed;}
 
-        static Planet createPlanetTemplate(const char* texture, double coreRadius, double rotationRadius, double angularSpeed);
+        double getOrbitSpeed(){return this->orbitSpeed;}
+        void setOrbitSpeed(double orbitSpeed){this->orbitSpeed = orbitSpeed;}
+
+        static Planet createPlanetTemplate(const char* texture, double coreRadius, double rotationRadius, double angularSpeed, double orbitSpeed);
 
         std::vector<Moon> getMoons(){return this->moons;}
         void addMoon(Moon moon){this->moons.push_back(moon);}
