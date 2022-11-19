@@ -18,9 +18,10 @@ void Space::drawAndMove(double time)
 
         for(Planet planet: planetas)
         {
-            glTranslated(sol.getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-                glRotated(time * planet.getOrbitSpeed(),0,0,1);
-            glTranslated(-sol.getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+
+        glTranslated(sol.getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+            glRotated(time * planet.getOrbitSpeed(),0,0,1);
+        glTranslated(-sol.getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
 
             glPushMatrix();
                 drawCorpse(&planet,time);
@@ -34,7 +35,8 @@ void Space::drawAndMove(double time)
 
             glPopMatrix();
 
-            glRotated(-time * planet.getOrbitSpeed(),0,0,1);
+        
+            glRotated(time * planet.getOrbitSpeed(),0,0,1);
         }
     glPopMatrix();
     

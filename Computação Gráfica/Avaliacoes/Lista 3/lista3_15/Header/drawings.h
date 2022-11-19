@@ -9,8 +9,6 @@
 
 void drawSolidSphere(double radius, int stacks, int columns);
 
-void drawBackground(double z);
-
 GLuint loadTexture(const char* arquivo);
 
 void drawCorpse(Planet* p, double time);

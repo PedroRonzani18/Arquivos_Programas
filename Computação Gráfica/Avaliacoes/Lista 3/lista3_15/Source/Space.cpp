@@ -4,38 +4,31 @@
 void Space::drawAndMove(double time)
 {
     glPushMatrix();
-        glDisable(GL_LIGHTING);
-            drawCorpse(&estrelas,time);
-        glEnable(GL_LIGHTING);
+        drawCorpse(&estrelas,time);
     glPopMatrix();
 
     glPushMatrix();
         glRotated(-90,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
 
-        glDisable(GL_LIGHTING);
+        glPushMatrix();
             drawCorpse(&sol,time);
-        glEnable(GL_LIGHTING);
+        glPopMatrix();
 
         for(Planet planet: planetas)
         {
-            glTranslated(sol.getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-                glRotated(time * planet.getOrbitSpeed(),0,0,1);
-            glTranslated(-sol.getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-
             glPushMatrix();
                 drawCorpse(&planet,time);
-
-                for(Moon moon: planet.getMoons())
-                {
-                    glPushMatrix();
-                        drawCorpse(&moon,time);
-                    glPopMatrix();
-                }
-
             glPopMatrix();
 
-            glRotated(-time * planet.getOrbitSpeed(),0,0,1);
+            for(Moon moon: planet.getMoons())
+            {
+                glPushMatrix();
+                    glRotatef(time * planet.getTranslationAngularSpeed(),0,0,1); // rotaciona ao redor do planeta
+                    glTranslated(-planet.getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+                    drawCorpse(&moon,time);
+                glPopMatrix();
+            }
         }
     glPopMatrix();
-    
+
 }

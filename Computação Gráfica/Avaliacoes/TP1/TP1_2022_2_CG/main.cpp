@@ -71,39 +71,29 @@ void keyboard(unsigned char key, int x, int y)
             
         case 'w': //Anda para frente
         case 'W':
-            if(keys[0] == 1)
-                keys[0] = 0;
-            else keys[0] = 1;
+            keys[0] = !keys[0];
             
             auxKeys[0] = 1;
             break;
 
         case 's': //Anda para trás
         case 'S':
-            if(keys[1] == 1)
-                keys[1] = 0;
-            else keys[1] = 1;
+            keys[1] = !keys[1];
             auxKeys[1] = 1;
             break;
 
         case 'd': // Anda para direita
         case 'D':
-            if(keys[2] == 1)
-                keys[2] = 0;
-            else keys[2] = 1;
+            keys[2] = !keys[2];
             break;
 
         case 'a': // Anda para esquerda
         case 'A':
-            if(keys[3] == 1)
-                keys[3] = 0;
-            else keys[3] = 1;
+            keys[3] = !keys[3];
             break;
 
         case ' ': // Atira 
-            if(keys[4] == 0)
-                keys[4] = 1;
-            else keys[4] = 0;
+            keys[4] = !keys[4];
             auxKeys[2] = 1;
             break;
     }

@@ -52,15 +52,16 @@ void configureMusic()
 
 void initPlanets()
 {
-    space.setEstrelas(Planet::createPlanetTemplate("imagens/space.jpg",40,0,2,0));
-    space.setSol(Planet::createPlanetTemplate("imagens/2k_sun.jpg",1,0,0,0));
+    space.setEstrelas(Planet::createPlanetTemplate("imagens/space.jpg",0,40,0,2,0));
+    space.setSol(Planet::createPlanetTemplate("imagens/2k_sun.jpg",0,1,0,0,0));
 
-    Planet terra = Planet::createPlanetTemplate("imagens/2k_earth_daymap.jpg",0.4,1.8,20,10);
-    terra.addMoon(Moon::createPlanetTemplate(0,0.15,0.6,50));
-    terra.addMoon(Moon::createPlanetTemplate(0,0.15,0.6,50));
+    Planet terra = Planet::createPlanetTemplate("imagens/2k_earth_daymap.jpg",1,0.4,1.8,20,30);
+    terra.addMoon(Moon::createPlanetTemplate(0,0.15,0.6,20,50));
+    terra.addMoon(Moon::createPlanetTemplate(120,0.15,0.6,20,50));
+    terra.addMoon(Moon::createPlanetTemplate(240,0.15,0.6,20,50));
     space.addPlaneta(terra);
 
-    space.addPlaneta(Planet::createPlanetTemplate("imagens/2k_mars.jpg",0.4,2.7,20,5));
+    space.addPlaneta(Planet::createPlanetTemplate("imagens/2k_mars.jpg",1,0.4,3,30,20));
 }
 
 void initialize()
