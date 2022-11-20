@@ -16,7 +16,7 @@ class Planet : public CelestialBody
         std::vector<Moon> getMoons(){return this->moons;}
         void addMoon(Moon moon){this->moons.push_back(moon);}
 
-        static Planet createPlanetTemplate(GLuint texture, bool dependsOnLight, double coreRadius, double rotationRadius, double translationAngularSpeed, double rotationAngularSpeed);
+        static Planet createPlanetTemplate(GLuint texture, bool dependsOnLight, int numberOfMoons, double coreRadius, double rotationRadius, double translationAngularSpeed, double rotationAngularSpeed);
 };
 
 #endif
