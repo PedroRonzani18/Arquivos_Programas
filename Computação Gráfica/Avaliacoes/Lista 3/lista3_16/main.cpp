@@ -50,20 +50,6 @@ void configureMusic()
     music1 = Mix_LoadMUS("audio/background.mp3");
 }
 
-void initPlanets()
-{
-    space.setEstrelas(Planet::createPlanetTemplate("imagens/space.jpg",0,40,0,2,0));
-    space.setSol(Planet::createPlanetTemplate("imagens/2k_sun.jpg",0,1,0,0,0));
-
-    Planet terra = Planet::createPlanetTemplate("imagens/2k_earth_daymap.jpg",1,0.4,1.8,20,30);
-    terra.addMoon(Moon::createPlanetTemplate(0,0.15,0.6,20,50));
-    terra.addMoon(Moon::createPlanetTemplate(120,0.15,0.6,20,50));
-    terra.addMoon(Moon::createPlanetTemplate(240,0.15,0.6,20,50));
-    space.addPlaneta(terra);
-
-    space.addPlaneta(Planet::createPlanetTemplate("imagens/2k_mars.jpg",1,0.4,3,30,20));
-}
-
 void initialize()
 {
     glClearColor(0,0,0,0);
@@ -72,7 +58,8 @@ void initialize()
     configuraMateriais();
     glShadeModel(GL_PHONG_HINT_WIN);
     configureMusic();
-    initPlanets();
+    createTextures();
+    space.initializePlanets();
 }
 
 void display()
@@ -152,7 +139,7 @@ void keyboard(unsigned char key, int x, int y)
                 else        keys[4] = 1;
                 break;
 
-            case 'C':
+            case 'F':
                 if(keys[5]) keys[5] = 0;
                 else        keys[5] = 1;
                 break;
@@ -168,9 +155,37 @@ void keyboard(unsigned char key, int x, int y)
                 else        keys[7] = 1;
                 break;
 
+            case 'Z':
+                if(keys[8]) keys[8] = 0;
+                else        keys[8] = 1;
+                break;
 
+            case 'X':
+                if(keys[9]) keys[9] = 0;
+                else        keys[9] = 1;
+                break;
 
+            case 'C':
+                if(keys[10]) keys[10] = 0;
+                else         keys[10] = 1;
+                break;
 
+            case 'V':
+                if(keys[11]) keys[11] = 0;
+                else         keys[11] = 1;
+                break;
+
+            case 'B':
+                if(keys[12]) keys[12] = 0;
+                else         keys[12] = 1;
+                break;
+                
+            case 'N':
+                if(keys[13]) keys[13] = 0;
+                else         keys[13] = 1;
+                break;
+
+/*
             case 'G':
                 d++;
                 break;
@@ -196,6 +211,7 @@ void keyboard(unsigned char key, int x, int y)
             case 'T':
                 usarTextura = !usarTextura;
                 break;
+*/
         }
     
 
@@ -206,6 +222,8 @@ void timer(int t)
 {
     tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     camera.move();
+
+
 
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);

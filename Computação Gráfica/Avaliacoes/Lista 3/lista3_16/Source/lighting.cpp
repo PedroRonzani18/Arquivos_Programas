@@ -45,14 +45,20 @@ void onOffFonteLuz()
 
 void atualizaPropriedadesLuz()
 {
+    if(0 < m) m += -keys[9] * 0.05;
+    if(m < 1) m +=  keys[8] * 0.05;
+
+    if(0 < d) d += -keys[11] * 0.05;
+    if(d < 1) d +=  keys[10] * 0.05;
+
+    if(0 < e) e += -keys[13] * 0.05;
+    if(e < 1) e +=  keys[12] * 0.05;
+
     for(int i=0; i<3; i++)
         lightDif0[i] = d;
 
     for(int i=0; i<3; i++)
         lightSpec0[i] = e;
-
-    lightPos0[3] = p;
-    lightPos0[2] = z;
 
     for(int i=0; i<3; i++)
         globAmb[i] = m;

@@ -72,3 +72,21 @@ GLuint loadTexture(const char* arquivo)
 
     return idTextura;
 }
+
+void createTextures()
+{
+    texturesId.resize(0);
+    /*[ 0]*/texturesId.push_back(loadTexture("imagens/2k_mercury.jpg"));
+    /*[ 1]*/texturesId.push_back(loadTexture("imagens/2k_venus_surface.jpg"));
+    /*[ 2]*/texturesId.push_back(loadTexture("imagens/2k_earth_daymap.jpg"));
+    /*[ 3]*/texturesId.push_back(loadTexture("imagens/2k_mars.jpg"));
+    /*[ 4]*/texturesId.push_back(loadTexture("imagens/2k_jupiter.jpg"));
+    /*[ 5]*/texturesId.push_back(loadTexture("imagens/2k_saturn.jpg"));
+    /*[ 6]*/texturesId.push_back(loadTexture("imagens/2k_uranus.jpg"));
+    /*[ 7]*/texturesId.push_back(loadTexture("imagens/2k_neptune.jpg"));
+    /*[ 8]*/texturesId.push_back(loadTexture("imagens/space.jpg"));
+    /*[ 9]*/texturesId.push_back(loadTexture("imagens/2k_sun.jpg"));
+    /*[10]*/texturesId.push_back(loadTexture("imagens/2k_moon.jpg"));
+}
+
+

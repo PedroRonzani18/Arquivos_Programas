@@ -19,6 +19,7 @@ class Space{
         void setEstrelas(Planet estrelas){this->estrelas = estrelas;}
 
         void drawAndMove(double time);
+        void initializePlanets();
 
 };
 
