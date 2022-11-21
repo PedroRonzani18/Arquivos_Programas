@@ -2,7 +2,6 @@
 
 int slices = 200, stacks = 200;
 float razaoAspecto;
-Mix_Music* music1;
 bool usarTextura = true;
 
 bool light0Ligada = true;   // Luz branca ligada?

@@ -8,9 +8,6 @@
 extern int slices, stacks; // sclices e stacks dos
 extern float razaoAspecto;
 
-extern Mix_Music* music1; //Musica de fundo
-
-
 extern float d, // Intensidade da cor difusa da luz branca
              e, // Intensidade da cor especular da luz branca
              m; // Intensidade da luz ambiente global

@@ -9,9 +9,11 @@
 #include "Header/Space.h"
 #include "Header/lighting.h"
 #include "Header/Camera.h"
+#include "Header/MusicManager.h"
 
 Space space;
 Camera camera;
+MusicManager musicManager;
 
 void configuraProjecao() 
 {
@@ -28,12 +30,9 @@ void configuraProjecao()
 
 void enables()
 {
-    // Não mostrar faces do lado de dentro
-    //glEnable(GL_CULL_FACE); 
-    //glCullFace(GL_BACK);
-
     // Ativa teste Z
-      glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
+
     //glDepthFunc(GL_LESS);
     //glEnable(GL_BLEND);
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -44,12 +43,6 @@ void enables()
     glEnable(GL_LIGHTING);
 }
 
-void configureMusic()
-{
-    Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,2,4096);
-    music1 = Mix_LoadMUS("audio/background.mp3");
-}
-
 void initialize()
 {
     glClearColor(0,0,0,0);
@@ -57,8 +50,8 @@ void initialize()
     enables();
     configuraMateriais();
     glShadeModel(GL_PHONG_HINT_WIN);
-    configureMusic();
     createTextures();
+    musicManager.configureMusic();
     space.initializePlanets();
 }
 
@@ -71,7 +64,6 @@ void display()
     onOffFonteLuz();
     camera.setupCamera();
     atualizaCaracteristicaLuz();
-
     space.drawAndMove(tempo);
 
     glutSwapBuffers();
@@ -107,11 +99,11 @@ void keyboard(unsigned char key, int x, int y)
 
             case 'M':
                 if(!Mix_PlayingMusic())
-                    Mix_PlayMusic(music1,-1);
-                else if(Mix_PausedMusic())
+                    Mix_PlayMusic(musicManager.getMusic(0),-1);
+                /*se if(Mix_PausedMusic())
                     Mix_ResumeMusic();
                 else
-                    Mix_PauseMusic();
+                    Mix_PauseMusic();*/
                 break;
 
             case 'W':
@@ -224,12 +216,11 @@ void timer(int t)
     camera.move();
 
 
-
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);
 }
 
-int main(int argc, char **argv)
+void glutInitialize(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitWindowSize(640,480);
@@ -237,7 +228,6 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
     glutCreateWindow("Lista 3");
 
-    initialize();
     glutIgnoreKeyRepeat(1); 
 
     glutDisplayFunc(display);
@@ -245,7 +235,12 @@ int main(int argc, char **argv)
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboard);
     glutTimerFunc(8, timer, 8);
+}
 
+int main(int argc, char **argv)
+{
+    glutInitialize(argc, argv);
+    initialize();
     glutMainLoop();
 
     return 0;
