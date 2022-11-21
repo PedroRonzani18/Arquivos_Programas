@@ -40,12 +40,12 @@ void Space::initializePlanets() // fazer engine que calcule essas velocidades em
     this->estrelas = Planet::createPlanetTemplate(texturesId[8],0,0,40,0,2,0);
     this->sol = Planet::createPlanetTemplate(texturesId[9],0,0,2,0,0,0);
 
-    planetas.push_back(Planet::createPlanetTemplate(texturesId[0], 1, 0, 0.4, 2.5, 0, 30));
-    planetas.push_back(Planet::createPlanetTemplate(texturesId[1], 1, 1, 0.4, 4.5, 0, 30));
-    planetas.push_back(Planet::createPlanetTemplate(texturesId[2], 1, 1, 0.4, 6.5, 0, 30));
-    planetas.push_back(Planet::createPlanetTemplate(texturesId[3], 1, 2, 0.4, 8.5, 0, 30));
-    planetas.push_back(Planet::createPlanetTemplate(texturesId[4], 1, 3, 0.4, 10.5, 0, 30));
-    planetas.push_back(Planet::createPlanetTemplate(texturesId[5], 1, 3, 0.4, 12.5, 0, 30));
-    planetas.push_back(Planet::createPlanetTemplate(texturesId[6], 1, 3, 0.4, 14.5, 0, 30));    
-    planetas.push_back(Planet::createPlanetTemplate(texturesId[7], 1, 3, 0.4, 16.5, 0, 30));
+    planetas.push_back(Planet::createPlanetTemplate(texturesId[0], 1, 0, 0.4, 2.5, 328.7, 30));
+    planetas.push_back(Planet::createPlanetTemplate(texturesId[1], 1, 1, 0.4, 4.5, 149.7, 30));
+    planetas.push_back(Planet::createPlanetTemplate(texturesId[2], 1, 1, 0.4, 6.5, 92.28, 30));
+    planetas.push_back(Planet::createPlanetTemplate(texturesId[3], 1, 2, 0.4, 8.5, 49.10, 30));
+    planetas.push_back(Planet::createPlanetTemplate(texturesId[4], 1, 3, 0.4, 10.5, 7.78, 30));
+    planetas.push_back(Planet::createPlanetTemplate(texturesId[5], 1, 3, 0.4, 12.5, 3.14, 30));
+    planetas.push_back(Planet::createPlanetTemplate(texturesId[6], 1, 3, 0.4, 14.5, 1.1, 30));    
+    planetas.push_back(Planet::createPlanetTemplate(texturesId[7], 1, 3, 0.4, 16.5, 0.56, 30));
 }
