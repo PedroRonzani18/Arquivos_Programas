@@ -6,28 +6,10 @@
 #include <vector>
 #include "Keyboard.h"
 
-extern int slices, stacks; // sclices e stacks dos
+extern int slices, stacks; // slices e stacks das esferas
 extern float razaoAspecto;
-
-extern float d, // Intensidade da cor difusa da luz branca
-             e, // Intensidade da cor especular da luz branca
-             m, // Intensidade da luz ambiente global
-             s; // shininess material
-             
-extern int matShine;
-
-/* Propriedades das fontes de luz */
-extern float lightAmb[];    // ??
-extern float lightDif0[];  // intensidade da difusa do branco
-extern float lightSpec0[]; // intensidade da especular do branco
-extern float lightPos0[];  // posição ?? da luz
-extern float globAmb[];
-
 extern double tempo;
-//extern int keys[];
 extern Keyboard keys;
-
 extern std::vector<GLuint> texturesId;
-
 
 #endif

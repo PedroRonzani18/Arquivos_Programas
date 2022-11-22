@@ -11,10 +11,12 @@
 #include "Header/Camera.h"
 #include "Header/MusicManager.h"
 #include "Header/Keyboard.h"
+#include "Header/lighting.h"
 
 Space space;
 Camera camera;
 MusicManager musicManager;
+Lighting lighting;
 
 void configuraProjecao() 
 {
@@ -49,7 +51,8 @@ void initialize()
     glClearColor(0,0,0,0);
 
     enables();
-    configuraMateriais();
+    lighting.configuraMateriais();
+    //configuraMateriais();
     glShadeModel(GL_PHONG_HINT_WIN);
     createTextures();
     musicManager.configureMusic();
@@ -61,11 +64,14 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     configuraProjecao();
-    atualizaPropriedadesLuz();
+    lighting.atualizaPropriedadesLuz();
+    //atualizaPropriedadesLuz();
     camera.setupCamera();
-    atualizaCaracteristicaLuz();
+    lighting.atualizaCaracteristicaLuz();
+    //atualizaCaracteristicaLuz();
     space.drawAndMove(tempo);
-    informacoesIluminacao(m,d,e,s,camera.getCoordinates());
+    lighting.informacoesIluminacao(camera.getCoordinates());
+    //informacoesIluminacao(m,d,e,s,camera.getCoordinates());
 
     glutSwapBuffers();
 }

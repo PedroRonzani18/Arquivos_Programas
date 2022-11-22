@@ -1,16 +1,38 @@
 #include "../Header/lighting.h"
 #include "../Header/globalParameters.h"
-#include "../Header/Coord.h"
 
 long font = (long)GLUT_BITMAP_8_BY_13;
 
-void configuraMateriais()
+Lighting::Lighting()
 {
-    // Propriedades do material da esfera
-    float matAmbAndDif[] = {1.0, 1.0, 1.0, 1.0};    // cor ambiente e difusa: branca (ambiente = cor | )
-    float matSpec[] = { 1.0, 1.0, 1,0, 1.0};       // cor especular: branca
-    //float matEmiss[] = { 1, 1, 1, 1};         // faz com que todos os materiais emitam luz
+    m = 0.2;
+    d = 1;
+    e = 1;
+    s = 50;
 
+    for(int i=0; i<3; i++)
+    {
+        lightAmb[i] = 0;
+        lightDif0[i] = d;
+        lightSpec0[i] = e;
+        lightPos0[i] = 0;
+        globAmb[i] = m;
+        matAmbAndDif[i] = 1;
+        matSpec[i] = 1;
+    }
+
+    lightAmb[3] = 1;
+    lightDif0[3] = 1;
+    lightSpec0[3] = 1;
+    lightPos0[3] = 1;
+    globAmb[3] = 1;
+    matAmbAndDif[3] = 1;
+    matSpec[3] = 1;
+
+}
+
+void Lighting::configuraMateriais()
+{
     // Definindo as propriedades do material
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
     glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
@@ -35,7 +57,7 @@ void floatParaString(char * destStr, int precision, float val)
     destStr[precision] = '\0';
 }
 
-void informacoesIluminacao(float m, float d, float e,float s, Coord c)
+void Lighting::informacoesIluminacao(Coord c)
 {
     char theStringBuffer[10];        
 
@@ -67,14 +89,14 @@ void informacoesIluminacao(float m, float d, float e,float s, Coord c)
 
     glRasterPos3f(c.x-6.7, c.y-1.7, c.z -4);
     escreveTextoNaTela((void*)font, (char*)"  - Expoente shineness (W/A): ");
-    floatParaString(theStringBuffer, 5, s);
+    floatParaString(theStringBuffer, 5, 50);
     escreveTextoNaTela((void*)font, theStringBuffer);
 
     glEnable(GL_LIGHTING);
 
 }
 
-void atualizaCaracteristicaLuz()
+void Lighting::atualizaCaracteristicaLuz()
 {
     /* Propriedades da fonte de luz LIGHT0 */
         glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmb); // rgb da luz ambiente
@@ -86,12 +108,11 @@ void atualizaCaracteristicaLuz()
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);        // Luz ambiente global
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, false);// Enable local viewpoint
 
-    matShine = 128; // tem que variarcmom pressionamento de tela
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, matShine);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128);// teria que variarcmom pressionamento de tela
 
 }
 
-void atualizaPropriedadesLuz()
+void Lighting::atualizaPropriedadesLuz()
 {
     if(0 < m) m += -keys.x * 0.05;
     if(m < 1) m +=  keys.z * 0.05;
