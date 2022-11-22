@@ -5,7 +5,6 @@
 
 void configuraMateriais();
 void atualizaCaracteristicaLuz();
-void onOffFonteLuz();
 void atualizaPropriedadesLuz();
 void informacoesIluminacao(float m, float d, float e,float s, Coord c);
 

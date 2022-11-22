@@ -10,6 +10,7 @@
 #include "Header/lighting.h"
 #include "Header/Camera.h"
 #include "Header/MusicManager.h"
+#include "Header/Keyboard.h"
 
 Space space;
 Camera camera;
@@ -61,7 +62,6 @@ void display()
 
     configuraProjecao();
     atualizaPropriedadesLuz();
-    onOffFonteLuz();
     camera.setupCamera();
     atualizaCaracteristicaLuz();
     space.drawAndMove(tempo);
@@ -73,9 +73,6 @@ void display()
 void reshape(int width, int height)
 {
     glViewport(0, 0, width, height);
-
-    larguraJanela = width;
-    alturaJanela = height;
 
     razaoAspecto = (float) glutGet(GLUT_WINDOW_WIDTH) / (float) glutGet(GLUT_WINDOW_HEIGHT);
 
@@ -108,103 +105,75 @@ void keyboard(unsigned char key, int x, int y)
                 break;
 
             case 'W':
-                if(keys[0]) keys[0] = 0;
-                else        keys[0] = 1;
+                if(keys.w) keys.w = 0;
+                else       keys.w = 1;
                 break;
 
             case 'A':
-                if(keys[1]) keys[1] = 0;
-                else        keys[1] = 1;
+                if(keys.a) keys.a = 0;
+                else       keys.a = 1;
                 break;
 
             case 'S':
-                if(keys[2]) keys[2] = 0;
-                else        keys[2] = 1;
+                if(keys.s) keys.s = 0;
+                else       keys.s = 1;
                 break;
 
             case 'D':
-                if(keys[3]) keys[3] = 0;
-                else        keys[3] = 1;
+                if(keys.d) keys.d = 0;
+                else       keys.d = 1;
                 break;
 
             case ' ':
-                if(keys[4]) keys[4] = 0;
-                else        keys[4] = 1;
+                if(keys.space) keys.space = 0;
+                else        keys.space = 1;
                 break;
 
             case 'F':
-                if(keys[5]) keys[5] = 0;
-                else        keys[5] = 1;
+                if(keys.f) keys.f = 0;
+                else       keys.f = 1;
                 break;
 
             case '+':
             case '=':
-                if(keys[6]) keys[6] = 0;
-                else        keys[6] = 1;
+                if(keys.plus) keys.plus = 0;
+                else          keys.plus = 1;
                 break;
 
             case '-':
-                if(keys[7]) keys[7] = 0;
-                else        keys[7] = 1;
+                if(keys.minus) keys.minus = 0;
+                else           keys.minus = 1;
                 break;
 
             case 'Z':
-                if(keys[8]) keys[8] = 0;
-                else        keys[8] = 1;
+                if(keys.z) keys.z = 0;
+                else       keys.z = 1;
                 break;
 
             case 'X':
-                if(keys[9]) keys[9] = 0;
-                else        keys[9] = 1;
+                if(keys.x) keys.x = 0;
+                else       keys.x = 1;
                 break;
 
             case 'C':
-                if(keys[10]) keys[10] = 0;
-                else         keys[10] = 1;
+                if(keys.c) keys.c = 0;
+                else       keys.c = 1;
                 break;
 
             case 'V':
-                if(keys[11]) keys[11] = 0;
-                else         keys[11] = 1;
+                if(keys.v) keys.v = 0;
+                else       keys.v = 1;
                 break;
 
             case 'B':
-                if(keys[12]) keys[12] = 0;
-                else         keys[12] = 1;
+                if(keys.b) keys.b= 0;
+                else       keys.b = 1;
                 break;
                 
             case 'N':
-                if(keys[13]) keys[13] = 0;
-                else         keys[13] = 1;
+                if(keys.n) keys.n = 0;
+                else       keys.n = 1;
                 break;
-
-/*
-            case 'G':
-                d++;
-                break;
-
-            case 'H':
-                d--;
-                break;
-
-            case 'L':
-                isLightingOn = !isLightingOn;
-                break;
-
-            case 'Q':
-                if (light0Ligada) light0Ligada = false;
-                else light0Ligada = true;
-                break;
-
-            case 'P':
-                if (p) p = 0.0;
-                else p = 1.0;
-                break;
-
-            case 'T':
-                usarTextura = !usarTextura;
-                break;
-*/
         }
     
 

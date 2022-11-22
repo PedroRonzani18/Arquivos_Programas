@@ -16,44 +16,38 @@ void drawSolidSphere(double radius, int stacks, int columns)
 
 void drawCorpse(Planet* planet, double time)
 {
-    if(usarTextura){
-        glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, planet->getTexture());
-    }
 
-    glRotatef(time * planet->getTranslationAngularSpeed(),0,0,1); // rotaciona ao redor do sol
-    glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-    glRotatef(time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
+        glRotatef(time * planet->getTranslationAngularSpeed(),0,0,1); // rotaciona ao redor do sol
+        glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+        glRotatef(time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 
-    if(!planet->doesDependsOnLight())
-    {
-        glDisable(GL_LIGHTING);
-        drawSolidSphere(planet->getCoreRadius(),slices,stacks);
-        glEnable(GL_LIGHTING);
-    }
-    else
-        drawSolidSphere(planet->getCoreRadius(),slices,stacks);
+        if(!planet->doesDependsOnLight())
+        {
+            glDisable(GL_LIGHTING);
+            drawSolidSphere(planet->getCoreRadius(),slices,stacks);
+            glEnable(GL_LIGHTING);
+        }
+        else
+            drawSolidSphere(planet->getCoreRadius(),slices,stacks);
 
-    if(usarTextura)
-        glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
     
 }
 
 void drawCorpse(Moon* moon, double time)
 {
-    if(usarTextura){
-        glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, moon->getTexture());
-    }
 
-    glRotated(time * moon->getTranslationAngularSpeed() + moon->getAngle(),0,0,1); // rotaciona no proprio eixo 
-    glTranslated(-moon->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-    glRotatef(time * moon->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
-    
-    drawSolidSphere(moon->getCoreRadius(),slices,stacks);   
+        glRotated(time * moon->getTranslationAngularSpeed() + moon->getAngle(),0,0,1); // rotaciona no proprio eixo 
+        glTranslated(-moon->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+        glRotatef(time * moon->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
+        
+        drawSolidSphere(moon->getCoreRadius(),slices,stacks);   
 
-    if(usarTextura)
-        glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
     
 }
 
@@ -66,9 +60,8 @@ GLuint loadTexture(const char* arquivo)
         SOIL_FLAG_INVERT_Y
     );
 
-    if (idTextura == 0) {
+    if (idTextura == 0) 
         printf("Erro do SOIL: '%s' + %s\n", SOIL_last_result(),arquivo);
-    }
 
     return idTextura;
 }

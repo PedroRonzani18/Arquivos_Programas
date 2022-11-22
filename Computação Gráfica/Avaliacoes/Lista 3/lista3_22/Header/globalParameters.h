@@ -4,6 +4,7 @@
 #include <GL/freeglut.h>
 #include <SDL2/SDL_mixer.h>
 #include <vector>
+#include "Keyboard.h"
 
 extern int slices, stacks; // sclices e stacks dos
 extern float razaoAspecto;
@@ -12,13 +13,7 @@ extern float d, // Intensidade da cor difusa da luz branca
              e, // Intensidade da cor especular da luz branca
              m, // Intensidade da luz ambiente global
              s; // shininess material
-
-extern bool localViewer,
-            isLightingOn, // iluminação opengl ligada?
-            usarTextura,  // textura ligada?
-            light0Ligada; // Luz sol ligada?
-
-extern float larguraJanela, alturaJanela;       // (w,h) da janela
+             
 extern int matShine;
 
 /* Propriedades das fontes de luz */
@@ -29,7 +24,8 @@ extern float lightPos0[];  // posição ?? da luz
 extern float globAmb[];
 
 extern double tempo;
-extern int keys[];
+//extern int keys[];
+extern Keyboard keys;
 
 extern std::vector<GLuint> texturesId;
 

@@ -35,65 +35,14 @@ float Camera::calcudlateRo()
 void Camera::move()
 {
     
-    midPoint.x += (keys[3] - keys[1]) * 0.1;
-    midPoint.y += (keys[4] - keys[5]) * 0.1;
-    midPoint.z += (keys[2] - keys[0]) * 0.1;
+    midPoint.x += (keys.d - keys.a) * 0.1;
+    midPoint.y += (keys.space - keys.f) * 0.1;
+    midPoint.z += (keys.s - keys.w) * 0.1;
 
-    focus.x += (keys[3] - keys[1]) * 0.1;
-    focus.y += (keys[4] - keys[5]) * 0.1;
-    focus.z += (keys[2] - keys[0]) * 0.1;
-    
-    /*
-    fi += (keys[6] - keys[7]) * 2;
-
-
-    if(fi == 180 + 2)
-    {
-        printf("AAAAAAAAAAAAAAAAAAAAAAAAA %.2f\n",fi);
-        theta += 180;
-        printf("Theta: %f\n",theta);
-    }
-
-    if(fi == 360 + 2)
-    {
-        printf("BBBBBBBBBBBBBBBBBAA %.2f\n",fi);
-        theta += 180;
-        fi = 2;
-        printf("Theta: %f\n",theta);
-    }
-    
-    if(theta == 360)
-        theta = 0;
-    */
-
-/*
-    printf("Theta: %f   %f\n",fi ,fic);
-
-    if(fi > 180 && fic <= 180) // passou do estado de olhar para o chao
-    {
-        printf("entrei\n");
-        fiStatus = 1;
-        theta += 180;
-    } 
-
-    if(fi < 180 && fic >= 180) 
-    {
-        fiStatus = 1;
-        theta -= 180;
-    }
-*/
-
-/*
-    midPoint.z = sin(grRad(fi)) * cos(grRad(theta)); 
-    midPoint.x = sin(grRad(fi)) * sin(grRad(theta)); 
-    midPoint.y = cos(grRad(fi)); 
-*/
-
-/*
-    focus.z = ro * sin(grRad(fi)) * cos(grRad(theta)); 
-    focus.x = ro * sin(grRad(fi)) * sin(grRad(theta)); 
-    focus.y = ro * cos(grRad(fi));
-    */                         
+    focus.x += (keys.d - keys.a) * 0.1;
+    focus.y += (keys.space - keys.f) * 0.1;
+    focus.z += (keys.s - keys.w) * 0.1;
+                         
 }
 
 void Camera::setupCamera()

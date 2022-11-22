@@ -1,17 +1,13 @@
 #include "../Header/globalParameters.h"
+#include "../Header/Keyboard.h"
 
 int slices = 200, stacks = 200;
 float razaoAspecto;
-bool usarTextura = true;
 
-bool light0Ligada = true;   // Luz branca ligada?
 float d = 1.0;           // Intensidade da cor difusa da luz branca
 float e = 1.0;           // Intensidade da cor especular da luz branca
 float m = 0.2;           // Intensidade da luz ambiente global
 float s = 50;
-bool localViewer = false;
-bool isLightingOn = true;     // (x,y) do ponteiro do mouse
-float larguraJanela, alturaJanela;       // (w,h) da janela
 int matShine = s;
 
 /* Propriedades das fontes de luz */
@@ -25,6 +21,7 @@ int matShine = s;
 
 double tempo;
 
-int keys[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+//int keys[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+Keyboard keys;
 
 std::vector<GLuint> texturesId;
