@@ -84,7 +84,7 @@ void createTextures()
     /*[ 5]*/texturesId.push_back(loadTexture("imagens/2k_saturn.jpg"));
     /*[ 6]*/texturesId.push_back(loadTexture("imagens/2k_uranus.jpg"));
     /*[ 7]*/texturesId.push_back(loadTexture("imagens/2k_neptune.jpg"));
-    /*[ 8]*/texturesId.push_back(loadTexture("imagens/space.jpg"));
+    /*[ 8]*/texturesId.push_back(loadTexture("imagens/2k_stars_milky_way.jpg"));
     /*[ 9]*/texturesId.push_back(loadTexture("imagens/2k_sun.jpg"));
     /*[10]*/texturesId.push_back(loadTexture("imagens/2k_moon.jpg"));
 }

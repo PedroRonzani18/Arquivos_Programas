@@ -1,16 +1,35 @@
 #include "../Header/Planet.h"
 #include "../Header/drawings.h"
+#include <stdio.h>
 
-Planet Planet::createPlanetTemplate(GLuint texture, bool dependsOnLight, int numberOfMoons, double coreRadius, double rotationRadius, double translationAngularSpeed, double rotationAngularSpeed)
+Planet Planet::createPlanetTemplate(GLuint texture, bool dependsOnLight, int numberOfMoons, double coreRadius, double rotationRadius, double translationPeriod, double rotationPeriod)
+//Planet Planet::createPlanetTemplate(GLuint texture, bool dependsOnLight, int numberOfMoons, double coreRadius, double rotationRadius, double translationAngularSpeed, double rotationAngularSpeed)
 {
     Planet planet;
     planet.setTexture(texture);
     planet.setDependsOnLight(dependsOnLight);
     planet.setCoreRadius(coreRadius);
     planet.setRotationRadius(rotationRadius);
-    planet.setTranslationAngularSpeed(translationAngularSpeed);   
-    planet.setRotationAngularSpeed(rotationAngularSpeed);
 
+    double translationSpeed, angularSpeed;
+
+    if(translationPeriod != 0)
+        translationSpeed = 33600.0 / translationPeriod;
+    else
+        translationSpeed = 0;
+
+    if(rotationPeriod == 0)
+        angularSpeed = 0;
+
+    planet.setConversionConst(33600);
+    planet.setRotationPeriod(rotationPeriod);
+    planet.setTranslationPeriod(translationPeriod);
+    planet.setTranslationAngularSpeed(translationSpeed);   
+    planet.setRotationAngularSpeed(angularSpeed);
+    //planet.setTranslationAngularSpeed(translationAngularSpeed);   
+    //planet.setRotationAngularSpeed(rotationAngularSpeed);
+
+    printf("   %.2f\n",translationSpeed);
 
     Moon moon = Moon::createPlanetTemplate(0, 0.15, 0.6, 20, 50);
 

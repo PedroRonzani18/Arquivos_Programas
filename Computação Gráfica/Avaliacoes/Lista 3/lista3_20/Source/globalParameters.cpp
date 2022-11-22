@@ -20,7 +20,7 @@ int matShine = 50;
     float lightSpec0[] = {e,e,e,1}; // intensidade da especular do branco
     float lightPos0[] = {0,0,0,1}; // posicionada no centro e é posicional ??
 
-    float globAmb[] = { m, m, m, 1.0 };
+    float globAmb[] = { m, m, m, 1};
 
 double tempo;
 
