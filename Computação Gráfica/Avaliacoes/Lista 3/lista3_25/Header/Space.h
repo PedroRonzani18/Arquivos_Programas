@@ -3,20 +3,21 @@
 
 #include "Planet.h"
 #include <vector>
+#include <memory>
 
 class Space{
     private:
-        Planet sol;
+        //Planet sol;
+        std::shared_ptr<Planet> sol;
+        std::shared_ptr<Planet> estrelas;
         std::vector<Planet> planetas;
-        Planet estrelas;
+        std::vector<std::shared_ptr<Planet>> planets;
+
+        //Planet estrelas;
 
     public:
         void addPlaneta(Planet p){planetas.push_back(p);}
         Planet getPlaneta(int i){return planetas[i];}
-
-        void setSol(Planet sol){this->sol = sol;}
-
-        void setEstrelas(Planet estrelas){this->estrelas = estrelas;}
 
         void drawAndMove(double time);
         void initializePlanets();

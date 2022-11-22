@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <SOIL/SOIL.h>
+#include <memory>
 
 void drawSolidSphere(double radius, int stacks, int columns)
 {
@@ -12,6 +13,28 @@ void drawSolidSphere(double radius, int stacks, int columns)
     gluQuadricTexture(quadObj, GL_TRUE); // chama 01 glTexCoord por vértice
     gluSphere(quadObj, radius, stacks, columns); // cria os vértices de uma esfera
     gluDeleteQuadric(quadObj);
+}
+
+void drawCorpse(std::shared_ptr<Planet> planet, double time)
+{
+    glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, planet->getTexture());
+
+        glRotatef(time * planet->getTranslationAngularSpeed(),0,0,1); // rotaciona ao redor do sol
+        glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+        glRotatef(time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
+
+        if(!planet->doesDependsOnLight())
+        {
+            glDisable(GL_LIGHTING);
+            drawSolidSphere(planet->getCoreRadius(),slices,stacks);
+            glEnable(GL_LIGHTING);
+        }
+        else
+            drawSolidSphere(planet->getCoreRadius(),slices,stacks);
+
+    glDisable(GL_TEXTURE_2D);
+    
 }
 
 void drawCorpse(Planet* planet, double time)
@@ -31,6 +54,21 @@ void drawCorpse(Planet* planet, double time)
         }
         else
             drawSolidSphere(planet->getCoreRadius(),slices,stacks);
+
+    glDisable(GL_TEXTURE_2D);
+    
+}
+
+void drawCorpse(std::shared_ptr<Moon>  moon, double time)
+{
+    glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, moon->getTexture());
+
+        glRotated(time * moon->getTranslationAngularSpeed() + moon->getAngle(),0,0,1); // rotaciona no proprio eixo 
+        glTranslated(-moon->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+        glRotatef(time * moon->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
+        
+        drawSolidSphere(moon->getCoreRadius(),slices,stacks);   
 
     glDisable(GL_TEXTURE_2D);
     

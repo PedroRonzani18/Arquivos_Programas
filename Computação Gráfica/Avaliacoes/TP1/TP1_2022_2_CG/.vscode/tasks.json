@@ -11,7 +11,7 @@
                 "*/*/*.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
-                "-lglut",
+                "-lglut",   
                 "-lGL",
                 "-lGLU",
                 "-lSOIL"

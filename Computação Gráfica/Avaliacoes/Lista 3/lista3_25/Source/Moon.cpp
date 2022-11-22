@@ -9,6 +9,7 @@ Moon::Moon(double angle, double coreRadius, double rotationRadius, double transl
     this->coreRadius = coreRadius;
     this->rotationRadius = rotationRadius;
     this->translationAngularSpeed = translationAngularSpeed;
+    this->rotationAngularSpeed = rotationAngularSpeed;
 }
 
 Moon Moon::createPlanetTemplate(double angle, double coreRadius, double rotationRadius, double translationAngularSpeed, double rotationAngularSpeed)
