@@ -65,13 +65,11 @@ void display()
 
     configuraProjecao();
     lighting.atualizaPropriedadesLuz();
-    //atualizaPropriedadesLuz();
     camera.setupCamera();
     lighting.atualizaCaracteristicaLuz();
-    //atualizaCaracteristicaLuz();
-    space.drawAndMove(tempo);
+
     lighting.informacoesIluminacao(camera.getCoordinates());
-    //informacoesIluminacao(m,d,e,s,camera.getCoordinates());
+    space.drawAndMove(tempo);
 
     glutSwapBuffers();
 }
@@ -79,6 +77,9 @@ void display()
 void reshape(int width, int height)
 {
     glViewport(0, 0, width, height);
+
+    larguraJanela = width;
+    alturaJanela = height;
 
     razaoAspecto = (float) glutGet(GLUT_WINDOW_WIDTH) / (float) glutGet(GLUT_WINDOW_HEIGHT);
 
@@ -196,6 +197,12 @@ void timer(int t)
     glutTimerFunc(t, timer, t);
 }
 
+void posicionaCamera(int x, int y) {
+    xMouse = x;
+    yMouse = y;
+    glutPostRedisplay();
+}
+
 void glutInitialize(int argc, char **argv)
 {
     glutInit(&argc, argv);
@@ -210,6 +217,7 @@ void glutInitialize(int argc, char **argv)
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboard);
+    glutPassiveMotionFunc(posicionaCamera);
     glutTimerFunc(8, timer, 8);
 }
 
