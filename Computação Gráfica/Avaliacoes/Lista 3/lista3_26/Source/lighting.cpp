@@ -114,14 +114,14 @@ void Lighting::atualizaCaracteristicaLuz()
 
 void Lighting::atualizaPropriedadesLuz()
 {
-    if(0 < m) m += -keys.x * 0.05;
-    if(m < 1) m +=  keys.z * 0.05;
+    if(0 < m) m += -keys->x * 0.05;
+    if(m < 1) m +=  keys->z * 0.05;
 
-    if(0 < d) d += -keys.v * 0.05;
-    if(d < 1) d +=  keys.c * 0.05;
+    if(0 < d) d += -keys->v * 0.05;
+    if(d < 1) d +=  keys->c * 0.05;
 
-    if(0 < e) e += -keys.n * 0.05;
-    if(e < 1) e +=  keys.b * 0.05;
+    if(0 < e) e += -keys->n * 0.05;
+    if(e < 1) e +=  keys->b * 0.05;
 
     for(int i=0; i<3; i++)
         lightDif0[i] = d;

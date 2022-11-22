@@ -29,7 +29,6 @@ class Camera{
         void setAngle(Coord angle){this->angle = angle;}
 
         void move();
-        float calcudlateRo();
         void setupCamera();
 };
 

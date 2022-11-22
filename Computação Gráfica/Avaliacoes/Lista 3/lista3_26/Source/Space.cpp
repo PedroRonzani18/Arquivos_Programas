@@ -19,14 +19,12 @@ void Space::drawAndMove(double time)
         glPopMatrix();
 
         for(std::shared_ptr<Planet> planet : planets)
-        //for(Planet planet: planetas)
         {
             glPushMatrix();
                 drawCorpse(planet,time);
             glPopMatrix();
 
             for(std::shared_ptr<Moon> moon: planet->getMoons())
-//            for(Moon moon: planet->getMoons())
             {
                 glPushMatrix();
                     glRotatef(time * planet->getTranslationAngularSpeed(),0,0,1); // rotaciona ao redor do planeta
@@ -40,10 +38,6 @@ void Space::drawAndMove(double time)
 
 void Space::initializePlanets() // fazer engine que calcule essas velocidades em unidades glut a partir do raio, periodo e distância do planeta, e estatem influenciados por um alpha
 {
-    /*
-    this->estrelas = Planet::createPlanetTemplate(texturesId[8],0,0,40,0,1500,0);
-    this->sol = Planet::createPlanetTemplate(texturesId[9],0,0,2,0,0,0);
-    */
 
     estrelas = std::make_shared<Planet>(texturesId[8],0,0,40,0,1500,0);
     sol = std::make_shared<Planet>(texturesId[9],0,0,2,0,0,0);

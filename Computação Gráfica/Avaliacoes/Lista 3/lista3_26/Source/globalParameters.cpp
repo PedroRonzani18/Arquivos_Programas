@@ -3,7 +3,7 @@
 int slices = 200, stacks = 200;
 float razaoAspecto;
 double tempo;
-Keyboard keys;
+Keyboard* keys;
 std::vector<GLuint> texturesId;
 int larguraJanela, alturaJanela;
 

@@ -16,11 +16,6 @@ class Planet : public CelestialBody
         Planet(){}
         Planet(GLuint texture, bool dependsOnLight, int numberOfMoons, double coreRadius, double rotationRadius, double translationPeriod, double rotationPeriod);
 
-        /*
-        std::vector<Moon> getMoons(){return this->moons;}
-        void addMoon(Moon moon){this->moons.push_back(moon);}
-        */
-
         std::vector<std::shared_ptr<Moon>> getMoons(){return this->moons;}
         void addMooon(std::shared_ptr<Moon> moon){this->moons.push_back(moon);}
 

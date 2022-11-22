@@ -15,8 +15,6 @@ GLuint loadTexture(const char* arquivo);
 void createTextures();
 
 void drawCorpse(std::shared_ptr<Planet> p, double time);
-void drawCorpse(Planet* p, double time);
-void drawCorpse(Moon* p, double time);
 void drawCorpse(std::shared_ptr<Moon>  moon, double time);
 
 //void configuraTextures();
