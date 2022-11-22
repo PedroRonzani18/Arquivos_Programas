@@ -1,6 +1,7 @@
 #include "../Header/Space.h"
 #include "../Header/drawings.h"
 #include "../Header/globalParameters.h"
+#include "../Header/lighting.h"
 
 void Space::drawAndMove(double time)
 {
@@ -32,6 +33,8 @@ void Space::drawAndMove(double time)
             }
         }
     glPopMatrix();
+
+    
 
 }
 

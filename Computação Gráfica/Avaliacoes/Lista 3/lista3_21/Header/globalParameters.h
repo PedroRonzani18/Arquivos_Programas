@@ -10,7 +10,8 @@ extern float razaoAspecto;
 
 extern float d, // Intensidade da cor difusa da luz branca
              e, // Intensidade da cor especular da luz branca
-             m; // Intensidade da luz ambiente global
+             m, // Intensidade da luz ambiente global
+             s; // shininess material
 
 extern bool localViewer,
             isLightingOn, // iluminação opengl ligada?

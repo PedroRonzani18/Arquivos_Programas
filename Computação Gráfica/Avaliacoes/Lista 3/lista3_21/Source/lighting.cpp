@@ -1,5 +1,8 @@
 #include "../Header/lighting.h"
 #include "../Header/globalParameters.h"
+#include "../Header/Coord.h"
+
+long font = (long)GLUT_BITMAP_8_BY_13;
 
 void configuraMateriais()
 {
@@ -16,6 +19,59 @@ void configuraMateriais()
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+}
+
+// Escreve uma cadeia de caracteres
+void escreveTextoNaTela(void *font, char *string)
+{
+    char *c;
+    for (c = string; *c != '\0'; c++) glutBitmapCharacter(font, *c);
+}
+
+// Converte um número decimal em string
+void floatParaString(char * destStr, int precision, float val)
+{
+    sprintf(destStr,"%f",val);
+    destStr[precision] = '\0';
+}
+
+void informacoesIluminacao(float m, float d, float e,float s, Coord c)
+{
+    char theStringBuffer[10];        
+
+    glDisable(GL_LIGHTING);
+
+    glRasterPos3f(c.x-4.5, c.y + 1.6, c.z -2.3);
+    escreveTextoNaTela((void*)font, (char*)"Luz ambiente global: ");
+    
+    glRasterPos3f(c.x-4.5, c.y + 1.4, c.z -2);
+    escreveTextoNaTela((void*)font, (char*)"  - Intensidade (Z/X): ");
+    floatParaString(theStringBuffer, 4, m);
+    escreveTextoNaTela((void*)font, theStringBuffer);
+
+    glRasterPos3f(c.x-5.55, c.y + 0.35, c.z -3.5);
+    escreveTextoNaTela((void*)font, (char*)"Luz branca: ");
+
+    glRasterPos3f(c.x-5.8, c.y, c.z -3.5);
+    escreveTextoNaTela((void*)font, (char*)"  - Intensidade difusa (C/V): ");
+    floatParaString(theStringBuffer, 4, d);
+    escreveTextoNaTela((void*)font, theStringBuffer);
+
+    glRasterPos3f(c.x-5.9, c.y-0.3, c.z -3.5);
+    escreveTextoNaTela((void*)font, (char*)"  - Intensidade especular (B/N): ");
+    floatParaString(theStringBuffer, 4, e);
+    escreveTextoNaTela((void*)font, theStringBuffer);
+
+    glRasterPos3f(c.x-6.3, c.y-1.3, c.z -4);
+    escreveTextoNaTela((void*)font, (char*)"Material: ");
+
+    glRasterPos3f(c.x-6.7, c.y-1.7, c.z -4);
+    escreveTextoNaTela((void*)font, (char*)"  - Expoente shineness (W/A): ");
+    floatParaString(theStringBuffer, 5, s);
+    escreveTextoNaTela((void*)font, theStringBuffer);
+
+    glEnable(GL_LIGHTING);
+
 }
 
 void atualizaCaracteristicaLuz()

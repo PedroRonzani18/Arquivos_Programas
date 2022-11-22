@@ -65,6 +65,7 @@ void display()
     camera.setupCamera();
     atualizaCaracteristicaLuz();
     space.drawAndMove(tempo);
+    informacoesIluminacao(m,d,e,s,camera.getCoordinates());
 
     glutSwapBuffers();
 }
@@ -223,8 +224,8 @@ void timer(int t)
 void glutInitialize(int argc, char **argv)
 {
     glutInit(&argc, argv);
-    glutInitWindowSize(640,480);
-    glutInitWindowPosition(10,10);
+    glutInitWindowSize(1384,752);
+    glutInitWindowPosition(325,125);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
     glutCreateWindow("Lista 3");
 

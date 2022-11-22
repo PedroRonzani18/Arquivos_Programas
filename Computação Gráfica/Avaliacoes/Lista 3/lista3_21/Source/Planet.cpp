@@ -14,7 +14,7 @@ Planet Planet::createPlanetTemplate(GLuint texture, bool dependsOnLight, int num
     double translationSpeed, angularSpeed;
 
     if(translationPeriod != 0)
-        translationSpeed = 33600.0 / translationPeriod;
+        translationSpeed = 30600.0 / translationPeriod;
     else
         translationSpeed = 0;
 
@@ -28,8 +28,6 @@ Planet Planet::createPlanetTemplate(GLuint texture, bool dependsOnLight, int num
     planet.setRotationAngularSpeed(angularSpeed);
     //planet.setTranslationAngularSpeed(translationAngularSpeed);   
     //planet.setRotationAngularSpeed(rotationAngularSpeed);
-
-    printf("   %.2f\n",translationSpeed);
 
     Moon moon = Moon::createPlanetTemplate(0, 0.15, 0.6, 20, 50);
 

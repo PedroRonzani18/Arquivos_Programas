@@ -8,10 +8,11 @@ bool light0Ligada = true;   // Luz branca ligada?
 float d = 1.0;           // Intensidade da cor difusa da luz branca
 float e = 1.0;           // Intensidade da cor especular da luz branca
 float m = 0.2;           // Intensidade da luz ambiente global
+float s = 50;
 bool localViewer = false;
 bool isLightingOn = true;     // (x,y) do ponteiro do mouse
 float larguraJanela, alturaJanela;       // (w,h) da janela
-int matShine = 50;
+int matShine = s;
 
 /* Propriedades das fontes de luz */
     float lightAmb[] = {0,0,0,1}; // ??

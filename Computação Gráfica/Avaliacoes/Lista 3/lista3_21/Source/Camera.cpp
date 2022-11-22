@@ -7,17 +7,17 @@
 
 Camera::Camera()
 {
-    midPoint.x = 0;
-    midPoint.y = 0;
-    midPoint.z = 0;
+    midPoint.x = -1.6;
+    midPoint.y = 0.4;
+    midPoint.z = 0.5;
 
     upVec.x = 0;
     upVec.y = 1;
     upVec.z = 0;
 
-    focus.x = 0;
-    focus.y = 3;
-    focus.z = 5;
+    focus.x = -1.6;
+    focus.y = 3.4;
+    focus.z = 5.5;
 
     fi = 0;
     fiStatus = 0;
@@ -98,6 +98,7 @@ void Camera::move()
 
 void Camera::setupCamera()
 {
+    //printf("Focus: (%.2f,%.2f,%.2f)\nMidpoint: (%.2f,%.2f,%.2f)\n\n",focus.x,focus.y,focus.z,midPoint.x,midPoint.y,midPoint.z);
     gluLookAt(focus.x   , focus.y   , focus.z,
               midPoint.x, midPoint.y, midPoint.z,
               upVec.x   , upVec.y   , upVec.z);
