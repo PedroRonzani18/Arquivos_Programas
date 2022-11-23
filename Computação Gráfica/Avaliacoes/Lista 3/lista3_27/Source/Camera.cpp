@@ -7,13 +7,17 @@
 
 Camera::Camera()
 {
+    
     midPoint.x = 0;
     midPoint.y = 3;
     midPoint.z = 5;
+    
 
-    look.x = -0.5;
-    look.y = -1;
-    look.z = 0;
+    
+    look.x = -0.03;
+    look.y = -0.44;
+    look.z = -0.9;
+    
 
     speedLook.x = 0.1;
     speedLook.y = 0.1;
@@ -21,8 +25,10 @@ Camera::Camera()
 
     sensibilidade = 0.01;
 
-    fi = 3;
-    theta = 0;
+    fi = 3.6;
+    theta = 14.14;
+    //printf("aaaaLook: (%.2f,%.2f,%.2f)   mid: (%.2f,%.2f,%.2f)\n",look.x,look.y,look.z,midPoint.x,midPoint.y,midPoint.z);
+
 }
 
 void Camera::move()
@@ -44,13 +50,26 @@ void Camera::move()
             fi = 4.46;
     }
 
-    look.x = cos(theta)*cos(fi);
-    look.y = sin(fi);
-    look.z = sin(theta)*cos(fi);
+    // ta dando nan em algumas dessas caralhas
 
-    midPoint.x +=(keys->w-keys->s) * speedLook.x * look.x ; // + vetor normal a direta dele
-    midPoint.y +=(keys->w-keys->s) * speedLook.y * look.y ; // + vetor normal a direta dele
-    midPoint.z +=(keys->w-keys->s) * speedLook.z * look.z ; // + vetor normal a direta dele (keyboard.d-keyboard.a)*speed                     
+    //printf("Antes: (%.2f,%.2f,%.2f)\n",look.x,look.y,look.z);
+    if(checkMouse)
+    {
+        look.x = cos(theta)*cos(fi);
+        look.y = sin(fi);
+        look.z = sin(theta)*cos(fi);
+    }
+
+    //printf("Depois: (%.2f,%.2f,%.2f)\n",look.x,look.y,look.z);
+
+    // ta dando valores ccagados justamente por causa dessa parte de cima
+
+
+    printf("Look: (%.2f,%.2f,%.2f)   mid: (%.2f,%.2f,%.2f)   fi: %.2f     theta: %.2f\n",look.x,look.y,look.z,midPoint.x,midPoint.y,midPoint.z,fi,theta);
+
+    midPoint.x += speedLook.x * ((keys->w - keys->s) * look.x + (keys->d - keys->a) * (-look.z)); 
+    midPoint.y += speedLook.y * ( keys->w - keys->s) * look.y ; 
+    midPoint.z += speedLook.z * ((keys->w - keys->s) * look.z + (keys->d - keys->a) * (look.x)); // + vetor normal a direta dele (keyboard.d-keyboard.a)*speed                     
 }
 
 void Camera::setupCamera()

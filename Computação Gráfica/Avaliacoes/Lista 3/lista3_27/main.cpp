@@ -14,10 +14,9 @@
 #include "Header/lighting.h"
 
 Space* space;
-Camera* camera;
+Camera camera;
 MusicManager* musicManager;
 Lighting* lighting;
-
 
 void enables()
 {
@@ -39,7 +38,6 @@ void initialize()
     glClearColor(0,0,0,0);
 
     space = new Space();
-    camera = new Camera();
     musicManager = new MusicManager();
     lighting = new Lighting();
     keys = new Keyboard();
@@ -58,10 +56,10 @@ void display()
 
     //configuraProjecao();
     glLoadIdentity();
-    camera->setupCamera();
+    camera.setupCamera();
     lighting->atualizaPropriedadesLuz();
     lighting->atualizaCaracteristicaLuz();
-    lighting->informacoesIluminacao(camera->getCoordinates());
+    lighting->informacoesIluminacao(camera.getCoordinates());
     space->drawAndMove(tempo);
 
     glutSwapBuffers();
@@ -176,7 +174,8 @@ void keyboard(unsigned char key, int x, int y)
 void timer(int t)
 {
     tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    camera->move();
+    camera.setupCamera();
+    camera.move();
 
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);
@@ -185,6 +184,7 @@ void timer(int t)
 void posicionaCamera(int x, int y) {
     xMouse = x;
     yMouse = y;
+    checkMouse = true;
 }
 
 void glutInitialize(int argc, char **argv)

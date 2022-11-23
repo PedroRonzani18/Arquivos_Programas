@@ -27,11 +27,11 @@ void drawCorpse(std::shared_ptr<Planet> planet, double time)
         if(!planet->doesDependsOnLight())
         {
             glDisable(GL_LIGHTING);
-            drawSolidSphere(planet->getCoreRadius(),slices,stacks);
+            drawSolidSphere(planet->getCoreRadius(),200,200);
             glEnable(GL_LIGHTING);
         }
         else
-            drawSolidSphere(planet->getCoreRadius(),slices,stacks);
+            drawSolidSphere(planet->getCoreRadius(),200,200);
 
     glDisable(GL_TEXTURE_2D);
     
@@ -46,7 +46,7 @@ void drawCorpse(std::shared_ptr<Moon>  moon, double time)
         glTranslated(-moon->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
         glRotatef(time * moon->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
         
-        drawSolidSphere(moon->getCoreRadius(),slices,stacks);   
+        drawSolidSphere(moon->getCoreRadius(),200,200);   
 
     glDisable(GL_TEXTURE_2D);
     
