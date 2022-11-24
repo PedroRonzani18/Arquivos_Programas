@@ -1,4 +1,5 @@
 #include "../Header/Space.h"
+#include "../Header/MusicManager.h"
 #include "../Header/drawings.h"
 #include "../Header/globalParameters.h"
 #include "../Header/lighting.h"
@@ -11,6 +12,7 @@
 Space::Space()
 {
     light = std::make_shared<Lighting>();
+    musicManager = std::make_shared<MusicManager>();
 }
 
 void Space::drawAndMove(double time)
@@ -47,6 +49,11 @@ void Space::drawAndMove(double time)
             }
         }
     glPopMatrix();
+}
+
+void Space::marsMusic(Coord c)
+{
+    musicManager->marsMusic(distanceBetweenPlanets(c,planets[3]->getMidPoint()));
 }
 
 void Space::configuraMateriais()

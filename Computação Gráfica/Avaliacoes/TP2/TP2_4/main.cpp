@@ -15,7 +15,7 @@
 
 Space* space;
 Camera camera;
-MusicManager* musicManager;
+//MusicManager* musicManager;
 
 void enables()
 {
@@ -28,15 +28,17 @@ void enables()
 void initialize()
 {
     space = new Space();
-    musicManager = new MusicManager();
+    //musicManager = new MusicManager();
     keys = new Keyboard();
 
     glClearColor(0,0,0,0);
 
     enables();
-    space->configuraMateriais();
+    //space->configuraMateriais();
+    space->getLight()->configuraMateriais();
 
-    musicManager->configureMusic();
+    space->getMusicManager()->configureMusic();
+    //musicManager->configureMusic();
     glShadeModel(GL_PHONG_HINT_WIN);
     createTextures();
     space->initializePlanets();
@@ -48,7 +50,8 @@ void display()
 
     glLoadIdentity();
     camera.setupCamera();
-    space->atualizaPropriedadesLuz();
+    space->getLight()->atualizaPropriedadesLuz();
+    //space->atualizaPropriedadesLuz();
     space->drawAndMove(tempo);
 
     glutSwapBuffers();
@@ -150,7 +153,8 @@ void timer(int t)
 
     camera.setupCamera();
     camera.move();
-    musicManager->marsMusic(Space::distanceBetweenPlanets(camera.getMidPoint(),space->getPlanet(3)->getMidPoint()));
+    //musicManager->marsMusic(Space::distanceBetweenPlanets(camera.getMidPoint(),space->getPlanet(3)->getMidPoint()));
+    space->marsMusic(camera.getMidPoint());
 
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);
