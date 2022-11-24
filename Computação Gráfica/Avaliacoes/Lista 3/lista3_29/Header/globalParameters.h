@@ -11,8 +11,6 @@ extern double tempo;
 extern Keyboard* keys;
 extern std::vector<GLuint> texturesId;
 extern int xMouse, yMouse;  
-extern bool checkMouse;
-extern bool light0Ligada;
 extern int buttons[];
 
 #endif

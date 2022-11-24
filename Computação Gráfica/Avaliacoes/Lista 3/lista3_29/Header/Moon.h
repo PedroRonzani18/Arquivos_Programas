@@ -8,7 +8,6 @@ class Moon : public CelestialBody
     public:
         Moon(){}
         Moon(double angle, double coreRadius, double rotationRadius, double translationAngularSpeed, double rotationAngularSpeed);
-        static Moon createPlanetTemplate(double angle, double coreRadius, double rotationRadius, double translationAngularSpeed, double rotationAngularSpeed);
 };
 
 #endif

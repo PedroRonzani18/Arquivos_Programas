@@ -11,15 +11,3 @@ Moon::Moon(double angle, double coreRadius, double rotationRadius, double transl
     this->translationAngularSpeed = translationAngularSpeed;
     this->rotationAngularSpeed = rotationAngularSpeed;
 }
-
-Moon Moon::createPlanetTemplate(double angle, double coreRadius, double rotationRadius, double translationAngularSpeed, double rotationAngularSpeed)
-{
-    Moon moon;
-    moon.setAngle(angle);
-    moon.setTexture(texturesId[10]);
-    moon.setCoreRadius(coreRadius);
-    moon.setRotationRadius(rotationRadius);
-    moon.setTranslationAngularSpeed(translationAngularSpeed);   
-    moon.setRotationAngularSpeed(rotationAngularSpeed);
-    return moon;
-}

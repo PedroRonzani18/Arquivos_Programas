@@ -28,11 +28,12 @@ Lighting::Lighting()
     globAmb[3] = 1;
     matAmbAndDif[3] = 1;
     matSpec[3] = 1;
-
 }
 
 void Lighting::configuraMateriais()
 {
+    glEnable(GL_COLOR_MATERIAL);
+
     // Definindo as propriedades do material
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
     glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
@@ -57,58 +58,44 @@ void floatParaString(char * destStr, int precision, float val)
     destStr[precision] = '\0';
 }
 
-void Lighting::informacoesIluminacao(Coord c)
+void Lighting::informacoesIluminacao(double x, double y, double z)
 {
+    printf("Coord: %.2f  %.2f  %.2f\n",x,y,z);
+
     char theStringBuffer[10];        
 
     glDisable(GL_LIGHTING);
 
-    glRasterPos3f(c.x-4.5, c.y + 1.6, c.z -2.3);
+    glRasterPos3f(x-4.5, y + 1.6, z -2.3);
     escreveTextoNaTela((void*)font, (char*)"Luz ambiente global: ");
     
-    glRasterPos3f(c.x-4.5, c.y + 1.4, c.z -2);
+    glRasterPos3f(x-4.5, y + 1.4, z -2);
     escreveTextoNaTela((void*)font, (char*)"  - Intensidade (Z/X): ");
     floatParaString(theStringBuffer, 4, m);
     escreveTextoNaTela((void*)font, theStringBuffer);
 
-    glRasterPos3f(c.x-5.55, c.y + 0.35, c.z -3.5);
+    glRasterPos3f(x-5.55, y + 0.35, z -3.5);
     escreveTextoNaTela((void*)font, (char*)"Luz branca: ");
 
-    glRasterPos3f(c.x-5.8, c.y, c.z -3.5);
+    glRasterPos3f(x-5.8, y, z -3.5);
     escreveTextoNaTela((void*)font, (char*)"  - Intensidade difusa (C/V): ");
     floatParaString(theStringBuffer, 4, d);
     escreveTextoNaTela((void*)font, theStringBuffer);
 
-    glRasterPos3f(c.x-5.9, c.y-0.3, c.z -3.5);
+    glRasterPos3f(x-5.9, y-0.3, z -3.5);
     escreveTextoNaTela((void*)font, (char*)"  - Intensidade especular (B/N): ");
     floatParaString(theStringBuffer, 4, e);
     escreveTextoNaTela((void*)font, theStringBuffer);
 
-    glRasterPos3f(c.x-6.3, c.y-1.3, c.z -4);
+    glRasterPos3f(x-6.3, y-1.3, z -4);
     escreveTextoNaTela((void*)font, (char*)"Material: ");
 
-    glRasterPos3f(c.x-6.7, c.y-1.7, c.z -4);
+    glRasterPos3f(x-6.7, y-1.7, z -4);
     escreveTextoNaTela((void*)font, (char*)"  - Expoente shineness (W/A): ");
     floatParaString(theStringBuffer, 5, 50);
     escreveTextoNaTela((void*)font, theStringBuffer);
 
     glEnable(GL_LIGHTING);
-
-}
-
-void Lighting::atualizaCaracteristicaLuz()
-{
-    /* Propriedades da fonte de luz LIGHT0 */
-        glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmb); // rgb da luz ambiente
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDif0);
-        glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpec0);    
-        glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
-
-
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);        // Luz ambiente global
-    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, false);// Enable local viewpoint
-
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128);// teria que variarcmom pressionamento de tela
 
 }
 
@@ -137,6 +124,19 @@ void Lighting::atualizaPropriedadesLuz()
     
     if(light0Ligada)
         glEnable(GL_LIGHT0);
-    else 
+    else {
         glDisable(GL_LIGHT0);
+    }
+
+        /* Propriedades da fonte de luz LIGHT0 */
+        glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmb); // rgb da luz ambiente
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDif0);
+        glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpec0);    
+        glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+
+
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);        // Luz ambiente global
+    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, false);// Enable local viewpoint
+
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128);// teria que variarcmom pressionamento de tela
 }

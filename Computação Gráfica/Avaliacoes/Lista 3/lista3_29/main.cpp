@@ -20,33 +20,26 @@ Lighting* lighting;
 
 void enables()
 {
-    // Ativa teste Z
     glEnable(GL_DEPTH_TEST);
-
-    //glDepthFunc(GL_LESS);
-    //glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    glEnable(GL_LIGHT0); // "liga" a possivel fonte de luz 0
+    glEnable(GL_LIGHT0); 
     glEnable(GL_NORMALIZE);
-    glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
 }
 
 void initialize()
 {
-    glClearColor(0,0,0,0);
-
     space = new Space();
     musicManager = new MusicManager();
     lighting = new Lighting();
     keys = new Keyboard();
 
+    glClearColor(0,0,0,0);
+
     enables();
     lighting->configuraMateriais();
+    musicManager->configureMusic();
     glShadeModel(GL_PHONG_HINT_WIN);
     createTextures();
-    musicManager->configureMusic();
     space->initializePlanets();
 }
 
@@ -54,12 +47,12 @@ void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    //configuraProjecao();
     glLoadIdentity();
     camera.setupCamera();
     lighting->atualizaPropriedadesLuz();
-    lighting->atualizaCaracteristicaLuz();
-    lighting->informacoesIluminacao(camera.getCoordinates());
+    lighting->informacoesIluminacao(camera.getMidPoint().x + camera.getDirectionVector().x,  
+                                    camera.getMidPoint().y + camera.getDirectionVector().y,
+                                    camera.getMidPoint().z + camera.getDirectionVector().z);
     space->drawAndMove(tempo);
 
     glutSwapBuffers();
@@ -72,12 +65,10 @@ void reshape(int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glFrustum(-razaoAspecto, razaoAspecto, -1, 1, 2, 100);
-    //
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
-
 
 void keyboard(unsigned char key, int x, int y)
 {
@@ -168,18 +159,19 @@ void keyboard(unsigned char key, int x, int y)
 void timer(int t)
 {
     tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+
     camera.setupCamera();
     camera.move();
-
 
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);
 }
 
-void posicionaCamera(int x, int y) {
+void posicionaCamera(int x, int y)
+{
     xMouse = x;
     yMouse = y;
-    checkMouse = true;
+    camera.setCheckMouse(true);
 }
 
 void glutInitialize(int argc, char **argv)

@@ -10,6 +10,8 @@ class Lighting
 
         double d,e,m,s;
 
+        bool light0Ligada;
+
         // Propriedades das fontes de luz
         float lightAmb[4];    // ??
         float lightDif0[4];  // intensidade da difusa do branco
@@ -21,10 +23,9 @@ class Lighting
         float matAmbAndDif[4];   // cor ambiente e difusa: branca (ambiente = cor | )
         float matSpec[4];    // cor especular: branca
 
-        void configuraMateriais();
-        void atualizaCaracteristicaLuz();
+        void configuraMateriais();  
         void atualizaPropriedadesLuz();
-        void informacoesIluminacao(Coord c);
+        void informacoesIluminacao(double x, double y, double z);
 };
 
 

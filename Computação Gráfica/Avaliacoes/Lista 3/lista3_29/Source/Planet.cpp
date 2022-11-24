@@ -18,30 +18,29 @@ Planet::Planet(GLuint texture, bool dependsOnLight, int numberOfMoons, double co
     else
         translationSpeed = 0;
 
-    this->translationAngularSpeed = translationSpeed;
-
     if(rotationPeriod != 0)
         angularSpeed = 30/ rotationPeriod;
     else
         angularSpeed = 0;
 
+    this->translationAngularSpeed = translationSpeed;
     this->rotationAngularSpeed = angularSpeed;
 
-    this->rotationAngularSpeed = angularSpeed;
-
-     std::shared_ptr<Moon> moon = std::make_shared<Moon>(0, 0.15, 0.6, 20, 50);
+    std::shared_ptr<Moon> moon1 = std::make_shared<Moon>(0, 0.15, this->coreRadius * 1.1 + 0.15, 20, 50);
+    std::shared_ptr<Moon> moon2 = std::make_shared<Moon>(0, 0.15, this->coreRadius * 1.1 + 0.15, 20, 50);
+    std::shared_ptr<Moon> moon3 = std::make_shared<Moon>(0, 0.15, this->coreRadius * 1.1 + 0.15, 20, 50);
 
     switch(numberOfMoons)
     {
         case 3:
-            moon->setAngle(240);
-            addMooon(moon);
+            moon3->setAngle(240);
+            addMooon(moon3);
         case 2:
-            moon->setAngle(360/numberOfMoons);
-            addMooon(moon);
+            moon2->setAngle(360/numberOfMoons);
+            addMooon(moon2);
         case 1:
-            moon->setAngle(0);
-            addMooon(moon);
+            moon1->setAngle(0);
+            addMooon(moon1);
             break;
     }
 }
