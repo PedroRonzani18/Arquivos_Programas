@@ -60,8 +60,6 @@ void floatParaString(char * destStr, int precision, float val)
 
 void Lighting::informacoesIluminacao(double x, double y, double z)
 {
-    printf("Coord: %.2f  %.2f  %.2f\n",x,y,z);
-
     char theStringBuffer[10];        
 
     glDisable(GL_LIGHTING);
