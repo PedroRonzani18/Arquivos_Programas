@@ -6,9 +6,9 @@ Planet::Planet(GLuint texture, bool dependsOnLight, int numberOfMoons, double co
 {
     this->texture = texture;
     this->dependsOnLight = dependsOnLight;
-    this->coreRadius = coreRadius;
-    this->rotationRadius = rotationRadius;
-    this->translationPeriod = rotationPeriod;
+    this->coreRadius = coreRadius/113.0;
+    this->rotationRadius = 1.7 * rotationRadius;
+    this->translationPeriod = translationPeriod;
     this->rotationPeriod = rotationPeriod;
 
     double translationSpeed, angularSpeed;
@@ -20,8 +20,12 @@ Planet::Planet(GLuint texture, bool dependsOnLight, int numberOfMoons, double co
 
     this->translationAngularSpeed = translationSpeed;
 
-    if(rotationPeriod == 0)
+    if(rotationPeriod != 0)
+        angularSpeed = 30/ rotationPeriod;
+    else
         angularSpeed = 0;
+
+    this->rotationAngularSpeed = angularSpeed;
 
     this->rotationAngularSpeed = angularSpeed;
 

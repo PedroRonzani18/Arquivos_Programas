@@ -7,26 +7,31 @@
 
 Camera::Camera()
 {
-    
+    /*
     midPoint.x = 0;
     midPoint.y = 3;
     midPoint.z = 5;
-    
+    */
+
+
+    midPoint.x = -33.57;
+    midPoint.y = 19.86;
+    midPoint.z = 3.67;
 
     
-    look.x = -0.03;
-    look.y = -0.44;
-    look.z = -0.9;
+    look.x = 0.76;
+    look.y = -0.63;
+    look.z = 0.14;
     
 
     speedLook.x = 0.1;
     speedLook.y = 0.1;
     speedLook.z = 0.1;
 
-    sensibilidade = 0.01;
+    sensibilidade = 0.007;
 
-    fi = 3.6;
-    theta = 14.14;
+    fi = 3.9;
+    theta = 21.89;
     //printf("aaaaLook: (%.2f,%.2f,%.2f)   mid: (%.2f,%.2f,%.2f)\n",look.x,look.y,look.z,midPoint.x,midPoint.y,midPoint.z);
 
 }
@@ -42,7 +47,7 @@ void Camera::move()
     theta+=offset_x;
     fi+=offset_y;
 
-    if(tempo > 3)
+    if(tempo > 0.5)
     {
         if(fi<1.46)
             fi = 1.46;
@@ -50,26 +55,19 @@ void Camera::move()
             fi = 4.46;
     }
 
-    // ta dando nan em algumas dessas caralhas
 
-    //printf("Antes: (%.2f,%.2f,%.2f)\n",look.x,look.y,look.z);
-    if(checkMouse)
-    {
         look.x = cos(theta)*cos(fi);
         look.y = sin(fi);
         look.z = sin(theta)*cos(fi);
-    }
 
-    //printf("Depois: (%.2f,%.2f,%.2f)\n",look.x,look.y,look.z);
-
-    // ta dando valores ccagados justamente por causa dessa parte de cima
-
-
-    printf("Look: (%.2f,%.2f,%.2f)   mid: (%.2f,%.2f,%.2f)   fi: %.2f     theta: %.2f\n",look.x,look.y,look.z,midPoint.x,midPoint.y,midPoint.z,fi,theta);
+    //printf("Valor: %.2f\n",asin(-0.63));
 
     midPoint.x += speedLook.x * ((keys->w - keys->s) * look.x + (keys->d - keys->a) * (-look.z)); 
     midPoint.y += speedLook.y * ( keys->w - keys->s) * look.y ; 
     midPoint.z += speedLook.z * ((keys->w - keys->s) * look.z + (keys->d - keys->a) * (look.x)); // + vetor normal a direta dele (keyboard.d-keyboard.a)*speed                     
+
+    //printf("Midpoint: (%.2f,%.2f,%.2f)     Look: (%.2f,%.2f,%.2f)\n",midPoint.x,midPoint.y,midPoint.z,look.x,look.y,look.z);]
+    //printf("Theta: %.2f    Fi: %.2f\n",theta,fi);
 }
 
 void Camera::setupCamera()

@@ -7,8 +7,8 @@ class Keyboard
         Keyboard(){}
 
         int w,a,s,d;
-        int space,f,plus,minus;
-        int z,x,c,v,b,n;
+        int space,f,plus;
+        int z,x,c,v,b,n,l;
 };
 
 #endif

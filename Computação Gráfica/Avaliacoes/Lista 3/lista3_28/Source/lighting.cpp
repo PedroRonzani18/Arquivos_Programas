@@ -131,4 +131,12 @@ void Lighting::atualizaPropriedadesLuz()
 
     for(int i=0; i<3; i++)
         globAmb[i] = m;
+
+    if(keys->l)
+        light0Ligada = !light0Ligada;
+    
+    if(light0Ligada)
+        glEnable(GL_LIGHT0);
+    else 
+        glDisable(GL_LIGHT0);
 }

@@ -6,3 +6,5 @@ Keyboard* keys;
 std::vector<GLuint> texturesId;
 int xMouse, yMouse;
 bool checkMouse = false;
+bool light0Ligada = true;
+int buttons[] = {0};

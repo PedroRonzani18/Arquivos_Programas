@@ -128,17 +128,6 @@ void keyboard(unsigned char key, int x, int y)
                 else       keys->f = 1;
                 break;
 
-            case '+':
-            case '=':
-                if(keys->plus) keys->plus = 0;
-                else          keys->plus = 1;
-                break;
-
-            case '-':
-                if(keys->minus) keys->minus = 0;
-                else           keys->minus = 1;
-                break;
-
             case 'Z':
                 if(keys->z) keys->z = 0;
                 else       keys->z = 1;
@@ -168,6 +157,11 @@ void keyboard(unsigned char key, int x, int y)
                 if(keys->n) keys->n = 0;
                 else       keys->n = 1;
                 break;
+
+            case 'L':
+                if(keys->l) keys->l = 0;
+                else       keys->l = 1;
+                break;
         }
 }
 
@@ -176,6 +170,7 @@ void timer(int t)
     tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     camera.setupCamera();
     camera.move();
+
 
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);
