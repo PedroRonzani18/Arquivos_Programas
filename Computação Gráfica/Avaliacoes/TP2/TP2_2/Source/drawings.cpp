@@ -5,6 +5,9 @@
 #include <SOIL/SOIL.h>
 #include <memory>
 
+#define radGr(radianos) (radianos * (180.0 / M_PI))
+#define grRad(graus) ((graus * M_PI) / 180.0)
+
 void drawSolidSphere(double radius, int stacks, int columns)
 {
     GLUquadric* quadObj = gluNewQuadric(); // cira uma quadrica 
@@ -20,7 +23,7 @@ void drawCorpse(std::shared_ptr<Planet> planet, double time)
     glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, planet->getTexture());
 
-        glRotatef(planet->getAngle(),0,0,1); // rotaciona ao redor do sol
+        glRotatef(radGr(planet->getAngle()),0,0,1); // rotaciona ao redor do sol
         glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
         glRotatef(time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 
@@ -34,14 +37,13 @@ void drawCorpse(std::shared_ptr<Planet> planet, double time)
             drawSolidSphere(planet->getCoreRadius(),200,200);
 
     glDisable(GL_TEXTURE_2D);
-    
 }
 
 void drawCorpse(std::shared_ptr<Moon>  moon, double time)
 {
     glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, moon->getTexture());
-        glRotated(time * moon->getTranslationAngularSpeed() + moon->getAngle(),0,0,1); // rotaciona no proprio eixo 
+        glRotated(radGr(time * moon->getTranslationAngularSpeed()) + moon->getAngle(),0,0,1); // rotaciona no proprio eixo 
         glTranslated(-moon->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
         glRotatef(time * moon->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
         drawSolidSphere(moon->getCoreRadius(),200,200);   

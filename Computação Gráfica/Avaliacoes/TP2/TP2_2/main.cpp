@@ -50,9 +50,12 @@ void display()
     glLoadIdentity();
     camera.setupCamera();
     lighting->atualizaPropriedadesLuz();
+    
+    /*
     lighting->informacoesIluminacao(camera.getMidPoint().x + camera.getDirectionVector().x,  
                                     camera.getMidPoint().y + camera.getDirectionVector().y,
                                     camera.getMidPoint().z + camera.getDirectionVector().z);
+    */
     space->drawAndMove(tempo);
 
     glutSwapBuffers();
@@ -78,15 +81,6 @@ void keyboard(unsigned char key, int x, int y)
         {
             case 27 :     
                 exit(0);
-                break;
-
-            case 'M':
-                if(!Mix_PlayingMusic())
-                    Mix_PlayMusic(musicManager->getMusic(0),-1);
-                /*se if(Mix_PausedMusic())
-                    Mix_ResumeMusic();
-                else
-                    Mix_PauseMusic();*/
                 break;
 
             case 'W':
@@ -164,12 +158,6 @@ void timer(int t)
     camera.setupCamera();
     camera.move();
     musicManager->marsMusic(Space::distanceBetweenPlanets(camera.getMidPoint(),space->getPlanet(3)->getMidPoint()));
-
-    //printf("Dist: %.2f\n",Space::distanceBetweenPlanets(camera.getMidPoint(),space->getPlanet(3)->getMidPoint()));
-
-    //printf("Camera: %.2f , %.2f , %.2f      Marte: %.2f   %.2f  %.2f\n",camera.getMidPoint().x,camera.getMidPoint().y,camera.getMidPoint().z,
-        //                                                                      space->getPlanet(3)->getMidPoint().x,space->getPlanet(3)->getMidPoint().y,space->getPlanet(3)->getMidPoint().z);
-
 
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);
