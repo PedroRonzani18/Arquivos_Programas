@@ -8,6 +8,11 @@
 #define radGr(radianos) (radianos * (180.0 / M_PI))
 #define grRad(graus) ((graus * M_PI) / 180.0)
 
+Space::Space()
+{
+    light = std::make_shared<Lighting>();
+}
+
 void Space::drawAndMove(double time)
 {
     glPushMatrix();
@@ -42,6 +47,16 @@ void Space::drawAndMove(double time)
             }
         }
     glPopMatrix();
+}
+
+void Space::configuraMateriais()
+{
+    this->light->configuraMateriais();
+}
+
+void Space::atualizaPropriedadesLuz()
+{
+    this->light->atualizaPropriedadesLuz();
 }
 
 double Space::distanceBetweenPlanets(Coord a, Coord b)

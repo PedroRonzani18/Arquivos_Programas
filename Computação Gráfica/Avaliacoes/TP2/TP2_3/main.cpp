@@ -16,7 +16,6 @@
 Space* space;
 Camera camera;
 MusicManager* musicManager;
-Lighting* lighting;
 
 void enables()
 {
@@ -30,13 +29,13 @@ void initialize()
 {
     space = new Space();
     musicManager = new MusicManager();
-    lighting = new Lighting();
     keys = new Keyboard();
 
     glClearColor(0,0,0,0);
 
     enables();
-    lighting->configuraMateriais();
+    space->configuraMateriais();
+
     musicManager->configureMusic();
     glShadeModel(GL_PHONG_HINT_WIN);
     createTextures();
@@ -49,13 +48,7 @@ void display()
 
     glLoadIdentity();
     camera.setupCamera();
-    lighting->atualizaPropriedadesLuz();
-    
-    /*
-    lighting->informacoesIluminacao(camera.getMidPoint().x + camera.getDirectionVector().x,  
-                                    camera.getMidPoint().y + camera.getDirectionVector().y,
-                                    camera.getMidPoint().z + camera.getDirectionVector().z);
-    */
+    space->atualizaPropriedadesLuz();
     space->drawAndMove(tempo);
 
     glutSwapBuffers();
