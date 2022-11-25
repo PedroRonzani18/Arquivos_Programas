@@ -12,7 +12,7 @@ class Camera{
         float fi;
         Coord angle;
         int mouseCoords_x, mouseCoords_y;
-        Coord previousPosition;
+        int previousPosition_x, previousPosition_y;
         double sensibilidade;
         bool checkMouse;
 

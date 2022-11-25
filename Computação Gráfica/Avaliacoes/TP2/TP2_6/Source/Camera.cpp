@@ -25,16 +25,34 @@ Camera::Camera()
     theta = 21.89;
 }
 
+double cossinLaw(double a)
+{
+    double aux = (2-pow(a,2))/2;
+    if(aux <=-1)
+        return 0;
+    if(aux >= 1)
+        return 0; 
+    return acos(aux);
+}
+
 void Camera::move()
 {   
-    float offset_x = (mouseCoords_x - previousPosition.x) * sensibilidade;
-    float offset_y = (mouseCoords_y - previousPosition.y) * sensibilidade;
+    float offset_x = (mouseCoords_x - previousPosition_x) * sensibilidade;
+    float offset_y = (mouseCoords_y - previousPosition_y) * sensibilidade;
 
-    previousPosition.x = mouseCoords_x;
-    previousPosition.y = mouseCoords_y;
+    int signal_x = 0, signal_y = 0;
 
-    theta+=offset_x;
-    fi+=offset_y;
+    if(offset_x > 0) signal_x = 1;
+    else if(offset_x < 0) signal_x = -1;
+
+    if(offset_y > 0) signal_y = 1;
+    else if(offset_y< 0) signal_y = -1;
+
+    previousPosition_x = mouseCoords_x;
+    previousPosition_y = mouseCoords_y;
+
+    theta += signal_x * cossinLaw(offset_x);
+    fi += signal_y * cossinLaw(offset_y);
 
     if(tempo > 0.5)
     {
