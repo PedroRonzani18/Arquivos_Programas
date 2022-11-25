@@ -17,36 +17,23 @@ Planet::Planet(GLuint texture, bool dependsOnLight, int numberOfMoons, double co
 
     double translationSpeed, angularSpeed;
 
-    if(translationPeriod != 0)
-        translationSpeed = 306.0 / translationPeriod;
-    else
-        translationSpeed = 0;
+    if(translationPeriod != 0) translationSpeed = 306.0 / translationPeriod;
+    else                       translationSpeed = 0;
 
-    if(rotationPeriod != 0)
-        angularSpeed = 30/ rotationPeriod;
-    else
-        angularSpeed = 0;
+    if(rotationPeriod != 0) angularSpeed = 30.0/ rotationPeriod;
+    else                    angularSpeed = 0;
 
     this->translationAngularSpeed = translationSpeed;
     this->rotationAngularSpeed = angularSpeed;
 
-    std::shared_ptr<Moon> moon1 = std::make_shared<Moon>(0, 0.15, this->coreRadius * 1.1 + 0.15, 0.1, 50);
-    std::shared_ptr<Moon> moon2 = std::make_shared<Moon>(0, 0.15, this->coreRadius * 1.1 + 0.15, 0.1, 50);
-    std::shared_ptr<Moon> moon3 = std::make_shared<Moon>(0, 0.15, this->coreRadius * 1.1 + 0.15, 0.1, 50);
-
     switch(numberOfMoons)
     {
         case 3:
-            moon3->setAngle(240);
-            addMooon(moon3);
+            addMooon(std::make_shared<Moon>(240, 0.15, this->coreRadius * 1.1 + 0.15, 0.5, 50));
         case 2:
-            moon2->setAngle(360/numberOfMoons);
-            addMooon(moon2);
+            addMooon(std::make_shared<Moon>(360/numberOfMoons, 0.15, this->coreRadius * 1.1 + 0.15, 0.5, 50));
         case 1:
-            moon1->setAngle(0);
-            addMooon(moon1);
+            addMooon(std::make_shared<Moon>(0, 0.15, this->coreRadius * 1.1 + 0.15, 0.5, 50));
             break;
-    }
-
-    
+    }    
 }

@@ -6,17 +6,19 @@
 class Lighting
 {
     public:
-        Lighting();
+        Lighting(){}
+        Lighting(int alteravel);
 
         double d,e,m,s;
 
-        int light0Ligada;
+        int lightLigada;
+        int alteravel;
 
         // Propriedades das fontes de luz
         float lightAmb[4];    // ??
-        float lightDif0[4];  // intensidade da difusa do branco
-        float lightSpec0[4]; // intensidade da especular do branco
-        float lightPos0[4];  // posição ?? da luz
+        float lightDif[4];  // intensidade da difusa do branco
+        float lightSpec[4]; // intensidade da especular do branco
+        float lightPos[4];  // posição ?? da luz
         float globAmb[4];
 
         // Propriedades do material da esfera
@@ -25,7 +27,6 @@ class Lighting
 
         void configuraMateriais();  
         void atualizaPropriedadesLuz();
-        void informacoesIluminacao(double x, double y, double z);
 };
 
 

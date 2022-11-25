@@ -11,8 +11,13 @@
 
 Space::Space()
 {
-    light = std::make_shared<Lighting>();
+    //light = std::make_shared<Lighting>();
     musicManager = std::make_shared<MusicManager>();
+
+    lights.push_back(std::make_shared<Lighting>(1));
+    lights.push_back(std::make_shared<Lighting>(0));
+    lights.push_back(std::make_shared<Lighting>(0));
+
 }
 
 void Space::drawAndMove(double time)
@@ -56,34 +61,21 @@ void Space::marsMusic(Coord c)
     musicManager->marsMusic(distanceBetweenPlanets(c,planets[3]->getMidPoint()));
 }
 
-void Space::configuraMateriais()
-{
-    this->light->configuraMateriais();
-}
-
-void Space::atualizaPropriedadesLuz()
-{
-    this->light->atualizaPropriedadesLuz();
-}
-
 double Space::distanceBetweenPlanets(Coord a, Coord b)
 {
     return sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2) + pow(a.z - b.z,2));
 }
 
-void Space::initializePlanets() // fazer engine que calcule essas velocidades em unidades glut a partir do raio, periodo e distância do planeta, e estatem influenciados por um alpha
+void Space::initializePlanets() 
 {
-
-    estrelas = std::make_shared<Planet>(texturesId[8],0,0,4500,0,15000,0);
-    sol = std::make_shared<Planet>(texturesId[9],0,0,600,0,0,0);
-
-    planets.push_back(std::make_shared<Planet>(texturesId[0], 1, 0,  24,   4.0,   400,   4));
-    planets.push_back(std::make_shared<Planet>(texturesId[1], 1, 0,  60,   5.0,   800,   6));
-    planets.push_back(std::make_shared<Planet>(texturesId[2], 1, 1,  64,   6.5,  1200, 0.99));
-    planets.push_back(std::make_shared<Planet>(texturesId[3], 1, 2,  34,   8.0,  2400, 1.03));
-    planets.push_back(std::make_shared<Planet>(texturesId[4], 1, 3, 175,  10.0,  4000, 0.41));
-    planets.push_back(std::make_shared<Planet>(texturesId[5], 1, 3, 120, 12.25,  6000, 0.45));
-    planets.push_back(std::make_shared<Planet>(texturesId[6], 1, 3,  85, 14.0,   8000, 0.72));    
-    planets.push_back(std::make_shared<Planet>(texturesId[7], 1, 3,  77, 16.0,  10000, 0.67));
-
+           estrelas = std::make_shared<Planet>(texturesId[8], 0, 0, 6000,   0.0, 0,   10);
+                sol = std::make_shared<Planet>(texturesId[9], 0, 0,  600,   0.0, 0,    0);
+    planets.push_back(std::make_shared<Planet>(texturesId[0], 1, 0,   24,   4.0, 0,    4));
+    planets.push_back(std::make_shared<Planet>(texturesId[1], 1, 0,   60,   5.0, 0,    6));
+    planets.push_back(std::make_shared<Planet>(texturesId[2], 1, 1,   64,   6.5, 0, 0.99));
+    planets.push_back(std::make_shared<Planet>(texturesId[3], 1, 2,   34,   8.0, 0, 1.03));
+    planets.push_back(std::make_shared<Planet>(texturesId[4], 1, 3,  175,  10.0, 0, 0.41));
+    planets.push_back(std::make_shared<Planet>(texturesId[5], 1, 3,  120, 12.25, 0, 0.45));
+    planets.push_back(std::make_shared<Planet>(texturesId[6], 1, 3,   85,  14.0, 0, 0.72));    
+    planets.push_back(std::make_shared<Planet>(texturesId[7], 1, 3,   77,  16.0, 0, 0.67));
 }

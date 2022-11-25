@@ -27,7 +27,7 @@ void initialize()
     glClearColor(0,0,0,0);
 
     enables();
-    space->getLight()->configuraMateriais();
+    space->getLightIndex(0)->configuraMateriais();
     space->getMusicManager()->configureMusic();
     glShadeModel(GL_PHONG_HINT_WIN);
     createTextures();
@@ -40,7 +40,7 @@ void display()
 
     glLoadIdentity();
     camera.setupCamera();
-    space->getLight()->atualizaPropriedadesLuz();
+    space->getLightIndex(0)->atualizaPropriedadesLuz();
     space->drawAndMove(tempo);
 
     glutSwapBuffers();

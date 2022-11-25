@@ -4,33 +4,35 @@
 
 long font = (long)GLUT_BITMAP_8_BY_13;
 
-Lighting::Lighting()
+Lighting::Lighting(int alteravel)
 {
     m = 0.2;
     d = 1;
     e = 1;
     s = 50;
+    lightLigada = 1;
 
-    for(int i=0; i<3; i++)
+    if(alteravel)
     {
-        lightAmb[i] = 0;
-        lightDif0[i] = d;
-        lightSpec0[i] = e;
-        lightPos0[i] = 0;
-        globAmb[i] = m;
-        matAmbAndDif[i] = 1;
-        matSpec[i] = 1;
+        for(int i=0; i<3 ; i++)
+        {
+            lightAmb[i] = 0;
+            lightDif[i] = d;
+            lightSpec[i] = e;
+            lightPos[i] = 0;
+            globAmb[i] = m;
+            matAmbAndDif[i] = 1;
+            matSpec[i] = 1;
+        }
+
+        lightAmb[3] = 1;
+        lightDif[3] = 1;
+        lightSpec[3] = 1;
+        lightPos[3] = 1;
+        globAmb[3] = 1;
+        matAmbAndDif[3] = 1;
+        matSpec[3] = 1;
     }
-
-    lightAmb[3] = 1;
-    lightDif0[3] = 1;
-    lightSpec0[3] = 1;
-    lightPos0[3] = 1;
-    globAmb[3] = 1;
-    matAmbAndDif[3] = 1;
-    matSpec[3] = 1;
-
-    light0Ligada = 1;
 }
 
 void Lighting::configuraMateriais()
@@ -61,45 +63,6 @@ void floatParaString(char * destStr, int precision, float val)
     destStr[precision] = '\0';
 }
 
-void Lighting::informacoesIluminacao(double x, double y, double z)
-{
-    char theStringBuffer[10];        
-
-    glDisable(GL_LIGHTING);
-
-    glRasterPos3f(x-4.5, y + 1.6, z -2.3);
-    escreveTextoNaTela((void*)font, (char*)"Luz ambiente global: ");
-    
-    glRasterPos3f(x-4.5, y + 1.4, z -2);
-    escreveTextoNaTela((void*)font, (char*)"  - Intensidade (Z/X): ");
-    floatParaString(theStringBuffer, 4, m);
-    escreveTextoNaTela((void*)font, theStringBuffer);
-
-    glRasterPos3f(x-5.55, y + 0.35, z -3.5);
-    escreveTextoNaTela((void*)font, (char*)"Luz branca: ");
-
-    glRasterPos3f(x-5.8, y, z -3.5);
-    escreveTextoNaTela((void*)font, (char*)"  - Intensidade difusa (C/V): ");
-    floatParaString(theStringBuffer, 4, d);
-    escreveTextoNaTela((void*)font, theStringBuffer);
-
-    glRasterPos3f(x-5.9, y-0.3, z -3.5);
-    escreveTextoNaTela((void*)font, (char*)"  - Intensidade especular (B/N): ");
-    floatParaString(theStringBuffer, 4, e);
-    escreveTextoNaTela((void*)font, theStringBuffer);
-
-    glRasterPos3f(x-6.3, y-1.3, z -4);
-    escreveTextoNaTela((void*)font, (char*)"Material: ");
-
-    glRasterPos3f(x-6.7, y-1.7, z -4);
-    escreveTextoNaTela((void*)font, (char*)"  - Expoente shineness (W/A): ");
-    floatParaString(theStringBuffer, 5, 50);
-    escreveTextoNaTela((void*)font, theStringBuffer);
-
-    glEnable(GL_LIGHTING);
-
-}
-
 void Lighting::atualizaPropriedadesLuz()
 {
     if(0 < m) m += -keys->x * 0.05;
@@ -111,23 +74,17 @@ void Lighting::atualizaPropriedadesLuz()
     if(0 < e) e += -keys->n * 0.05;
     if(e < 1) e +=  keys->b * 0.05;
 
-    for(int i=0; i<3; i++)
-        lightDif0[i] = d;
-
-    for(int i=0; i<3; i++)
-        lightSpec0[i] = e;
-
-    for(int i=0; i<3; i++)
+    for(int i=0; i<3; i++) {
+        lightDif[i] = d;
+        lightSpec[i] = e;
         globAmb[i] = m;
-
-    
-
+    }
 
     /* Propriedades da fonte de luz LIGHT0 */
     glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmb); // rgb da luz ambiente
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDif0);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpec0);    
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDif);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpec);    
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 
 
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);        // Luz ambiente global
@@ -137,12 +94,12 @@ void Lighting::atualizaPropriedadesLuz()
 
     if(buttons[0] && keys->l)
     {
-        if(light0Ligada) light0Ligada = 0;
-        else             light0Ligada = 1;
+        if(lightLigada) lightLigada = 0;
+        else            lightLigada = 1;
 
         buttons[0] = 0;
 
-        if(light0Ligada)
+        if(lightLigada)
             glEnable(GL_LIGHT0);
         else 
             glDisable(GL_LIGHT0);
