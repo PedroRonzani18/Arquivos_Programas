@@ -18,6 +18,8 @@ Space::Space()
     lights.push_back(std::make_shared<Lighting>(0));
     lights.push_back(std::make_shared<Lighting>(0));
 
+    camera = std::make_shared<Camera>();
+
 }
 
 void Space::drawAndMove(double time)
@@ -68,6 +70,7 @@ double Space::distanceBetweenPlanets(Coord a, Coord b)
 
 void Space::initializePlanets() 
 {
+    /*
            estrelas = std::make_shared<Planet>(texturesId[8], 0, 0, 6000,   0.0, 0,   10);
                 sol = std::make_shared<Planet>(texturesId[9], 0, 0,  600,   0.0, 0,    0);
     planets.push_back(std::make_shared<Planet>(texturesId[0], 1, 0,   24,   4.0, 0,    4));
@@ -78,4 +81,16 @@ void Space::initializePlanets()
     planets.push_back(std::make_shared<Planet>(texturesId[5], 1, 3,  120, 12.25, 0, 0.45));
     planets.push_back(std::make_shared<Planet>(texturesId[6], 1, 3,   85,  14.0, 0, 0.72));    
     planets.push_back(std::make_shared<Planet>(texturesId[7], 1, 3,   77,  16.0, 0, 0.67));
+    */
+
+           estrelas = std::make_shared<Planet>(texturesId[8], 0, 0, 6000,   0.0, 0,   10);
+                sol = std::make_shared<Planet>(texturesId[9], 0, 0,  600,   0.0, 0,    0);
+    planets.push_back(std::make_shared<Planet>(texturesId[0], 1, 0,   24,   4.0, 400,    4));
+    planets.push_back(std::make_shared<Planet>(texturesId[1], 1, 0,   60,   5.0, 800,    6));
+    planets.push_back(std::make_shared<Planet>(texturesId[2], 1, 1,   64,   6.5, 1200, 0.99));
+    planets.push_back(std::make_shared<Planet>(texturesId[3], 1, 2,   34,   8.0, 2400, 1.03));
+    planets.push_back(std::make_shared<Planet>(texturesId[4], 1, 3,  175,  10.0, 4000, 0.41));
+    planets.push_back(std::make_shared<Planet>(texturesId[5], 1, 3,  120, 12.25, 6000, 0.45));
+    planets.push_back(std::make_shared<Planet>(texturesId[6], 1, 3,   85,  14.0, 8000, 0.72));    
+    planets.push_back(std::make_shared<Planet>(texturesId[7], 1, 3,   77,  16.0, 10000, 0.67));
 }

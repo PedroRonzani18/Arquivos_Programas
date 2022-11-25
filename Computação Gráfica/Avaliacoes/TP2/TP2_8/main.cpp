@@ -8,8 +8,7 @@
 #include "Header/Keyboard.h"
 #include "Header/lighting.h"
 
-std::shared_ptr<Space> space;
-Camera camera;
+Space* space;
 
 void enables()
 {
@@ -21,7 +20,7 @@ void enables()
 
 void initialize()
 {
-    space = std::make_shared<Space>();
+    space = new Space();
     keys = new Keyboard();
 
     glClearColor(0,0,0,0);
@@ -39,7 +38,7 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glLoadIdentity();
-    camera.setupCamera();
+    space->getCamera()->setupCamera();
     space->getLightIndex(0)->atualizaPropriedadesLuz();
     space->drawAndMove(tempo);
 
@@ -140,8 +139,8 @@ void timer(int t)
 {
     tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
 
-    camera.movimentation();
-    space->marsMusic(camera.getMidPoint());
+    space->getCamera()->movimentation();
+    space->marsMusic(space->getCamera()->getMidPoint());
 
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);
@@ -149,7 +148,7 @@ void timer(int t)
 
 void posicionaCamera(int x, int y)
 {
-    camera.setMouseCoords(x,y);
+    space->getCamera()->setMouseCoords(x,y);
 }
 
 void glutInitialize(int argc, char **argv)
