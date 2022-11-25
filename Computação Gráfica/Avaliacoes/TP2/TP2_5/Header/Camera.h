@@ -11,7 +11,7 @@ class Camera{
         float theta;
         float fi;
         Coord angle;
-
+        int mouseCoords_x, mouseCoords_y;
         Coord previousPosition;
         double sensibilidade;
         bool checkMouse;
@@ -28,6 +28,13 @@ class Camera{
         void setAngle(Coord angle){this->angle = angle;}
 
         void setCheckMouse(bool checkMouse){this->checkMouse = checkMouse;}
+        void setMouseCoords(int x, int y){
+            mouseCoords_x = x; mouseCoords_y = y;
+            setCheckMouse(true);
+        }
+
+        void movimentation();
+
 
         void move();
         void setupCamera();

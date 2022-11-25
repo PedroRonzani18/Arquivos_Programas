@@ -1,8 +1,3 @@
-#include <GL/freeglut.h>
-#include <stdio.h>
-#include <SOIL/SOIL.h>
-#include <SDL2/SDL_mixer.h>
-
 #include "Header/drawings.h"
 #include "Header/globalParameters.h"
 #include "Header/Planet.h"
@@ -13,9 +8,8 @@
 #include "Header/Keyboard.h"
 #include "Header/lighting.h"
 
-Space* space;
+std::shared_ptr<Space> space;
 Camera camera;
-//MusicManager* musicManager;
 
 void enables()
 {
@@ -27,18 +21,14 @@ void enables()
 
 void initialize()
 {
-    space = new Space();
-    //musicManager = new MusicManager();
+    space = std::make_shared<Space>();
     keys = new Keyboard();
 
     glClearColor(0,0,0,0);
 
     enables();
-    //space->configuraMateriais();
     space->getLight()->configuraMateriais();
-
     space->getMusicManager()->configureMusic();
-    //musicManager->configureMusic();
     glShadeModel(GL_PHONG_HINT_WIN);
     createTextures();
     space->initializePlanets();
@@ -51,7 +41,6 @@ void display()
     glLoadIdentity();
     camera.setupCamera();
     space->getLight()->atualizaPropriedadesLuz();
-    //space->atualizaPropriedadesLuz();
     space->drawAndMove(tempo);
 
     glutSwapBuffers();
@@ -151,9 +140,7 @@ void timer(int t)
 {
     tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
 
-    camera.setupCamera();
-    camera.move();
-    //musicManager->marsMusic(Space::distanceBetweenPlanets(camera.getMidPoint(),space->getPlanet(3)->getMidPoint()));
+    camera.movimentation();
     space->marsMusic(camera.getMidPoint());
 
     glutPostRedisplay();
@@ -162,9 +149,7 @@ void timer(int t)
 
 void posicionaCamera(int x, int y)
 {
-    xMouse = x;
-    yMouse = y;
-    camera.setCheckMouse(true);
+    camera.setMouseCoords(x,y);
 }
 
 void glutInitialize(int argc, char **argv)

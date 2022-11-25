@@ -5,12 +5,12 @@
 #include <SDL2/SDL_mixer.h>
 #include <vector>
 #include "Keyboard.h"
+#include <memory>
 
 extern float razaoAspecto;
 extern double tempo;
 extern Keyboard* keys;
 extern std::vector<GLuint> texturesId;
-extern int xMouse, yMouse;  
 extern int buttons[];
 
 #endif

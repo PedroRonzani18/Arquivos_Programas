@@ -26,12 +26,12 @@ Camera::Camera()
 }
 
 void Camera::move()
-{
-    float offset_x = (xMouse - previousPosition.x) * sensibilidade;
-    float offset_y = (yMouse - previousPosition.y) * sensibilidade;
+{   
+    float offset_x = (mouseCoords_x - previousPosition.x) * sensibilidade;
+    float offset_y = (mouseCoords_y - previousPosition.y) * sensibilidade;
 
-    previousPosition.x = xMouse;
-    previousPosition.y = yMouse;
+    previousPosition.x = mouseCoords_x;
+    previousPosition.y = mouseCoords_y;
 
     theta+=offset_x;
     fi+=offset_y;
@@ -67,4 +67,10 @@ void Camera::setupCamera()
     gluLookAt(midPoint.x                    , midPoint.y                    , midPoint.z                    ,
               midPoint.x + directionVector.x, midPoint.y + directionVector.y, midPoint.z + directionVector.z,
               0, 1, 0);
+}
+
+void Camera::movimentation()
+{
+    setupCamera();
+    move();
 }
