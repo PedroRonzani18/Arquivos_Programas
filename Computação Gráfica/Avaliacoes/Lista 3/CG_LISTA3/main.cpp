@@ -24,7 +24,7 @@ void enables()
     glEnable(GL_LIGHTING);
 }
 
-void initialize()
+void initialize()   
 {
     space = new Space();
     lighting = new Lighting();

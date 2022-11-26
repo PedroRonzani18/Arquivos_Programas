@@ -68,19 +68,35 @@ void floatParaString(char * destStr, int precision, float val)
 
 void Lighting::atualizaPropriedadesLuz()
 {
-    if(0 < m) m += -keys->x * 0.05;
-    if(m < 1) m +=  keys->z * 0.05;
+    if(alteravel)
+    {
+        if(0 < m) m += -keys->x * 0.05;
+        if(m < 1) m +=  keys->z * 0.05;
 
-    if(0 < d) d += -keys->v * 0.05;
-    if(d < 1) d +=  keys->c * 0.05;
+        if(0 < d) d += -keys->v * 0.05;
+        if(d < 1) d +=  keys->c * 0.05;
 
-    if(0 < e) e += -keys->n * 0.05;
-    if(e < 1) e +=  keys->b * 0.05;
+        if(0 < e) e += -keys->n * 0.05;
+        if(e < 1) e +=  keys->b * 0.05;
 
-    for(int i=0; i<3; i++) {
-        lightDif[i] = d;
-        lightSpec[i] = e;
-        globAmb[i] = m;
+        for(int i=0; i<3; i++) {
+            lightDif[i] = d;
+            lightSpec[i] = e;
+            globAmb[i] = m;
+        }
+
+        if(buttons[0] && keys->l)
+        {
+            buttons[0] = 0;
+
+            if(lightLigada) lightLigada = 0;
+            else            lightLigada = 1;
+
+            /*
+            if(lightLigada) glEnable(GL_LIGHT0);
+            else            glDisable(GL_LIGHT0);
+            */
+        }
     }
 
     /* Propriedades da fonte de luz LIGHT0 */
@@ -94,18 +110,6 @@ void Lighting::atualizaPropriedadesLuz()
 
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128);// teria que variarcmom pressionamento de tela
 
-    if(buttons[0] && keys->l)
-    {
-        if(lightLigada) lightLigada = 0;
-        else            lightLigada = 1;
 
-        buttons[0] = 0;
-/*
-        if(lightLigada)
-            glEnable(GL_LIGHT0);
-        else 
-            glDisable(GL_LIGHT0);
-        */
-    }
 
 }

@@ -8,6 +8,8 @@
 #include "Header/Keyboard.h"
 #include "Header/lighting.h"
 
+// colocar uma luz em cada planeta
+
 Space* space;
 
 void initialize()

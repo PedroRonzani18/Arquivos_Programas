@@ -3,6 +3,7 @@
 
 #include <GL/freeglut.h>
 #include "Coord.h"
+#include "lighting.h"
 
 class CelestialBody
 {
@@ -19,6 +20,8 @@ class CelestialBody
         double translationAngularSpeed; // velocidade angular do movimento de rotação ao redor do sol (movimento de translação)
         double rotationAngularSpeed; // velocidade angular de rotação no proprio eixo ( movimento de rotação )
         bool dependsOnLight;
+        GLenum glLightConst;
+        Lighting* lighting;
 
     public:
         CelestialBody(){}
