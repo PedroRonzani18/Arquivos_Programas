@@ -15,7 +15,6 @@ class Space
         std::shared_ptr<Planet> sol;
         std::shared_ptr<Planet> estrelas;
         std::vector<std::shared_ptr<Planet>> planets;
-        std::vector<std::shared_ptr<Lighting>> lights;
         std::shared_ptr<MusicManager> musicManager;
         std::shared_ptr<Camera> camera;
 
@@ -25,12 +24,13 @@ class Space
         void drawAndMove();
         void initializePlanets();
 
+        std::shared_ptr<Planet> getSol(){return this->sol;}
+
         std::shared_ptr<Planet> getPlanet(int i){return planets[i];}
         std::shared_ptr<MusicManager> getMusicManager(){return this->musicManager;}
 
-        std::vector<std::shared_ptr<Lighting>> getLights(){return this->lights;}
-        std::shared_ptr<Lighting> getLightIndex(int i){return this->lights[i];}
         std::shared_ptr<Camera> getCamera(){return this->camera;}
+        void atualizaPropriedadesLuz();
 
         void marsMusic(Coord c);
         void display();

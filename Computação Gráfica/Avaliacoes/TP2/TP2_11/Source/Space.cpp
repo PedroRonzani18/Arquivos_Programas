@@ -16,7 +16,7 @@ Space::Space()
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_PHONG_HINT_WIN);
 
-    lights.push_back(std::make_shared<Lighting>(1, 1, 0.2   , 1, GL_LIGHT0));
+    //lights.push_back(std::make_shared<Lighting>(1, 1, 0.2   , 1, GL_LIGHT0));
     //lights.push_back(std::make_shared<Lighting>(0, 1, 0.0, 0, GL_LIGHT1));
     //lights.push_back(std::make_shared<Lighting>(0, 1, 0.0, 0, GL_LIGHT2));
 
@@ -70,12 +70,18 @@ double Space::distanceBetweenPlanets(Coord a, Coord b)
     return sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2) + pow(a.z - b.z,2));
 }
 
+void Space::atualizaPropriedadesLuz()
+{
+    sol->getLighting()->atualizaPropriedadesLuz();
+}
+
 void Space::display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     camera->setupCamera();
-    lights[0]->atualizaPropriedadesLuz();
+    atualizaPropriedadesLuz();
+    //lights[0]->atualizaPropriedadesLuz();
     drawAndMove();
     glutSwapBuffers();
 }

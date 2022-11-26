@@ -62,6 +62,8 @@ class CelestialBody
             this->midPoint.y = y;
             this->midPoint.z = z;
         }
+
+        Lighting* getLighting(){return this->lighting;}
 };
 
 #endif

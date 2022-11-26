@@ -17,10 +17,11 @@ void initialize()
     space = new Space();
     keys = new Keyboard();
 
-    space->getLightIndex(0)->configuraMateriais();
+    //space->getLightIndex(0)->configuraMateriais();
     space->getMusicManager()->configureMusic();
     createTextures();
     space->initializePlanets();
+    space->getSol()->getLighting()->configuraMateriais();
 }
 
 void display()
