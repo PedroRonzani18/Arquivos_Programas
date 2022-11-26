@@ -22,7 +22,7 @@ class Space
     public:
         Space();    
 
-        void drawAndMove(double time);
+        void drawAndMove();
         void initializePlanets();
 
         std::shared_ptr<Planet> getPlanet(int i){return planets[i];}
@@ -33,6 +33,7 @@ class Space
         std::shared_ptr<Camera> getCamera(){return this->camera;}
 
         void marsMusic(Coord c);
+        void display();
         static double distanceBetweenPlanets(Coord a, Coord b);
 };
 

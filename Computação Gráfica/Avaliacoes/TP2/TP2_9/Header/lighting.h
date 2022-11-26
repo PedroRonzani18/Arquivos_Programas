@@ -2,12 +2,13 @@
 #define _LIGHTING_H
 
 #include "Coord.h"
+#include <GL/freeglut.h>
 
 class Lighting
 {
     public:
         Lighting(){}
-        Lighting(int alteravel);
+        Lighting(int alteravel, double d, double m, double e, GLenum glLightConst);
 
         double d,e,m,s;
 
@@ -24,6 +25,8 @@ class Lighting
         // Propriedades do material da esfera
         float matAmbAndDif[4];   // cor ambiente e difusa: branca (ambiente = cor | )
         float matSpec[4];    // cor especular: branca
+
+        GLenum glLightConst;
 
         void configuraMateriais();  
         void atualizaPropriedadesLuz();

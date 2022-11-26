@@ -10,44 +10,25 @@
 
 Space* space;
 
-void enables()
-{
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_LIGHT0); 
-    glEnable(GL_NORMALIZE);
-    glEnable(GL_LIGHTING);
-}
-
 void initialize()
 {
     space = new Space();
     keys = new Keyboard();
 
-    glClearColor(0,0,0,0);
-
-    enables();
     space->getLightIndex(0)->configuraMateriais();
     space->getMusicManager()->configureMusic();
-    glShadeModel(GL_PHONG_HINT_WIN);
     createTextures();
     space->initializePlanets();
 }
 
 void display()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glLoadIdentity();
-    space->getCamera()->setupCamera();
-    space->getLightIndex(0)->atualizaPropriedadesLuz();
-    space->drawAndMove(tempo);
-
-    glutSwapBuffers();
+    space->display();
 }
 
 void reshape(int width, int height)
 {
-    float razaoAspecto = (float) glutGet(GLUT_WINDOW_WIDTH) / (float) glutGet(GLUT_WINDOW_HEIGHT);
+    razaoAspecto = (double) glutGet(GLUT_WINDOW_WIDTH) / (double) glutGet(GLUT_WINDOW_HEIGHT);
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();

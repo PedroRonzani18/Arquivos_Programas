@@ -89,6 +89,6 @@ void Camera::setupCamera()
 
 void Camera::movimentation()
 {
-    setupCamera();
+    //setupCamera();
     move();
 }

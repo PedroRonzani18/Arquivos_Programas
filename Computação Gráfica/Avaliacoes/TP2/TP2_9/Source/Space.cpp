@@ -11,39 +11,41 @@
 
 Space::Space()
 {
-    //light = std::make_shared<Lighting>();
-    musicManager = std::make_shared<MusicManager>();
+    glEnable(GL_LIGHTING);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_NORMALIZE);
+    glShadeModel(GL_PHONG_HINT_WIN);
 
-    lights.push_back(std::make_shared<Lighting>(1));
-    lights.push_back(std::make_shared<Lighting>(0));
-    lights.push_back(std::make_shared<Lighting>(0));
+    lights.push_back(std::make_shared<Lighting>(1, 1, 0.2   , 1, GL_LIGHT0));
+    //lights.push_back(std::make_shared<Lighting>(0, 1, 0.0, 0, GL_LIGHT1));
+    //lights.push_back(std::make_shared<Lighting>(0, 1, 0.0, 0, GL_LIGHT2));
 
     camera = std::make_shared<Camera>();
-
+    musicManager = std::make_shared<MusicManager>();
 }
 
-void Space::drawAndMove(double time)
+void Space::drawAndMove()
 {
     glPushMatrix();
         glRotated(-90,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
-        drawCorpse(estrelas,time);
+        drawCorpse(estrelas,tempo);
     glPopMatrix();
 
     glPushMatrix();
         glRotated(-90,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
 
         glPushMatrix();
-            drawCorpse(sol,time);
+            drawCorpse(sol,tempo);
         glPopMatrix();
 
         for(std::shared_ptr<Planet> planet : planets)
         {
             glPushMatrix();
-                planet->setAngle(time * planet->getTranslationAngularSpeed());
+                planet->setAngle(tempo * planet->getTranslationAngularSpeed());
                 planet->setMidPoint(-planet->getRotationRadius() * cos(planet->getAngle()),
                                     0,
                                      planet->getRotationRadius() * sin(planet->getAngle()));
-                drawCorpse(planet,time);
+                drawCorpse(planet,tempo);
             glPopMatrix();
 
             for(std::shared_ptr<Moon> moon: planet->getMoons())
@@ -51,7 +53,7 @@ void Space::drawAndMove(double time)
                 glPushMatrix();
                     glRotatef(radGr(planet->getAngle()),0,0,1); // rotaciona ao redor do planeta
                     glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-                    drawCorpse(moon,time);
+                    drawCorpse(moon,tempo);
                 glPopMatrix();
             }
         }
@@ -66,6 +68,16 @@ void Space::marsMusic(Coord c)
 double Space::distanceBetweenPlanets(Coord a, Coord b)
 {
     return sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2) + pow(a.z - b.z,2));
+}
+
+void Space::display()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    camera->setupCamera();
+    lights[0]->atualizaPropriedadesLuz();
+    drawAndMove();
+    glutSwapBuffers();
 }
 
 void Space::initializePlanets() 

@@ -4,12 +4,13 @@
 
 long font = (long)GLUT_BITMAP_8_BY_13;
 
-Lighting::Lighting(int alteravel)
+Lighting::Lighting(int alteravel, double d, double m, double e, GLenum glLightConst)
 {
-    m = 0.2;
-    d = 1;
-    e = 1;
-    s = 50;
+    this->d = d;
+    this->m = m;
+    this->e = e;
+    this->glLightConst = glLightConst;
+    
     lightLigada = 1;
 
     if(alteravel)
@@ -33,6 +34,8 @@ Lighting::Lighting(int alteravel)
         matAmbAndDif[3] = 1;
         matSpec[3] = 1;
     }
+
+    glEnable(glLightConst);
 }
 
 void Lighting::configuraMateriais()
@@ -81,11 +84,10 @@ void Lighting::atualizaPropriedadesLuz()
     }
 
     /* Propriedades da fonte de luz LIGHT0 */
-    glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmb); // rgb da luz ambiente
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDif);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpec);    
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-
+    glLightfv(glLightConst, GL_AMBIENT, lightAmb); // rgb da luz ambiente
+    glLightfv(glLightConst, GL_DIFFUSE, lightDif);
+    glLightfv(glLightConst, GL_SPECULAR, lightSpec);    
+    glLightfv(glLightConst, GL_POSITION, lightPos);
 
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);        // Luz ambiente global
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, false);// Enable local viewpoint
@@ -98,11 +100,12 @@ void Lighting::atualizaPropriedadesLuz()
         else            lightLigada = 1;
 
         buttons[0] = 0;
-
+/*
         if(lightLigada)
             glEnable(GL_LIGHT0);
         else 
             glDisable(GL_LIGHT0);
+        */
     }
 
 }
