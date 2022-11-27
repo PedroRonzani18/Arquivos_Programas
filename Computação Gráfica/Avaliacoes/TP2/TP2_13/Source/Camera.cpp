@@ -7,13 +7,13 @@
 
 Camera::Camera()
 {
-    midPoint.x = -33.57;
-    midPoint.y = 19.86;
-    midPoint.z = 3.67;
+    midPoint.x = -13.72;
+    midPoint.y = 19.44;
+    midPoint.z = -20.96;
     
-    directionVector.x = 0.76;
-    directionVector.y = -0.63;
-    directionVector.z = 0.14;
+    directionVector.x = 0.05;
+    directionVector.y = -0.62;
+    directionVector.z = 0.78;
 
     moveSpeed.x = 0.1;
     moveSpeed.y = 0.1;
@@ -76,7 +76,8 @@ void Camera::move()
     midPoint.y += moveSpeed.y * ( keys->w - keys->s) * directionVector.y ; 
     midPoint.z += moveSpeed.z * ((keys->w - keys->s) * directionVector.z + (keys->d - keys->a) * (directionVector.x)); // + vetor normal a direta dele (keyboard.d-keyboard.a)*speed                     
 
-    //printf("Midpoint: (%.2f,%.2f,%.2f)     Look: (%.2f,%.2f,%.2f)\n",midPoint.x,midPoint.y,midPoint.z,look.x,look.y,look.z);]
+
+    //printf("Midpoint: (%.2f,%.2f,%.2f)     directionVector: (%.2f,%.2f,%.2f)\n",midPoint.x,midPoint.y,midPoint.z,directionVector.x,directionVector.y,directionVector.z);
     //printf("Theta: %.2f    Fi: %.2f\n",theta,fi);
 }
 

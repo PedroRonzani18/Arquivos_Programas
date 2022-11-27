@@ -70,6 +70,8 @@ Lighting::Lighting(int alteravel, double d, double m, double e, GLenum glLightCo
     matAmbAndDif[3] = 1;
     matSpec[3] = 1;    
 
+    this->alteravel = 1;
+
     glEnable(glLightConst);
 }
 
@@ -89,7 +91,14 @@ void Lighting::configuraMateriais()
 
 void Lighting::atualizaPropriedadesLuz()
 {
-    if(alteravel)
+    //printf("Alt: %d\n",alteravel);
+
+    globAmb[0] = 0;
+    globAmb[1] = 0;
+    globAmb[2] = 0;
+    globAmb[3] = 0;
+
+    if(alteravel == 1)
     {
         if(0 < m) m += -keys->x * 0.05;
         if(m < 1) m +=  keys->z * 0.05;
@@ -100,10 +109,11 @@ void Lighting::atualizaPropriedadesLuz()
         if(0 < e) e += -keys->n * 0.05;
         if(e < 1) e +=  keys->b * 0.05;
 
-        for(int i=0; i<3; i++) {
+        for(int i=0; i<3; i++) 
+        {
             lightDif[i] = d;
             lightSpec[i] = e;
-            globAmb[i] = m;
+            lightAmb[i] = m;
         }
 
         if(buttons[0] && keys->l)
@@ -119,12 +129,13 @@ void Lighting::atualizaPropriedadesLuz()
             */
         }
     }
-    else
+    
+    else if(alteravel == 0)
     {
         for(int i=0; i<3; i++)
         {
             lightSpec[i] = 0;
-            globAmb[i] = 0;
+            lightAmb[i] = 0;
         }
         lightDif[0] = r;
         lightDif[1] = g;

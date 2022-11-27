@@ -98,6 +98,7 @@ void Space::initializePlanets()
     planets.push_back(std::make_shared<Planet>(texturesId[6], 1, 3,   85,  14.0, 0, 0.72));    
     planets.push_back(std::make_shared<Planet>(texturesId[7], 1, 3,   77,  16.0, 0, 0.67));
     */
+
     /*
            estrelas = std::make_shared<Planet>(texturesId[8], 0, 0, 6000,   0.0,    0,    10);
                 sol = std::make_shared<Planet>(texturesId[9], 0, 0,  600,   0.0,    0,     0, GL_LIGHT0, 1, 1, 0.2, 1);
@@ -113,13 +114,13 @@ void Space::initializePlanets()
     */
 
            estrelas = std::make_shared<Planet>(texturesId[8], 0, 0, 6000,   0.0,  0,  10);
-                sol = std::make_shared<Planet>(texturesId[9], 0, 0,  600,   0.0,  0,   0, GL_LIGHT0, 0,0,0);
+                sol = std::make_shared<Sol>(texturesId[9], 0, 0,  600,   0.0,  0,   0, 12, 1, 1, 0.2, 1);
 
+    planets.push_back(std::make_shared<Planet>(texturesId[2], 1, 1,   64,   6.5, 1200, 0.99, GL_LIGHT1, 0, 1, 0));  // tem que desenhar fontes de luz antes pra funcionar
     planets.push_back(std::make_shared<Planet>(texturesId[0], 1, 0,   24,   4.0, 0,    4));
     planets.push_back(std::make_shared<Planet>(texturesId[1], 1, 0,   60,   5.0, 0,    6));
-    planets.push_back(std::make_shared<Planet>(texturesId[2], 1, 1,   64,   6.5, 0, 0.99, GL_LIGHT1, 0, 0, 1));  
-    planets.push_back(std::make_shared<Planet>(texturesId[3], 1, 2,   34,   8.0, 0, 1.03, GL_LIGHT2, 0, 0, 1));
-    planets.push_back(std::make_shared<Planet>(texturesId[4], 1, 3,  175,  10.0, 0, 0.41, GL_LIGHT3, 0, 0, 1));
+    planets.push_back(std::make_shared<Planet>(texturesId[3], 1, 2,   34,   8.0, 0, 1.03, 12, 0, 0, 1));
+    planets.push_back(std::make_shared<Planet>(texturesId[4], 1, 3,  175,  10.0, 0, 0.41, 12, 0, 0, 1));
     planets.push_back(std::make_shared<Planet>(texturesId[5], 1, 3,  120, 12.25, 0, 0.45));
     planets.push_back(std::make_shared<Planet>(texturesId[6], 1, 3,   85,  14.0, 0, 0.72));    
     planets.push_back(std::make_shared<Planet>(texturesId[7], 1, 3,   77,  16.0, 0, 0.67));

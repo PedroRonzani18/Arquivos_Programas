@@ -7,7 +7,7 @@
 class Lighting
 {
     public:
-        Lighting(){}
+        Lighting(){this->alteravel = 0;}
         Lighting(int alteravel, double d, double m, double e, GLenum glLightConst);
         Lighting(double r, double g, double b, GLenum glLightConst);
 

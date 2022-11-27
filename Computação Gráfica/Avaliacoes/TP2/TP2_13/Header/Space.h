@@ -2,6 +2,7 @@
 #define _SPACE_H
 
 #include "Planet.h"
+#include "Sol.h"
 #include "lighting.h"
 #include "MusicManager.h"
 #include "Camera.h"
@@ -12,7 +13,7 @@
 class Space
 {
     private:
-        std::shared_ptr<Planet> sol;
+        std::shared_ptr<Sol> sol;
         std::shared_ptr<Planet> estrelas;
         std::vector<std::shared_ptr<Planet>> planets;
         std::shared_ptr<MusicManager> musicManager;
@@ -24,7 +25,7 @@ class Space
         void drawAndMove();
         void initializePlanets();
 
-        std::shared_ptr<Planet> getSol(){return this->sol;}
+        std::shared_ptr<Sol> getSol(){return this->sol;}
 
         std::shared_ptr<Planet> getPlanet(int i){return planets[i];}
         std::shared_ptr<MusicManager> getMusicManager(){return this->musicManager;}

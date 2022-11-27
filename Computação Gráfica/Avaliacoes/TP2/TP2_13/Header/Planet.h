@@ -16,8 +16,6 @@ class Planet : public CelestialBody
     public:
         Planet(){}
         Planet(GLuint texture, bool dependsOnLight, int numberOfMoons, double coreRadius, double rotationRadius, double translationPeriod, double rotationPeriod);
-        Planet(GLuint texture, bool dependsOnLight, int numberOfMoons, double coreRadius, double rotationRadius, double translationPeriod, double rotationPeriod, GLenum glLightConst,
-                int alteravel, double d, double m, double e);
         Planet(GLuint texture, bool dependsOnLight, int numberOfMoons, double coreRadius, double rotationRadius, double translationPeriod, double rotationPeriod, 
                GLenum glLightConst, double r, double g, double b);
 

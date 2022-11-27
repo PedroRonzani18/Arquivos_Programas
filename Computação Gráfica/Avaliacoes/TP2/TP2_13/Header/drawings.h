@@ -6,16 +6,18 @@
 
 #include "Planet.h"
 #include "Moon.h"
+#include "Sol.h"
 #include <memory>
 
 void drawSolidSphere(double radius, int stacks, int columns);
-
+    
 GLuint loadTexture(const char* arquivo);
 
 void createTextures();
 
 void drawCorpse(std::shared_ptr<Planet> p, double time);
 void drawCorpse(std::shared_ptr<Moon>  moon, double time);
+void drawCorpse(std::shared_ptr<Sol>  moon, double time);
 
 //void configuraTextures();
 

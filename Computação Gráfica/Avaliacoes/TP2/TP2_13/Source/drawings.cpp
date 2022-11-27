@@ -1,5 +1,6 @@
 #include "../Header/globalParameters.h"
 #include "../Header/Planet.h"
+#include "../Header/drawings.h"
 
 #include <stdio.h>
 #include <SOIL/SOIL.h>
@@ -24,8 +25,34 @@ void drawCorpse(std::shared_ptr<Planet> planet, double time)
         glBindTexture(GL_TEXTURE_2D, planet->getTexture());
 
         glRotatef(radGr(planet->getAngle()),0,0,1); // rotaciona ao redor do sol
-        if(planet->getHasLight())
+        glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
+                if(planet->getHasLight())
             glLightfv(planet->getGlLightConst(), GL_POSITION, planet->getLighting()->lightPos);
+        glRotatef(time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
+
+        if(!planet->doesDependsOnLight())
+        {
+            glDisable(GL_LIGHTING);
+            drawSolidSphere(planet->getCoreRadius(),200,200);
+            glEnable(GL_LIGHTING);
+        }
+        else
+            drawSolidSphere(planet->getCoreRadius(),200,200);
+
+    glDisable(GL_TEXTURE_2D);
+}
+
+void drawCorpse(std::shared_ptr<Sol> planet, double time)
+{
+    glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, planet->getTexture());
+
+        glRotatef(radGr(planet->getAngle()),0,0,1); // rotaciona ao redor do sol
+        if(planet->getHasLight())
+        {
+            planet->getLighting()->lightPos[0] = planet->getRotationRadius();
+            glLightfv(planet->getGlLightConst(), GL_POSITION, planet->getLighting()->lightPos);
+        }
         glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
         glRotatef(time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 
