@@ -9,8 +9,10 @@ class Lighting
     public:
         Lighting(){}
         Lighting(int alteravel, double d, double m, double e, GLenum glLightConst);
+        Lighting(double r, double g, double b, GLenum glLightConst);
 
         double d,e,m,s;
+        double r,g,b;
 
         int lightLigada;
         int alteravel;

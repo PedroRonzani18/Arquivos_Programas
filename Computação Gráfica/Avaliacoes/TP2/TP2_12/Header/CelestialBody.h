@@ -22,6 +22,7 @@ class CelestialBody
         bool dependsOnLight;
         GLenum glLightConst;
         Lighting* lighting;
+        int hasLight;
 
     public:
         CelestialBody(){}
@@ -63,7 +64,11 @@ class CelestialBody
             this->midPoint.z = z;
         }
 
+        GLenum getGlLightConst(){return this->glLightConst;}
+
         Lighting* getLighting(){return this->lighting;}
+
+        int getHasLight(){return this->hasLight;}
 };
 
 #endif

@@ -2,8 +2,46 @@
 #include "../Header/globalParameters.h"
 #include <iostream>
 
-long font = (long)GLUT_BITMAP_8_BY_13;
+/*Luz não alterável mas cor customizável*/
+Lighting::Lighting(double r, double g, double b, GLenum glLightConst)
+{
+    this->alteravel = 0;
 
+    this->glLightConst = glLightConst;
+    this->r = r;
+    this->g = g;
+    this->b = b;
+    
+    lightLigada = 1;
+
+    for(int i=0; i<3 ; i++)
+    {
+        lightAmb[i] = 0;
+        lightSpec[i] = 0;
+        lightPos[i] = 0;
+        globAmb[i] = 0;
+        matAmbAndDif[i] = 1;
+        matSpec[i] = 1;
+    }
+
+    lightDif[0] = r;
+    lightDif[1] = g;
+    lightDif[2] = b;
+    lightDif[3] = 1;
+
+    printf("r: %.1f g: %.1f b: %.1f\n",r,g,b);
+
+    lightAmb[3] = 1;
+    lightSpec[3] = 1;
+    lightPos[3] = 1;
+    globAmb[3] = 1;
+    matAmbAndDif[3] = 1;
+    matSpec[3] = 1; 
+
+    glEnable(glLightConst);
+}
+
+/*luz branca alterável*/
 Lighting::Lighting(int alteravel, double d, double m, double e, GLenum glLightConst)
 {
     this->d = d;
@@ -13,27 +51,24 @@ Lighting::Lighting(int alteravel, double d, double m, double e, GLenum glLightCo
     
     lightLigada = 1;
 
-    if(alteravel)
+    for(int i=0; i<3 ; i++)
     {
-        for(int i=0; i<3 ; i++)
-        {
-            lightAmb[i] = 0;
-            lightDif[i] = d;
-            lightSpec[i] = e;
-            lightPos[i] = 0;
-            globAmb[i] = m;
-            matAmbAndDif[i] = 1;
-            matSpec[i] = 1;
-        }
-
-        lightAmb[3] = 1;
-        lightDif[3] = 1;
-        lightSpec[3] = 1;
-        lightPos[3] = 1;
-        globAmb[3] = 1;
-        matAmbAndDif[3] = 1;
-        matSpec[3] = 1;
+        lightAmb[i] = 0;
+        lightDif[i] = d;
+        lightSpec[i] = e;
+        lightPos[i] = 0;
+        globAmb[i] = m;
+        matAmbAndDif[i] = 1;
+        matSpec[i] = 1;
     }
+
+    lightAmb[3] = 1;
+    lightDif[3] = 1;
+    lightSpec[3] = 1;
+    lightPos[3] = 1;
+    globAmb[3] = 1;
+    matAmbAndDif[3] = 1;
+    matSpec[3] = 1;    
 
     glEnable(glLightConst);
 }
@@ -50,20 +85,6 @@ void Lighting::configuraMateriais()
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-}
-
-// Escreve uma cadeia de caracteres
-void escreveTextoNaTela(void *font, char *string)
-{
-    char *c;
-    for (c = string; *c != '\0'; c++) glutBitmapCharacter(font, *c);
-}
-
-// Converte um número decimal em string
-void floatParaString(char * destStr, int precision, float val)
-{
-    sprintf(destStr,"%f",val);
-    destStr[precision] = '\0';
 }
 
 void Lighting::atualizaPropriedadesLuz()
@@ -97,6 +118,18 @@ void Lighting::atualizaPropriedadesLuz()
             else            glDisable(GL_LIGHT0);
             */
         }
+    }
+    else
+    {
+        for(int i=0; i<3; i++)
+        {
+            lightSpec[i] = 0;
+            globAmb[i] = 0;
+        }
+        lightDif[0] = r;
+        lightDif[1] = g;
+        lightDif[2] = b;
+        lightDif[3] = 1;
     }
 
     /* Propriedades da fonte de luz LIGHT0 */

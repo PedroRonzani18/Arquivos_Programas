@@ -8,7 +8,7 @@
 #include "Header/Keyboard.h"
 #include "Header/lighting.h"
 
-// colocar uma luz em cada planeta
+// configurar luz para cada planeta
 
 Space* space;
 
@@ -17,7 +17,6 @@ void initialize()
     space = new Space();
     keys = new Keyboard();
 
-    //space->getLightIndex(0)->configuraMateriais();
     space->getMusicManager()->configureMusic();
     createTextures();
     space->initializePlanets();

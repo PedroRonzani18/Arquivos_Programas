@@ -24,6 +24,8 @@ void drawCorpse(std::shared_ptr<Planet> planet, double time)
         glBindTexture(GL_TEXTURE_2D, planet->getTexture());
 
         glRotatef(radGr(planet->getAngle()),0,0,1); // rotaciona ao redor do sol
+        if(planet->getHasLight())
+            glLightfv(planet->getGlLightConst(), GL_POSITION, planet->getLighting()->lightPos);
         glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
         glRotatef(time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 

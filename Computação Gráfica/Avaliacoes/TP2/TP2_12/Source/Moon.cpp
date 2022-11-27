@@ -11,4 +11,5 @@ Moon::Moon(double angle, double coreRadius, double rotationRadius, double transl
     this->translationAngularSpeed = translationAngularSpeed;
     this->rotationAngularSpeed = rotationAngularSpeed;
     this->lighting = new Lighting();
+    this->hasLight = 0;
 }
