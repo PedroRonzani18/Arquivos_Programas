@@ -10,6 +10,7 @@ void MusicManager::configureMusic()
 
 void MusicManager::marsMusic(double distance)
 {
+    //printf("Distance: %.2f\n",distance);
     if(6 < distance)
         Mix_VolumeMusic(0);
 

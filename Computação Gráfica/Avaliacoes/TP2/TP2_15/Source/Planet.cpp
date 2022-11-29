@@ -39,8 +39,9 @@ Planet::Planet(GLuint texture, bool dependsOnLight, int numberOfMoons, double co
             break;
     }  
 
-    this->lighting = new Lighting(); 
     this->hasLight = 0;
+    this->lighting = new Lighting(); 
+
 }
 
 /*Planeta com luz fixa*/

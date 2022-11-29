@@ -38,6 +38,8 @@ Lighting::Lighting(double r, double g, double b, GLenum glLightConst)
     matAmbAndDif[3] = 1;
     matSpec[3] = 1; 
 
+    this->hasAtenuation = 1;
+
     glEnable(glLightConst);
 }
 
@@ -71,6 +73,7 @@ Lighting::Lighting(int alteravel, double d, double m, double e, GLenum glLightCo
     matSpec[3] = 1;    
 
     this->alteravel = 1;
+    this->hasAtenuation = 0;
 
     glEnable(glLightConst);
 }
@@ -143,11 +146,21 @@ void Lighting::atualizaPropriedadesLuz()
         lightDif[3] = 1;
     }
 
+    float lightAtenuation[] = {0.2, 0.2, 0.2, 1};
+
     /* Propriedades da fonte de luz LIGHT0 */
     glLightfv(glLightConst, GL_AMBIENT, lightAmb); // rgb da luz ambiente
     glLightfv(glLightConst, GL_DIFFUSE, lightDif);
     glLightfv(glLightConst, GL_SPECULAR, lightSpec);    
     glLightfv(glLightConst, GL_POSITION, lightPos);
+
+    if(hasAtenuation)
+    {
+        glLightfv(glLightConst,GL_LINEAR_ATTENUATION, lightAtenuation);
+        glLightfv(glLightConst,GL_CONSTANT_ATTENUATION, lightAtenuation);
+        glLightfv(glLightConst,GL_QUADRATIC_ATTENUATION, lightAtenuation);
+    }
+
 
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);        // Luz ambiente global
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, false);// Enable local viewpoint

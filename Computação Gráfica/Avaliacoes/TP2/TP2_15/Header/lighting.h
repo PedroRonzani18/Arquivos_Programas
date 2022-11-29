@@ -13,6 +13,7 @@ class Lighting
 
         double d,e,m,s;
         double r,g,b;
+        int hasAtenuation;
 
         int lightLigada;
         int alteravel;

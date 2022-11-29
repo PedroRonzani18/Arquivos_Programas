@@ -23,6 +23,7 @@ class CelestialBody
         GLenum glLightConst;
         Lighting* lighting;
         int hasLight;
+        int hasAtenuation;
 
     public:
         CelestialBody(){}

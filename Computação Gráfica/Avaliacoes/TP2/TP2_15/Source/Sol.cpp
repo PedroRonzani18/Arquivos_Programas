@@ -31,4 +31,5 @@ Sol::Sol(GLuint texture, bool dependsOnLight, int numberOfMoons, double coreRadi
 
     this->lighting = new Lighting(alteravel, d, m, e, glLightConst);  
     this->hasLight = 1;
+    this->hasAtenuation = 0;
 }
