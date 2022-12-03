@@ -83,11 +83,11 @@ void Lighting::configuraMateriais()
     // Definindo as propriedades do material
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
     glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
-    glMaterialf(GL_FRONT, GL_SHININESS, 0);
+    glMaterialf (GL_FRONT, GL_SHININESS, 0);
     //glMaterialf(GL_FRONT, GL_EMISSION, 128);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 void Lighting::atualizaPropriedadesLuz()
@@ -99,7 +99,7 @@ void Lighting::atualizaPropriedadesLuz()
     globAmb[2] = 0;
     globAmb[3] = 0;
 
-    if(alteravel == 1)
+    if(alteravel)
     {
         if(0 < m) m += -keys->x * 0.05;
         if(m < 1) m +=  keys->z * 0.05;
@@ -118,7 +118,7 @@ void Lighting::atualizaPropriedadesLuz()
         }
     }
     
-    else if(alteravel == 0)
+    else
     {
         for(int i=0; i<3; i++)
         {
@@ -127,7 +127,7 @@ void Lighting::atualizaPropriedadesLuz()
         }
         lightDif[0] = r;
         lightDif[1] = g;
-        lightDif[2] = b;
+        lightDif[2] = b; 
         lightDif[3] = 1;
     }
 
@@ -138,21 +138,9 @@ void Lighting::atualizaPropriedadesLuz()
     glLightfv(glLightConst, GL_POSITION, lightPos);
 
     if(hasAtenuation)
-    {
-        //float lightConstantAtenuation[] = {1,1,1,1}; // full 1: deixa clean | full 0: deixa retasso e feio
-        //glLightfv(glLightConst, GL_CONSTANT_ATTENUATION, lightConstantAtenuation);   
+        glLightf(glLightConst, GL_QUADRATIC_ATTENUATION, 0.8);     
 
-        //glLightf(glLightConst, GL_LINEAR_ATTENUATION, 0.2); 
-
-        glLightf(glLightConst, GL_QUADRATIC_ATTENUATION, 0.8); 
-
-    }
-
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);        // Luz ambiente global
-    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, false);// Enable local viewpoint
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb); // Luz ambiente global
 
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128);// teria que variarcmom pressionamento de tela
-
-
-
 }

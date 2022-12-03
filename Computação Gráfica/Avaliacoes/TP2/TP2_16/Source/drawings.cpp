@@ -48,17 +48,10 @@ void drawCorpse(std::shared_ptr<Sol> sun, double time)
         glBindTexture(GL_TEXTURE_2D, sun->getTexture());
 
         glRotatef(radGr(sun->getAngle()),0,0,1); // rotaciona ao redor do sol
-        /*
-        if(sun->getHasLight())
-        {
-            //sun->getLighting()->lightPos[0] = sun->getRotationRadius();
-            //glLightfv(sun->getGlLightConst(), GL_POSITION, sun->getLighting()->lightPos);
-        }
-        */
         glTranslated(-sun->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
         glRotatef(time * sun->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 
-        if(!sun->doesDependsOnLight() && sun->getLighting()->lightLigada)
+        if(sun->getLighting()->lightLigada) // se a luz do sol estiver ligada, o sol aparece
         {
             glDisable(GL_LIGHTING);
             drawSolidSphere(sun->getCoreRadius(),200,200);
