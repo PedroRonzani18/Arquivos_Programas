@@ -38,20 +38,20 @@ Sol::Sol(GLuint texture, bool dependsOnLight, int numberOfMoons, double coreRadi
 
 Sol::Sol(const char* planetName)
 {
-    std::pair<const char*,std::vector<float>> aux = Parser::parseSun(planetName);
+    Parser aux = Parser::parseSun(planetName);
 
-    this->d = aux.second[7];
-    this->m = aux.second[9];
-    this->e = aux.second[8];
+    this->d = aux.d;
+    this->m = aux.m;
+    this->e = aux.e;
 
-    const char* arquivo = aux.first;
+    const char* arquivo = aux.texture;
 
     this->texture = loadTexture(arquivo);
-    this->dependsOnLight = aux.second[0];
-    this->coreRadius = aux.second[2]/113.0;
-    this->rotationRadius = 1.7 * aux.second[3];
-    this->translationPeriod = aux.second[4];
-    this->rotationPeriod = aux.second[5];
+    this->dependsOnLight = aux.dependsOnLight;
+    this->coreRadius = aux.coreRadius/113.0;
+    this->rotationRadius = 1.7 * aux.rotationRadius;
+    this->translationPeriod = aux.translationPeriod;
+    this->rotationPeriod = aux.rotationPeriod;
     this->midPoint.x = 0;
     this->midPoint.y = 0;
     this->midPoint.z = rotationRadius;
@@ -67,6 +67,17 @@ Sol::Sol(const char* planetName)
     this->translationAngularSpeed = translationSpeed;
     this->rotationAngularSpeed = angularSpeed;
 
-    this->lighting = new Lighting(aux.second[6], d, m, e, GL_LIGHT0);  
+    this->lighting = new Lighting(1, d, m, e, GL_LIGHT0);  
     this->hasLight = 1;
+
+    this->material = new Material();
+
+    for(int i=0; i<4; i++)
+    {
+        this->material->matAmbient[i] = aux.matAmbient[i];
+        this->material->matDifuse[i] = aux.matDifuse[i];
+        this->material->matEspec[i] = aux.matEspec[i];
+    }
+    this->material->matShininess = aux.matShininess;
+    
 }

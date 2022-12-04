@@ -25,7 +25,7 @@ void drawCorpse(std::shared_ptr<Planet> planet, double time)
     glMaterialfv(GL_FRONT, GL_DIFFUSE,   planet->getMaterial()->matDifuse);
     glMaterialfv(GL_FRONT, GL_SPECULAR,  planet->getMaterial()->matEspec);
     glMaterialf (GL_FRONT, GL_SHININESS, planet->getMaterial()->matShininess);
-
+    
     glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, planet->getTexture());
 
@@ -44,6 +44,11 @@ void drawCorpse(std::shared_ptr<Planet> planet, double time)
 
 void drawCorpse(std::shared_ptr<Sol> sun, double time)
 {
+    glMaterialfv(GL_FRONT, GL_AMBIENT,   sun->getMaterial()->matAmbient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE,   sun->getMaterial()->matDifuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR,  sun->getMaterial()->matEspec);
+    glMaterialf (GL_FRONT, GL_SHININESS, sun->getMaterial()->matShininess);
+
     glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, sun->getTexture());
 
@@ -65,6 +70,11 @@ void drawCorpse(std::shared_ptr<Sol> sun, double time)
 
 void drawCorpse(std::shared_ptr<Moon>  moon, double time)
 {
+    glMaterialfv(GL_FRONT, GL_AMBIENT,   moon->getMaterial()->matAmbient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE,   moon->getMaterial()->matDifuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR,  moon->getMaterial()->matEspec);
+    glMaterialf (GL_FRONT, GL_SHININESS, moon->getMaterial()->matShininess);
+
     glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, moon->getTexture());
         glRotated(radGr(time * moon->getTranslationAngularSpeed()) + moon->getAngle(),0,0,1); // rotaciona no proprio eixo 

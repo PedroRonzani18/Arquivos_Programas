@@ -86,8 +86,6 @@ Planet::Planet(const char* planetName, int creationType)
         this->material->matEspec[i] = aux.matEspec[i];
     }
     this->material->matShininess = aux.matShininess;
-
-
 }
 
 /*Planeta sem luz*/

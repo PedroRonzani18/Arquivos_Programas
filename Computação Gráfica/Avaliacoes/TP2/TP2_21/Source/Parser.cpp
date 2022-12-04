@@ -107,19 +107,21 @@ Parser Parser::parseMoon(const char* fileName)
     Parser returnParser;
     returnParser.coreRadius = values[0];
     returnParser.translationPeriod = values[1];
-    returnParser.rotationPeriod = values[3];
+    returnParser.rotationPeriod = values[2];
 
     for(int i=0; i<4; i++)
     {
-        returnParser.matAmbient[i] = values[4 + i];
-        returnParser.matDifuse[i] = values[8 + i];
-        returnParser.matEspec[i] = values[10 + i];
+        returnParser.matAmbient[i] = values[3 + i];
+        returnParser.matDifuse[i] = values[7 + i];
+        returnParser.matEspec[i] = values[11 + i];
     }
+
+    returnParser.matShininess = values[15];
 
     return returnParser;
 }
 
-std::pair<const char*,std::vector<float>> Parser::parseSun(const char* fileName)
+Parser Parser::parseSun(const char* fileName)
 {
     std::fstream arquivo;
     std::string linha;
@@ -157,6 +159,29 @@ std::pair<const char*,std::vector<float>> Parser::parseSun(const char* fileName)
     arquivo.close();
 
     char* arr = stringToArray(texture);
+    Parser returnParser;
 
-    return make_pair(arr,values);
+    returnParser.texture = arr;
+    returnParser.dependsOnLight = values[0];
+    returnParser.numberOfMooons = values[1];
+    returnParser.coreRadius = values[2];
+    returnParser.rotationRadius = values[3];
+    returnParser.translationPeriod = values[4];
+    returnParser.rotationPeriod = values[5];
+    returnParser.glLightConst = values[6];
+    returnParser.alteravel = values[7];
+    returnParser.d = values[8];
+    returnParser.m = values[9];
+    returnParser.e = values[10];
+    
+    for(int i=0; i<4; i++)
+    {
+        returnParser.matAmbient[i] = values[11 + i];
+        returnParser.matDifuse[i] = values[15 + i];
+        returnParser.matEspec[i] = values[19 + i];
+    }
+
+    returnParser.matShininess = values[20];
+
+    return returnParser;
 }

@@ -81,9 +81,9 @@ void Lighting::configuraMateriais()
     glEnable(GL_COLOR_MATERIAL);
 
     // Definindo as propriedades do material
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
-    glMaterialf (GL_FRONT, GL_SHININESS, 0);
+    //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
+    //glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
+    //glMaterialf (GL_FRONT, GL_SHININESS, 0);
     //glMaterialf(GL_FRONT, GL_EMISSION, 128);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -142,5 +142,5 @@ void Lighting::atualizaPropriedadesLuz()
 
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb); // Luz ambiente global
 
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128);// teria que variarcmom pressionamento de tela
+    //glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128);// teria que variarcmom pressionamento de tela
 }
