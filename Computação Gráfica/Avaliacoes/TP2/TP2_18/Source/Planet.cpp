@@ -5,9 +5,10 @@
 #include "../Header/globalParameters.h"
 
 
-Planet::Planet(const char* planetName)
+Planet::Planet(const char* planetName, int creationType)
 {
-    std::pair<const char*,std::vector<float>> aux = Parser::parsePlanet(planetName);
+    std::pair<const char*,std::vector<float>> aux = Parser::parsePlanet(planetName,creationType);
+    //std::pair<const char*,std::vector<float>> aux = Parser::parsePlanet(planetName,creationType);
 
     const char* arquivo = aux.first;
 
@@ -45,8 +46,35 @@ Planet::Planet(const char* planetName)
             break;
     }  
 
-    this->lighting = new Lighting(); 
-    this->hasLight = 0;
+    int luz = aux.second[6];
+
+    switch (creationType)
+    {
+        case 0:
+            this->lighting = new Lighting(); 
+            this->hasLight = 0;
+            break;
+
+
+        case 1:
+            switch(luz)
+            {
+                case 1:
+                    this->glLightConst = GL_LIGHT1;
+                    break;
+                case 2:
+                    this->glLightConst = GL_LIGHT2;
+                    break;
+                case 3:
+                    this->glLightConst = GL_LIGHT3;
+                    break;
+            }
+            this->lighting = new Lighting(1, 1, 1, glLightConst);  
+            this->hasLight = 1;
+            break;
+
+    }
+
 }
 
 /*Planeta sem luz*/

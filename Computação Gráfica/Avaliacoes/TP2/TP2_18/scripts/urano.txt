@@ -5,3 +5,4 @@ CoreRadius: 85
 RotationRadius: 14
 TranslationPeriod: 0
 RotationPeriod: 0.72
+GlLightConst: -1

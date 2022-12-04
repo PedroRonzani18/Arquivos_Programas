@@ -114,22 +114,18 @@ void Space::initializePlanets()
                       estrelas = std::make_shared<Planet>(texturesId[8], 0, 0, 6000,   0.0,  0,  10);
                               sol = std::make_shared<Sol>(texturesId[9], 0, 0,  600,   0.0,  0,   0, GL_LIGHT0, 1, 1, 0.2, 1);
      
-     /*terra*/ planets.push_back(std::make_shared<Planet>(texturesId[2], 1, 1,   64,   6.5, 0, 0.99, GL_LIGHT1, 1, 1, 1));  // tem que desenhar fontes de luz antes pra funcionar
-     /*marte*/ planets.push_back(std::make_shared<Planet>(texturesId[3], 1, 2,   34,   8.0, 0, 1.03, GL_LIGHT2, 1, 1, 1));
-     /*satur*/ planets.push_back(std::make_shared<Planet>(texturesId[5], 1, 3,  120, 12.25, 0, 0.45, GL_LIGHT3, 1, 1, 1));
-     /*jupit*/ //planets.push_back(std::make_shared<Planet>(texturesId[4], 1, 3,  175,  10.0, 0, 0.41));
+     /*terra*/ //planets.push_back(std::make_shared<Planet>(texturesId[2], 1, 1,   64,   6.5, 0, 0.99, GL_LIGHT1, 1, 1, 1));  // tem que desenhar fontes de luz antes pra funcionar
+     /*marte*/ //planets.push_back(std::make_shared<Planet>(texturesId[3], 1, 2,   34,   8.0, 0, 1.03, GL_LIGHT2, 1, 1, 1));
+     /*satur*/ //planets.push_back(std::make_shared<Planet>(texturesId[5], 1, 3,  120, 12.25, 0, 0.45, GL_LIGHT3, 1, 1, 1));
+                planets.push_back(std::make_shared<Planet>("scripts/terra.txt",1));
+                planets.push_back(std::make_shared<Planet>("scripts/marte.txt",1));
+                planets.push_back(std::make_shared<Planet>("scripts/saturno.txt",1));
 
-                planets.push_back(std::make_shared<Planet>("scripts/jupiter.txt"));
-
-     /*mercr*/ //planets.push_back(std::make_shared<Planet>(texturesId[0], 1, 0,   24,   4.0, 0,    4));
-                planets.push_back(std::make_shared<Planet>("scripts/mercurio.txt"));
-     /*venus*/ //planets.push_back(std::make_shared<Planet>(texturesId[1], 1, 0,   60,   5.0, 0,    6));
-                planets.push_back(std::make_shared<Planet>("scripts/venus.txt"));
-     /*urano*/ //planets.push_back(std::make_shared<Planet>(texturesId[6], 1, 3,   85,  14.0, 0, 0.72));    
-                planets.push_back(std::make_shared<Planet>("scripts/urano.txt"));
-                
-     /*netun*/ //planets.push_back(std::make_shared<Planet>(texturesId[7], 1, 3,   77,  16.0, 0, 0.67));
-                planets.push_back(std::make_shared<Planet>("scripts/netuno.txt"));
+                planets.push_back(std::make_shared<Planet>("scripts/jupiter.txt",0));
+                planets.push_back(std::make_shared<Planet>("scripts/mercurio.txt",0));
+                planets.push_back(std::make_shared<Planet>("scripts/venus.txt",0));
+                planets.push_back(std::make_shared<Planet>("scripts/urano.txt",0));                
+                planets.push_back(std::make_shared<Planet>("scripts/netuno.txt",0));
 }
 
 void Space::onOffSun()

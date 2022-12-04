@@ -10,7 +10,7 @@
 class Parser
 {
     public:
-        static std::pair<const char*,std::vector<float>> parsePlanet(const char* fileName);
+        static std::pair<const char*,std::vector<float>> parsePlanet(const char* fileName, int creationType);
 
 };
 

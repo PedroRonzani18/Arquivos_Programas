@@ -9,9 +9,6 @@
 #include "Header/lighting.h"
 #include "Header/Parser.h"
 
-
-// configurar luz para cada planeta
-
 Space* space;
 Parser parser;
 
@@ -24,7 +21,6 @@ void initialize()
     createTextures();
     space->initializePlanets();
     space->getSol()->getLighting()->configuraMateriais();
-
 }
 
 void display()
