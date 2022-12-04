@@ -111,18 +111,16 @@ void Space::initializePlanets()
     // /*urano*/ planets.push_back(std::make_shared<Planet>(texturesId[6], 1, 3,   85,  14.0,  8000, 0.72));    
     // /*netun*/ planets.push_back(std::make_shared<Planet>(texturesId[7], 1, 3,   77,  16.0, 10000, 0.67));
 
-                      //estrelas = std::make_shared<Planet>(texturesId[8], 0, 0, 6000,   0.0,  0,  10);
-                       estrelas = std::make_shared<Planet>("scripts/estrelas.txt",0);                      
-                        //sol = std::make_shared<Sol>(texturesId[9], 0, 0,  600,   0.0,  0,   0, GL_LIGHT0, 1, 1, 0.2, 1);
-                        sol = std::make_shared<Sol>("scripts/sol.txt");
-                planets.push_back(std::make_shared<Planet>("scripts/terra.txt",1));
-                planets.push_back(std::make_shared<Planet>("scripts/marte.txt",1));
-                planets.push_back(std::make_shared<Planet>("scripts/saturno.txt",1));
-                planets.push_back(std::make_shared<Planet>("scripts/jupiter.txt",0));
-                planets.push_back(std::make_shared<Planet>("scripts/mercurio.txt",0));
-                planets.push_back(std::make_shared<Planet>("scripts/venus.txt",0));
-                planets.push_back(std::make_shared<Planet>("scripts/urano.txt",0));                
-                planets.push_back(std::make_shared<Planet>("scripts/netuno.txt",0));
+           estrelas = std::make_shared<Planet>("scripts/estrelas.txt",0);                      
+                   sol = std::make_shared<Sol>("scripts/sol.txt");
+    planets.push_back(std::make_shared<Planet>("scripts/terra.txt",1));
+    planets.push_back(std::make_shared<Planet>("scripts/marte.txt",1));
+    planets.push_back(std::make_shared<Planet>("scripts/saturno.txt",1));
+    planets.push_back(std::make_shared<Planet>("scripts/jupiter.txt",0));
+    planets.push_back(std::make_shared<Planet>("scripts/mercurio.txt",0));
+    planets.push_back(std::make_shared<Planet>("scripts/venus.txt",0));
+    planets.push_back(std::make_shared<Planet>("scripts/urano.txt",0));                
+    planets.push_back(std::make_shared<Planet>("scripts/netuno.txt",0));
 }
 
 void Space::onOffSun()

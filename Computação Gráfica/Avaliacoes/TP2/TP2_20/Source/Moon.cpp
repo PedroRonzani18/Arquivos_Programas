@@ -13,3 +13,17 @@ Moon::Moon(double angle, double coreRadius, double rotationRadius, double transl
     this->lighting = new Lighting();
     this->hasLight = 0;
 }
+
+Moon::Moon(const char* planetName, double coreRadius, double angle)
+{
+    Parser aux = Parser::parseMoon(planetName);
+
+    this->angle = angle;
+    this->texture = texturesId[10];
+    this->coreRadius = aux.coreRadius;
+    this->rotationRadius = aux.coreRadius + 1.1 * coreRadius;
+    this->translationAngularSpeed = aux.translationPeriod;
+    this->rotationAngularSpeed = aux.rotationPeriod;
+    this->lighting = new Lighting();
+    this->hasLight = 0;
+}

@@ -4,6 +4,7 @@
 #include <GL/freeglut.h>
 #include "Coord.h"
 #include "lighting.h"
+#include "Material.h"
 
 class CelestialBody
 {
@@ -22,6 +23,7 @@ class CelestialBody
         double dependsOnLight;
         GLenum glLightConst;
         Lighting* lighting;
+        Material* material;
         int hasLight;
 
     public:
@@ -69,6 +71,8 @@ class CelestialBody
         Lighting* getLighting(){return this->lighting;}
 
         int getHasLight(){return this->hasLight;}
+
+        Material* getMaterial(){return this->material;}
 };
 
 #endif

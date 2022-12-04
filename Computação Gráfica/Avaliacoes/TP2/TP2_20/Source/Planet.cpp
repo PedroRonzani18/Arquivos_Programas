@@ -6,17 +6,18 @@
 
 Planet::Planet(const char* planetName, int creationType)
 {
-    std::pair<const char*,std::vector<float>> aux = Parser::parsePlanet(planetName,creationType);
+    Parser aux = Parser::parsePlanet(planetName,creationType);
     //std::pair<const char*,std::vector<float>> aux = Parser::parsePlanet(planetName,creationType);
 
-    const char* arquivo = aux.first;
+    const char* arquivo = aux.texture;
 
     this->texture = loadTexture(arquivo);
-    this->dependsOnLight = aux.second[0];
-    this->coreRadius = aux.second[2]/113.0;
-    this->rotationRadius = 1.7 * aux.second[3];
-    this->translationPeriod = aux.second[4];
-    this->rotationPeriod = aux.second[5];
+    this->dependsOnLight = aux.dependsOnLight;
+    this->coreRadius = aux.coreRadius/113.0;
+
+    this->rotationRadius = 1.7 * aux.rotationRadius;
+    this->translationPeriod = aux.translationPeriod;
+    this->rotationPeriod = aux.rotationPeriod;
 
     this->midPoint.x = 0;
     this->midPoint.y = 0;
@@ -33,19 +34,22 @@ Planet::Planet(const char* planetName, int creationType)
     this->translationAngularSpeed = translationSpeed;
     this->rotationAngularSpeed = angularSpeed;
 
-    int numberOfMoons = aux.second[1];
+    int numberOfMoons = aux.numberOfMooons;
     switch(numberOfMoons)
     {
         case 3:
-            addMooon(std::make_shared<Moon>(240, 0.15, this->coreRadius * 1.1 + 0.15, 0.5, 50));
+            //addMooon(std::make_shared<Moon>(240, 0.15, this->coreRadius * 1.1 + 0.15, 0.5, 50));
+            addMooon(std::make_shared<Moon>("scripts/lua.txt",this->coreRadius,240));
         case 2:
-            addMooon(std::make_shared<Moon>(360/numberOfMoons, 0.15, this->coreRadius * 1.1 + 0.15, 0.5, 50));
+            //addMooon(std::make_shared<Moon>(360/numberOfMoons, 0.15, this->coreRadius * 1.1 + 0.15, 0.5, 50));
+            addMooon(std::make_shared<Moon>("scripts/lua.txt",this->coreRadius,360/numberOfMoons));
         case 1:
-            addMooon(std::make_shared<Moon>(0, 0.15, this->coreRadius * 1.1 + 0.15, 0.5, 50));
+            //addMooon(std::make_shared<Moon>(0, 0.15, this->coreRadius * 1.1 + 0.15, 0.5, 50));
+            addMooon(std::make_shared<Moon>("scripts/lua.txt",this->coreRadius,0));
             break;
     }  
 
-    int luz = aux.second[6];
+    int luz = aux.glLightConst;
 
     switch (creationType)
     {
@@ -72,6 +76,18 @@ Planet::Planet(const char* planetName, int creationType)
             this->hasLight = 1;
             break;
     }
+
+    this->material = new Material();
+
+    for(int i=0; i<4; i++)
+    {
+        this->material->matAmbient[i] = aux.matAmbient[i];
+        this->material->matDifuse[i] = aux.matDifuse[i];
+        this->material->matEspec[i] = aux.matEspec[i];
+    }
+    this->material->matShininess = aux.matShininess;
+
+
 }
 
 /*Planeta sem luz*/

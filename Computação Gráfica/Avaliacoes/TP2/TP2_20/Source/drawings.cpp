@@ -21,6 +21,11 @@ void drawSolidSphere(double radius, int stacks, int columns)
 
 void drawCorpse(std::shared_ptr<Planet> planet, double time)
 {
+    glMaterialfv(GL_FRONT, GL_AMBIENT,   planet->getMaterial()->matAmbient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE,   planet->getMaterial()->matDifuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR,  planet->getMaterial()->matEspec);
+    glMaterialf (GL_FRONT, GL_SHININESS, planet->getMaterial()->matShininess);
+
     glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, planet->getTexture());
 
@@ -30,14 +35,9 @@ void drawCorpse(std::shared_ptr<Planet> planet, double time)
             glLightfv(planet->getGlLightConst(), GL_POSITION, planet->getLighting()->lightPos); // posiciona a fonte de luz na posição do planeta
         glRotatef(time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 
-        if(!planet->doesDependsOnLight())
-        {
-            glDisable(GL_LIGHTING);
-            drawSolidSphere(planet->getCoreRadius(),200,200);
-            glEnable(GL_LIGHTING);
-        }
-        else
-            drawSolidSphere(planet->getCoreRadius(),200,200);
+        if(!planet->doesDependsOnLight()) glDisable(GL_LIGHTING);
+        drawSolidSphere(planet->getCoreRadius(),200,200);
+        if(!planet->doesDependsOnLight()) glEnable(GL_LIGHTING);
 
     glDisable(GL_TEXTURE_2D);
 }
