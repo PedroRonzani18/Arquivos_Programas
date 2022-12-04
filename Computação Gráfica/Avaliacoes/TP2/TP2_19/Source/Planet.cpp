@@ -4,7 +4,6 @@
 #include "../Header/Coord.h"
 #include "../Header/globalParameters.h"
 
-
 Planet::Planet(const char* planetName, int creationType)
 {
     std::pair<const char*,std::vector<float>> aux = Parser::parsePlanet(planetName,creationType);
@@ -72,9 +71,7 @@ Planet::Planet(const char* planetName, int creationType)
             this->lighting = new Lighting(1, 1, 1, glLightConst);  
             this->hasLight = 1;
             break;
-
     }
-
 }
 
 /*Planeta sem luz*/
