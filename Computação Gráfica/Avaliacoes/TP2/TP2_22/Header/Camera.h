@@ -2,6 +2,7 @@
 #define _CAMERA_H
 
 #include "Coord.h"
+#include <GL/freeglut.h>
 
 class Camera{
     private:
@@ -15,6 +16,7 @@ class Camera{
         int previousPosition_x, previousPosition_y;
         double sensibilidade;
         bool checkMouse;
+        GLuint border;
 
     public:
         Camera();
@@ -24,7 +26,6 @@ class Camera{
 
         Coord getDirectionVector(){return this->directionVector;}
 
-        Coord getAngle(){return this->angle;}
         void setAngle(Coord angle){this->angle = angle;}
 
         void setCheckMouse(bool checkMouse){this->checkMouse = checkMouse;}
@@ -32,6 +33,12 @@ class Camera{
             mouseCoords_x = x; mouseCoords_y = y;
             setCheckMouse(true);
         }
+
+        float getTheta(){return this->theta;}
+        float getFi(){return this->fi;}
+
+        void setBorder(GLuint border){this->border = border;}
+        GLuint getBorder(){return this->border;}
 
         void movimentation();
 

@@ -1,6 +1,7 @@
 #include "../Header/Camera.h"
 #include "../Header/globalParameters.h"
 #include <cmath>
+#include "../Header/drawings.h"
 
 #define radGr(radianos) (radianos * (180.0 / M_PI))
 #define grRad(graus) ((graus * M_PI) / 180.0)
@@ -22,7 +23,7 @@ Camera::Camera()
     sensibilidade = 0.007;
 
     fi = 3.9;
-    theta = 21.89;
+    theta = 3.04;
 }
 
 double cossinLaw(double a)
@@ -56,10 +57,8 @@ void Camera::move()
 
     if(tempo > 0.5)
     {
-        if(fi<1.46)
-            fi = 1.46;
-        if(fi > 4.46)
-            fi = 4.46;
+        if(fi < 1.60) fi = 1.60;
+        if(fi > 4.7) fi = 4.7;
     }
 
     if(checkMouse)

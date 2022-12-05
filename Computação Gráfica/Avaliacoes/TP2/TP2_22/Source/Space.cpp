@@ -80,6 +80,7 @@ void Space::display()
     camera->setupCamera();
     atualizaPropriedadesLuz();
     drawAndMove();
+    drawCamera(camera);
     glutSwapBuffers();
 }
 
@@ -121,6 +122,8 @@ void Space::initializePlanets()
     planets.push_back(std::make_shared<Planet>("scripts/venus.txt",0));
     planets.push_back(std::make_shared<Planet>("scripts/urano.txt",0));                
     planets.push_back(std::make_shared<Planet>("scripts/netuno.txt",0));
+
+    camera->setBorder(loadTexture("imagens/border.png"));
 }
 
 void Space::onOffSun()

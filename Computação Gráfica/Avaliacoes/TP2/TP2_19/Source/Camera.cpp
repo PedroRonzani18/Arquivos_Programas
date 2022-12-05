@@ -1,5 +1,6 @@
 #include "../Header/Camera.h"
 #include "../Header/globalParameters.h"
+#include "../Header/drawings.h"
 #include <cmath>
 
 #define radGr(radianos) (radianos * (180.0 / M_PI))

@@ -2,6 +2,7 @@
 #define _CAMERA_H
 
 #include "Coord.h"
+#include <GL/freeglut.h>
 
 class Camera{
     private:
@@ -15,6 +16,7 @@ class Camera{
         int previousPosition_x, previousPosition_y;
         double sensibilidade;
         bool checkMouse;
+        GLuint borderId;
 
     public:
         Camera();

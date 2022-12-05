@@ -1,6 +1,8 @@
 #include "../Header/globalParameters.h"
 #include "../Header/Planet.h"
 #include "../Header/drawings.h"
+#include "../Header/Camera.h"
+#include "../Header/Coord.h"
 
 #include <stdio.h>
 #include <SOIL/SOIL.h>
@@ -8,6 +10,44 @@
 
 #define radGr(radianos) (radianos * (180.0 / M_PI))
 #define grRad(graus) ((graus * M_PI) / 180.0)
+
+void templateSquare(double x, double y, GLuint id)
+{
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, id);
+    glColor3f(1,1,1);
+    glBegin(GL_TRIANGLE_FAN);
+
+    glBegin(GL_TRIANGLE_FAN);
+        glTexCoord2f(0,0); 
+        glVertex2f (-x,-y);
+
+        glTexCoord2f(1,0);
+        glVertex2f (x,-y);
+
+        glTexCoord2f(1,1);
+        glVertex2f (x,y);
+
+        glTexCoord2f(0,1);
+        glVertex2f(-x,y);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+}
+
+void drawCamera(std::shared_ptr<Camera> camera)
+{
+    glPushMatrix();
+        glTranslatef(camera->getMidPoint().x + 17 * camera->getDirectionVector().x, // translada borda para frente da camera
+                    camera->getMidPoint().y + 17 * camera->getDirectionVector().y,
+                    camera->getMidPoint().z + 17 * camera->getDirectionVector().z);
+        glRotatef(90 - radGr(camera->getTheta()),0,1,0);
+        glRotatef(- radGr(camera->getFi()),1,0,0);
+        glRotatef(180,0,0,1); // arruma a orientação da borda
+        glDisable(GL_LIGHTING);
+            templateSquare(16,9,camera->getBorder()); // desenha a borda
+        glEnable(GL_LIGHTING);
+    glPopMatrix();
+}
 
 void drawSolidSphere(double radius, int stacks, int columns)
 {
@@ -113,6 +153,7 @@ void createTextures()
     /*[ 8]*/texturesId.push_back(loadTexture("imagens/2k_stars_milky_way.jpg"));
     /*[ 9]*/texturesId.push_back(loadTexture("imagens/2k_sun.jpg"));
     /*[10]*/texturesId.push_back(loadTexture("imagens/2k_moon.jpg"));
+            texturesId.push_back(loadTexture("imagens/border.png"));
 }
 
 

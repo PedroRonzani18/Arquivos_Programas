@@ -14,6 +14,9 @@ Parser parser;
 
 void initialize()
 {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     space = new Space();
     keys = new Keyboard();
 
@@ -28,7 +31,7 @@ void display()
     space->display();
 }
 
-void reshape(int width, int height)
+void reshape(int width, int height)   
 {
     razaoAspecto = (double) glutGet(GLUT_WINDOW_WIDTH) / (double) glutGet(GLUT_WINDOW_HEIGHT);
     glViewport(0, 0, width, height);
