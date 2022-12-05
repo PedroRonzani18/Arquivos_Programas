@@ -57,7 +57,7 @@ void Space::drawAndMove()
 
 void Space::marsMusic(Coord c)
 {
-    musicManager->marsMusic(distanceBetweenPlanets(c,planets[3]->getMidPoint()));
+    musicManager->marsMusic(distanceBetweenPlanets(c,planets[1]->getMidPoint()));
 }
 
 double Space::distanceBetweenPlanets(Coord a, Coord b)
