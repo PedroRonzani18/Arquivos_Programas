@@ -31,7 +31,6 @@ class Lighting
 
         GLenum glLightConst;
 
-        void configuraMateriais();  
         void atualizaPropriedadesLuz();
 };
 

@@ -11,6 +11,7 @@
 #define radGr(radianos) (radianos * (180.0 / M_PI))
 #define grRad(graus) ((graus * M_PI) / 180.0)
 
+// Função que desenha um retângulo e aplica textura sob o mesmo
 void templateSquare(double x, double y, GLuint id)
 {
     glEnable(GL_TEXTURE_2D);
@@ -34,21 +35,23 @@ void templateSquare(double x, double y, GLuint id)
     glDisable(GL_TEXTURE_2D);
 }
 
+// Função que desenha o painel da câmera de acordo com sua posição e orientação de visão atuais
 void drawCamera(std::shared_ptr<Camera> camera)
 {
     glPushMatrix();
-        glTranslatef(camera->getMidPoint().x + 17 * camera->getDirectionVector().x, // translada borda para frente da camera
-                    camera->getMidPoint().y + 17 * camera->getDirectionVector().y,
-                    camera->getMidPoint().z + 17 * camera->getDirectionVector().z);
+        glTranslatef(camera->getMidPoint().x + 17 * camera->getDirectionVector().x, // Translada borda para frente da camera
+                     camera->getMidPoint().y + 17 * camera->getDirectionVector().y,
+                     camera->getMidPoint().z + 17 * camera->getDirectionVector().z);
         glRotatef(90 - radGr(camera->getTheta()),0,1,0);
         glRotatef(- radGr(camera->getFi()),1,0,0);
-        glRotatef(180,0,0,1); // arruma a orientação da borda
+        glRotatef(180,0,0,1); // Conserta a orientação da borda
         glDisable(GL_LIGHTING);
-            templateSquare(16,9,camera->getBorder()); // desenha a borda
+            templateSquare(16,9,camera->getBorder()); // Desenha borda sem influência de luz
         glEnable(GL_LIGHTING);
     glPopMatrix();
 }
 
+// Função que desenha uma esfera e aplica textura sobre ela
 void drawSolidSphere(double radius, int stacks, int columns)
 {
     GLUquadric* quadObj = gluNewQuadric(); // cira uma quadrica 
@@ -59,6 +62,7 @@ void drawSolidSphere(double radius, int stacks, int columns)
     gluDeleteQuadric(quadObj);
 }
 
+// Função de desenho do planeta de acordo com o tempo
 void drawCorpse(std::shared_ptr<Planet> planet, double time)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT,   planet->getMaterial()->matAmbient);
@@ -82,6 +86,7 @@ void drawCorpse(std::shared_ptr<Planet> planet, double time)
     glDisable(GL_TEXTURE_2D);
 }
 
+// Função de desenho do sol de acordo com o tempo
 void drawCorpse(std::shared_ptr<Sol> sun, double time)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT,   sun->getMaterial()->matAmbient);
@@ -108,6 +113,7 @@ void drawCorpse(std::shared_ptr<Sol> sun, double time)
     glDisable(GL_TEXTURE_2D);
 }
 
+// Função de desenho da lua de acordo com o tempo
 void drawCorpse(std::shared_ptr<Moon>  moon, double time)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT,   moon->getMaterial()->matAmbient);
@@ -124,6 +130,7 @@ void drawCorpse(std::shared_ptr<Moon>  moon, double time)
     glDisable(GL_TEXTURE_2D);   
 }
 
+// Função que gera um id para cada textura carregada
 GLuint loadTexture(const char* arquivo)
 {
     GLuint idTextura = SOIL_load_OGL_texture(
@@ -139,6 +146,7 @@ GLuint loadTexture(const char* arquivo)
     return idTextura;
 }
 
+// Carrega texturas via SOIL e armazena seus respectivos ID's em um vector global.
 void createTextures()
 {
     texturesId.resize(0);

@@ -1,3 +1,4 @@
+// Bibliotecas criadas
 #include "Header/drawings.h"
 #include "Header/globalParameters.h"
 #include "Header/Planet.h"
@@ -9,31 +10,40 @@
 #include "Header/lighting.h"
 #include "Header/Parser.h"
 
+// Objeto do espaço
 Space* space;
-Parser parser;
 
 void initialize()
 {
+    // Permite a anexação devida da textura
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Ativa as cores dos materiais
+    glEnable(GL_COLOR_MATERIAL);
+
+    // ??
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
     space = new Space();
     keys = new Keyboard();
 
-    space->getMusicManager()->configureMusic();
     createTextures();
-    space->initializePlanets();
-    space->getSol()->getLighting()->configuraMateriais();
+    space->initialize();
 }
 
+// Callback para desenho na tela
 void display()
 {
     space->display();
 }
 
+// Callback de redimensionamento da tela
 void reshape(int width, int height)   
 {
+    // Variável global de razão aspecto
     razaoAspecto = (double) glutGet(GLUT_WINDOW_WIDTH) / (double) glutGet(GLUT_WINDOW_HEIGHT);
+
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -43,6 +53,7 @@ void reshape(int width, int height)
     glLoadIdentity();
 }
 
+// Callback de pressionamento de teclas
 void keyboard(unsigned char key, int x, int y)
 {
     char formattedKey = (char) toupper(key);
@@ -121,11 +132,13 @@ void keyboard(unsigned char key, int x, int y)
         }
 }
 
+// Callback da função timer
 void timer(int t)
 {
+    // Armazena o valor do tempo passado desde o início do programa em segundos
     tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
 
-    space->getCamera()->movimentation();
+    space->getCamera()->move();
     space->marsMusic(space->getCamera()->getMidPoint());
     space->onOffSun();
 
@@ -133,8 +146,10 @@ void timer(int t)
     glutTimerFunc(t, timer, t);
 }
 
+// Callback de captura da posição do mouse
 void posicionaCamera(int x, int y)
 {
+    // Determina o valor da posição do mouse
     space->getCamera()->setMouseCoords(x,y);
 }
 

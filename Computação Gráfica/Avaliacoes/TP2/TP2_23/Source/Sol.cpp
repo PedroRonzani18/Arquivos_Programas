@@ -36,6 +36,7 @@ Sol::Sol(GLuint texture, bool dependsOnLight, int numberOfMoons, double coreRadi
     this->hasLight = 1;
 }
 
+// Construtor de acordo com os valores escritos nos scripts
 Sol::Sol(const char* planetName)
 {
     Parser aux = Parser::parseSun(planetName);

@@ -40,7 +40,6 @@ class Camera{
         void setBorder(GLuint border){this->border = border;}
         GLuint getBorder(){return this->border;}
 
-        void movimentation();
 
 
         void move();

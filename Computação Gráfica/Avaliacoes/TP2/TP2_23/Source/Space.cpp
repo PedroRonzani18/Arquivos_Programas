@@ -19,24 +19,29 @@ Space::Space()
     musicManager = std::make_shared<MusicManager>();
 }
 
+// Desenha todos os planetas, Sol, Lua e estredlas
 void Space::drawAndMove()
 {
     glPushMatrix();
-        glRotated(-90,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
-        drawCorpse(estrelas,tempo);
+        glRotated(-90,1,0,0); // Rotação no eixo X para melhor visualização dos planetas
+        drawCorpse(estrelas,tempo); 
     glPopMatrix();
 
     glPushMatrix();
-        glRotated(-90,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
+        glRotated(-90,1,0,0); // Rotação no eixo X para melhor visualização dos planetas
 
         glPushMatrix();
             drawCorpse(sol,tempo);
         glPopMatrix();
 
-        for(std::shared_ptr<Planet> planet : planets)
+        for(std::shared_ptr<Planet> planet : planets) 
         {
             glPushMatrix();
+                // Determmina o atual angulo do planeta baseado em sua velocidade angular e no tempo.
                 planet->setAngle(tempo * planet->getTranslationAngularSpeed());
+
+                // Os planetas realizam uma rotação ao redor do ponto (0,0,0) em tono do eixo x,z.
+                // Para isso são usadas coordenadas cilíndricas, em que y sempre será 0.
                 planet->setMidPoint(-planet->getRotationRadius() * cos(planet->getAngle()),
                                     0,
                                      planet->getRotationRadius() * sin(planet->getAngle()));
@@ -55,11 +60,13 @@ void Space::drawAndMove()
     glPopMatrix();
 }
 
+// configura o valor da música de acordo com a distância entre Marte e a Câmera
 void Space::marsMusic(Coord c)
 {
     musicManager->marsMusic(distanceBetweenPlanets(c,planets[1]->getMidPoint()));
 }
 
+// Calcula distância entre dois pontos
 double Space::distanceBetweenPlanets(Coord a, Coord b)
 {
     return sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2) + pow(a.z - b.z,2));
@@ -68,19 +75,33 @@ double Space::distanceBetweenPlanets(Coord a, Coord b)
 void Space::atualizaPropriedadesLuz()
 {
     sol->getLighting()->atualizaPropriedadesLuz();
-    for(std::shared_ptr<Planet> planet: planets)
-        planet->getLighting()->atualizaPropriedadesLuz();
-    
+
+    for(long unsigned int i=0; i<planets.size(); i++)
+        planets[i]->getLighting()->atualizaPropriedadesLuz();
 }
 
+// Callback de desenho
 void Space::display()
 {
+    // Limpa a cena e o buffer de profundidade
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    // Carrega a matriz identidade
     glLoadIdentity();
+
+    // Configura a posição da camera de acordo com seus atributos de posição e vetor direção
     camera->setupCamera();
+
+    // Atualiza as propriedades da luz de todos os planetas
     atualizaPropriedadesLuz();
+
+    // Desenha e movimenta todos os planetas, e as estrelas
     drawAndMove();
+
+    // Desenha o painel da câmera
     drawCamera(camera);
+
+    // Swap Buffers
     glutSwapBuffers();
 }
 
@@ -126,18 +147,28 @@ void Space::initializePlanets()
     camera->setBorder(loadTexture("imagens/border.png"));
 }
 
+// Função que determidna se a luz do sol está ativada ou desativada
 void Space::onOffSun()
 {
-    if(buttons[0] && keys->l)
+    if(buttons[0] && keys->l) // Caso a tecla "L" tenha sido pressionada...
     {
         buttons[0] = 0;
 
+        // Altera o valor da flag que detemina se é desenhada a textura do sol
         if(sol->getLighting()->lightLigada) sol->getLighting()->lightLigada = 0;
         else                                sol->getLighting()->lightLigada = 1;
 
         
+        // Liga ou desliga a fonte de luz interior ao Sol
         if(sol->getLighting()->lightLigada) glEnable(GL_LIGHT0);
         else                                glDisable(GL_LIGHT0);
         
     }
+}
+
+// Função de inicialização geral
+void Space::initialize()
+{
+    musicManager->configureMusic();
+    initializePlanets();
 }

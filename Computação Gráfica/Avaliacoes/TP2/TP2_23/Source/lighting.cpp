@@ -2,7 +2,7 @@
 #include "../Header/globalParameters.h"
 #include <iostream>
 
-/*Luz não alterável mas cor customizável*/
+// Luz não alterável, porém tem cor customizável
 Lighting::Lighting(double r, double g, double b, GLenum glLightConst)
 {
     this->alteravel = 0;
@@ -41,7 +41,7 @@ Lighting::Lighting(double r, double g, double b, GLenum glLightConst)
     glEnable(glLightConst);
 }
 
-/*luz branca alterável*/
+// Luz branca que pode ter seus valores alterados (Luz do sol)
 Lighting::Lighting(int alteravel, double d, double m, double e, GLenum glLightConst)
 {
     this->d = d;
@@ -76,29 +76,9 @@ Lighting::Lighting(int alteravel, double d, double m, double e, GLenum glLightCo
     glEnable(glLightConst);
 }
 
-void Lighting::configuraMateriais()
-{
-    glEnable(GL_COLOR_MATERIAL);
-
-    // Definindo as propriedades do material
-    //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
-    //glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
-    //glMaterialf (GL_FRONT, GL_SHININESS, 0);
-    //glMaterialf(GL_FRONT, GL_EMISSION, 128);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-}
-
+// Função que configura os valores atuais das fontes de luz individuais
 void Lighting::atualizaPropriedadesLuz()
 {
-    //printf("Alt: %d\n",alteravel);
-
-    globAmb[0] = 0;
-    globAmb[1] = 0;
-    globAmb[2] = 0;
-    globAmb[3] = 0;
-
     if(alteravel)
     {
         if(0 < m) m += -keys->x * 0.05;
@@ -131,16 +111,14 @@ void Lighting::atualizaPropriedadesLuz()
         lightDif[3] = 1;
     }
 
-    /* Propriedades da fonte de luz LIGHT0 */
-    glLightfv(glLightConst, GL_AMBIENT, lightAmb); // rgb da luz ambiente
+    // Configura os valores atuais das fontes de luz individuais
+    glLightfv(glLightConst, GL_AMBIENT, lightAmb);
     glLightfv(glLightConst, GL_DIFFUSE, lightDif);
     glLightfv(glLightConst, GL_SPECULAR, lightSpec);    
     glLightfv(glLightConst, GL_POSITION, lightPos);
 
     if(hasAtenuation)
         glLightf(glLightConst, GL_QUADRATIC_ATTENUATION, 0.8);     
-
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb); // Luz ambiente global
 
     //glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128);// teria que variarcmom pressionamento de tela
 }

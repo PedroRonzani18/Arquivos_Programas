@@ -3,7 +3,7 @@ DependsOnLight: 1
 NumberOfMoons: 3
 CoreRadius: 60
 RotationRadius: 5.0
-TranslationPeriod: 0
+TranslationPeriod: 800
 RotationPeriod: 6
 GlLightConst: -1
 MaterialAmbient: 0.2, 0.2, 0.2, 1

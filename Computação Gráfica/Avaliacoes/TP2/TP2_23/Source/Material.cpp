@@ -1,5 +1,6 @@
 #include "../Header/Material.h"
 
+// Construtor de um material de acordo com valores passados em scripts
 Material::Material(float* ambient, float* difuse, float* espec, float shine)
 {
     for(int i=0; i<4; i++)

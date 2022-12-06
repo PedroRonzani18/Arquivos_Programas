@@ -37,6 +37,8 @@ class Space
         void display();
         static double distanceBetweenPlanets(Coord a, Coord b);
         void onOffSun();
+        void initialize();
+
 };
 
 #endif

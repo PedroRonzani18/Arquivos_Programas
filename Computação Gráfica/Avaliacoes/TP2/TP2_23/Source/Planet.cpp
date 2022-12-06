@@ -4,10 +4,10 @@
 #include "../Header/Coord.h"
 #include "../Header/globalParameters.h"
 
+// Construtor de acordo com os valores escritos nos scripts
 Planet::Planet(const char* planetName, int creationType)
 {
     Parser aux = Parser::parsePlanet(planetName,creationType);
-    //std::pair<const char*,std::vector<float>> aux = Parser::parsePlanet(planetName,creationType);
 
     const char* arquivo = aux.texture;
 
@@ -53,13 +53,13 @@ Planet::Planet(const char* planetName, int creationType)
 
     switch (creationType)
     {
-        case 0:
+        case 0: // Planeta não emite luz
             this->lighting = new Lighting(); 
             this->hasLight = 0;
             break;
 
 
-        case 1:
+        case 1: // Planeta emite luz
             switch(luz)
             {
                 case 1:
