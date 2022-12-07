@@ -13,6 +13,7 @@ Lighting::Lighting(double r, double g, double b, GLenum glLightConst)
     this->b = b;
     
     lightLigada = 1;
+    lighGeralLigada = 1;
 
     for(int i=0; i<3 ; i++)
     {
@@ -50,6 +51,7 @@ Lighting::Lighting(int alteravel, double d, double m, double e, GLenum glLightCo
     this->glLightConst = glLightConst;
     
     lightLigada = 1;
+    lighGeralLigada = 1;
 
     for(int i=0; i<3 ; i++)
     {
@@ -87,7 +89,6 @@ void Lighting::configuraMateriais()
     //glMaterialf(GL_FRONT, GL_EMISSION, 128);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 void Lighting::atualizaPropriedadesLuz()
@@ -183,7 +184,7 @@ void Lighting::lightingInfo()
     writeOnScreen(GLUT_BITMAP_8_BY_13, dados);
 
     glRasterPos3f(-0.85 * razaoAspecto, 0.38, -2.0);
-    sprintf(dados, "* Luzes da Terra, Marte, Saturno (L) : %s", lightLigada ? "Ligada" : "Desligada");
+    sprintf(dados, "* Luzes da Terra, Marte, Saturno (L) : %s", lighGeralLigada ? "Ligada" : "Desligada");
     writeOnScreen(GLUT_BITMAP_8_BY_13, dados);
 
     delete dados;

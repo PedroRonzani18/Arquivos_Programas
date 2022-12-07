@@ -133,11 +133,11 @@ void Space::onOffSun()
     {
         buttons[0] = 0;
 
-        if(sol->getLighting()->lightLigada) sol->getLighting()->lightLigada = 0;
-        else                                sol->getLighting()->lightLigada = 1;
+        if(sol->getLighting()->lighGeralLigada) sol->getLighting()->lighGeralLigada = 0;
+        else                                sol->getLighting()->lighGeralLigada = 1;
 
         
-        if(sol->getLighting()->lightLigada) 
+        if(sol->getLighting()->lighGeralLigada) 
         {
             glEnable(GL_LIGHT1);
             glEnable(GL_LIGHT2);
@@ -148,6 +148,19 @@ void Space::onOffSun()
             glDisable(GL_LIGHT1);
             glDisable(GL_LIGHT2);
             glDisable(GL_LIGHT3);
-        }        
+        }   
+  
+    }
+
+    if(buttons[1] && keys->k)
+    {       
+        buttons[1] = 0;
+
+        if(sol->getLighting()->lightLigada) sol->getLighting()->lightLigada = 0;
+        else                                sol->getLighting()->lightLigada = 1;
+
+        if(sol->getLighting()->lightLigada) glEnable(GL_LIGHT0);
+        else                                glDisable(GL_LIGHT0);
     }
 }
+

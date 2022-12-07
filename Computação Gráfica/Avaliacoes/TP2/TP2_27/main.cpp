@@ -118,6 +118,14 @@ void keyboard(unsigned char key, int x, int y)
                 else       keys->l = 1;
                 buttons[0] = 1;
                 break;
+
+            case 'K':
+                if(keys->k) keys->k = 0;
+                else       keys->k = 1;
+                buttons[1] = 1;
+                break;
+
+
         }
 }
 

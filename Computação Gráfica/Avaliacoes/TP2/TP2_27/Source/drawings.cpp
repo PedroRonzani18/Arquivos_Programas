@@ -97,10 +97,15 @@ void drawCorpse(std::shared_ptr<Sol> sun, double time)
         glTranslated(-sun->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
         glRotatef(time * sun->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 
-        glDisable(GL_LIGHTING);
+        if(sun->getLighting()->lightLigada)
+        {
+            glDisable(GL_LIGHTING);
+                drawSolidSphere(sun->getCoreRadius(),200,200);
+            glEnable(GL_LIGHTING);
+        }
+        else
             drawSolidSphere(sun->getCoreRadius(),200,200);
-        glEnable(GL_LIGHTING);
-
+            
     glDisable(GL_TEXTURE_2D);
 }
 
