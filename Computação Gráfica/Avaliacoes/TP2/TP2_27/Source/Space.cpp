@@ -149,7 +149,6 @@ void Space::onOffSun()
             glDisable(GL_LIGHT2);
             glDisable(GL_LIGHT3);
         }   
-  
     }
 
     if(buttons[1] && keys->k)

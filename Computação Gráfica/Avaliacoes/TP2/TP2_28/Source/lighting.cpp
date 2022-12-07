@@ -157,7 +157,7 @@ void Lighting::lightingInfo()
 {
     glDisable(GL_LIGHTING);
 
-    char* dados = new char[80];
+    char* dados = (char*)malloc(100 * sizeof(char));
 
     glRasterPos3f(-0.85 * razaoAspecto, 0.8, -2.0);
     sprintf(dados, "    FONTE DE LUZ DO SOL");
@@ -175,7 +175,7 @@ void Lighting::lightingInfo()
     sprintf(dados, "* Componente Especular (B/N) : %0.2f", e);
     writeOnScreen(GLUT_BITMAP_8_BY_13, dados);
 
-    glRasterPos3f(-0.85 * razaoAspecto, 0.5, -2.0);
+    glRasterPos3f(-0.85 * razaoAspecto, 0.56, -2.0);
     sprintf(dados, "* Estado da Luz solar (K): %s", lightLigada ? "Ligada" : "Desligada");
     writeOnScreen(GLUT_BITMAP_8_BY_13, dados);
 

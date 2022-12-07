@@ -12,8 +12,8 @@ Camera::Camera()
     midPoint.y = 19.44;
     midPoint.z = -20.96;
     
-    directionVector.x = 0.05;
-    directionVector.y = -0.62;
+    directionVector.x = 0.02;
+    directionVector.y = -0.63;
     directionVector.z = 0.78;
 
     moveSpeed.x = 0.1;
@@ -22,8 +22,8 @@ Camera::Camera()
 
     sensibilidade = 0.007;
 
-    fi = 3.9;
-    theta = 3.04;
+    fi = 3.82;
+    theta = 4.68;
 }
 
 double cossinLaw(double a)
