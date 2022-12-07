@@ -20,6 +20,8 @@ void drawCorpse(std::shared_ptr<Planet> p, double time);
 void drawCorpse(std::shared_ptr<Moon>  moon, double time);
 void drawCorpse(std::shared_ptr<Sol>  moon, double time);
 void drawCamera(std::shared_ptr<Camera> camera);
+void drawCylinder(GLdouble base, GLdouble top, GLdouble height, GLint slices, GLint stacks);
+
 
 //void configuraTextures();
 

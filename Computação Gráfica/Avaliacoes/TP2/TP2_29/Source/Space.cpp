@@ -19,7 +19,7 @@ Space::Space()
     musicManager = std::make_shared<MusicManager>();
 }
 
-void Space::drawAndMove()
+void Space::drawPlanets()
 {
     glPushMatrix();
         glRotated(-90,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
@@ -73,6 +73,21 @@ void Space::atualizaPropriedadesLuz()
     
 }
 
+void Space::drawSaturnRing()
+{
+    std::shared_ptr<Planet> saturn = planets[2];
+    Coord aux = saturn->getMidPoint();
+
+    glPushMatrix();
+        glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, texturesId[12]);
+            glRotated(-90,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
+            glTranslatef(aux.x,aux.y,aux.z);
+            drawCylinder(1.2 * saturn->getCoreRadius(), 1.2 * saturn->getCoreRadius(), 0.3, 400, 400);
+        glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+}
+
 void Space::display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -80,7 +95,8 @@ void Space::display()
     sol->getLighting()->lightingInfo();
     camera->setupCamera();
     atualizaPropriedadesLuz();
-    drawAndMove();
+    drawPlanets();
+    drawSaturnRing();
     drawCamera(camera);
     glutSwapBuffers();
 }

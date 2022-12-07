@@ -22,7 +22,7 @@ class Space
     public:
         Space();    
 
-        void drawAndMove();
+        void drawPlanets();
         void initializePlanets();
 
         std::shared_ptr<Sol> getSol(){return this->sol;}
@@ -37,6 +37,7 @@ class Space
         void display();
         static double distanceBetweenPlanets(Coord a, Coord b);
         void onOffSun();
+        void drawSaturnRing();
 };
 
 #endif

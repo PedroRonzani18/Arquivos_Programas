@@ -21,7 +21,7 @@ Moon::Moon(const char* planetName, double coreRadius, double angle)
     this->angle = angle;
     this->texture = texturesId[10];
     this->coreRadius = aux.coreRadius;
-    this->rotationRadius = aux.coreRadius + 1.1 * coreRadius;
+    this->rotationRadius = aux.coreRadius + 1.2 * coreRadius;
     this->translationAngularSpeed = aux.translationPeriod;
     this->rotationAngularSpeed = aux.rotationPeriod;
     this->lighting = new Lighting();
@@ -36,4 +36,5 @@ Moon::Moon(const char* planetName, double coreRadius, double angle)
         this->material->matEspec[i] = aux.matEspec[i];
     }
     this->material->matShininess = aux.matShininess;
+    
 }

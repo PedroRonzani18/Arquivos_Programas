@@ -37,6 +37,9 @@ void templateSquare(double x, double y, GLuint id)
 // Função que desenha o painel da câmera de acordo com sua posição e orientação de visão atuais
 void drawCamera(std::shared_ptr<Camera> camera)
 {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glPushMatrix();
         glTranslatef(camera->getMidPoint().x + 2.5 * camera->getDirectionVector().x, // Translada borda para frente da camera
                      camera->getMidPoint().y + 2.5 * camera->getDirectionVector().y,
@@ -48,6 +51,8 @@ void drawCamera(std::shared_ptr<Camera> camera)
             templateSquare(1.25*razaoAspecto,1.3,camera->getBorder()); // Desenha borda sem influência de luz
         glEnable(GL_LIGHTING);
     glPopMatrix();
+    
+    glDisable(GL_BLEND);
 }
 
 void drawSolidSphere(double radius, int stacks, int columns)
@@ -57,6 +62,16 @@ void drawSolidSphere(double radius, int stacks, int columns)
     gluQuadricNormals(quadObj, GLU_SMOOTH);
     gluQuadricTexture(quadObj, GL_TRUE); // chama 01 glTexCoord por vértice
     gluSphere(quadObj, radius, stacks, columns); // cria os vértices de uma esfera
+    gluDeleteQuadric(quadObj);
+}
+
+void drawCylinder(GLdouble base, GLdouble top, GLdouble height, GLint slices, GLint stacks)
+{
+    GLUquadric* quadObj = gluNewQuadric(); // cira uma quadrica 
+    gluQuadricDrawStyle(quadObj, GLU_FILL); // estilo preenchido
+    gluQuadricNormals(quadObj, GLU_SMOOTH);
+    gluQuadricTexture(quadObj, GL_TRUE); // chama 01 glTexCoord por vértice
+    gluCylinder(quadObj,base,top,height,slices,stacks);
     gluDeleteQuadric(quadObj);
 }
 
@@ -155,6 +170,7 @@ void createTextures()
     /*[ 9]*/texturesId.push_back(loadTexture("imagens/2k_sun.jpg"));
     /*[10]*/texturesId.push_back(loadTexture("imagens/2k_moon.jpg"));
             texturesId.push_back(loadTexture("imagens/border.png"));
+            texturesId.push_back(loadTexture("imagens/saturn_ring.png"));
 }
 
 

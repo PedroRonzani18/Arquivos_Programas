@@ -142,8 +142,6 @@ void Lighting::atualizaPropriedadesLuz()
         glLightf(glLightConst, GL_QUADRATIC_ATTENUATION, 0.8);     
 
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb); // Luz ambiente global
-
-    //glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128);// teria que variarcmom pressionamento de tela
 }
 
 // Escreve uma cadeia de caracteres
@@ -187,5 +185,5 @@ void Lighting::lightingInfo()
     sprintf(dados, "* Luzes da Terra, Marte, Saturno (L) : %s", lighGeralLigada ? "Ligada" : "Desligada");
     writeOnScreen(GLUT_BITMAP_8_BY_13, dados);
 
-    delete dados;
+    free(dados);
 }

@@ -38,22 +38,22 @@ double cossinLaw(double a)
 
 void Camera::move()
 {   
-    float offset_x = (mouseCoords_x - previousPosition_x) * sensibilidade;
-    float offset_y = (mouseCoords_y - previousPosition_y) * sensibilidade;
+    float deltaX = (mouseCoords_x - previousPosition_x) * sensibilidade;
+    float deltaY = (mouseCoords_y - previousPosition_y) * sensibilidade;
 
     int signal_x = 0, signal_y = 0;
 
-    if(offset_x > 0) signal_x = 1;
-    else if(offset_x < 0) signal_x = -1;
+    if(deltaX > 0) signal_x = 1;
+    else if(deltaX < 0) signal_x = -1;
 
-    if(offset_y > 0) signal_y = 1;
-    else if(offset_y< 0) signal_y = -1;
+    if(deltaY > 0) signal_y = 1;
+    else if(deltaY< 0) signal_y = -1;
 
     previousPosition_x = mouseCoords_x;
     previousPosition_y = mouseCoords_y;
 
-    theta += signal_x * cossinLaw(offset_x);
-    fi += signal_y * cossinLaw(offset_y);
+    theta += signal_x * cossinLaw(deltaX);
+    fi += signal_y * cossinLaw(deltaY);
 
     if(tempo > 0.5)
     {
@@ -68,16 +68,10 @@ void Camera::move()
         directionVector.z = sin(theta)*cos(fi);
     }
 
-
-    //printf("Valor: %.2f\n",asin(-0.63));
-
     midPoint.x += moveSpeed.x * ((keys->w - keys->s) * directionVector.x + (keys->d - keys->a) * (-directionVector.z)); 
     midPoint.y += moveSpeed.y * ( keys->w - keys->s) * directionVector.y ; 
     midPoint.z += moveSpeed.z * ((keys->w - keys->s) * directionVector.z + (keys->d - keys->a) * (directionVector.x)); // + vetor normal a direta dele (keyboard.d-keyboard.a)*speed                     
 
-
-    //printf("Midpoint: (%.2f,%.2f,%.2f)     directionVector: (%.2f,%.2f,%.2f)\n",midPoint.x,midPoint.y,midPoint.z,directionVector.x,directionVector.y,directionVector.z);
-    //printf("Theta: %.2f    Fi: %.2f\n",theta,fi);
 }
 
 void Camera::setupCamera()

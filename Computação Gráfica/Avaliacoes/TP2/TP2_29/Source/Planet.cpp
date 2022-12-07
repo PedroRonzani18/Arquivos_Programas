@@ -7,7 +7,6 @@
 Planet::Planet(const char* planetName, int creationType)
 {
     Parser aux = Parser::parsePlanet(planetName,creationType);
-    //std::pair<const char*,std::vector<float>> aux = Parser::parsePlanet(planetName,creationType);
 
     const char* arquivo = aux.texture;
 
