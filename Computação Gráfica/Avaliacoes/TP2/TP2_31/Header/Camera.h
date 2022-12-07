@@ -40,10 +40,9 @@ class Camera{
         void setBorder(GLuint border){this->border = border;}
         GLuint getBorder(){return this->border;}
 
-        void move(double limit);
+        void move();
         void setupCamera();
         void backPosition();
-        double directionVectorModule();
 };
 
 #endif

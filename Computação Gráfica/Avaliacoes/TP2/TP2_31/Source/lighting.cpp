@@ -2,7 +2,7 @@
 #include "../Header/globalParameters.h"
 #include <iostream>
 
-/*Luz não alterável mas cor customizável*/
+// Construtor de luz não alterável por parâmetros, porém tem cor customizada
 Lighting::Lighting(double r, double g, double b, GLenum glLightConst)
 {
     this->alteravel = 0;
@@ -42,7 +42,7 @@ Lighting::Lighting(double r, double g, double b, GLenum glLightConst)
     glEnable(glLightConst);
 }
 
-/*luz branca alterável*/
+// Construtor de luz branca customizável
 Lighting::Lighting(int alteravel, double d, double m, double e, GLenum glLightConst)
 {
     this->d = d;
@@ -78,27 +78,11 @@ Lighting::Lighting(int alteravel, double d, double m, double e, GLenum glLightCo
     glEnable(glLightConst);
 }
 
-void Lighting::configuraMateriais()
-{
-    glEnable(GL_COLOR_MATERIAL);
-
-    // Definindo as propriedades do material
-    //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, matAmbAndDif);
-    //glMaterialfv(GL_FRONT, GL_SPECULAR, matSpec);
-    //glMaterialf (GL_FRONT, GL_SHININESS, 0);
-    //glMaterialf(GL_FRONT, GL_EMISSION, 128);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-}
-
+// Função que atualiza os valores dos parâmetros da luz 
 void Lighting::atualizaPropriedadesLuz()
 {
-    //printf("Alt: %d\n",alteravel);
-
-    globAmb[0] = 0;
-    globAmb[1] = 0;
-    globAmb[2] = 0;
-    globAmb[3] = 0;
+    for(int i=0; i<4; i++)
+        globAmb[i] = 0;
 
     if(alteravel)
     {
@@ -132,7 +116,7 @@ void Lighting::atualizaPropriedadesLuz()
         lightDif[3] = 1;
     }
 
-    /* Propriedades da fonte de luz LIGHT0 */
+    // Atualiza as propriedades da fonte de luz glLightConst
     glLightfv(glLightConst, GL_AMBIENT, lightAmb); // rgb da luz ambiente
     glLightfv(glLightConst, GL_DIFFUSE, lightDif);
     glLightfv(glLightConst, GL_SPECULAR, lightSpec);    
@@ -144,13 +128,14 @@ void Lighting::atualizaPropriedadesLuz()
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb); // Luz ambiente global
 }
 
-// Escreve uma cadeia de caracteres
+// Função que escreve um conjunto de caracteres
 void writeOnScreen(void *font, char *string)
 {
     char *c;
     for (c = string; *c != '\0'; c++) glutBitmapCharacter(font, *c);
 }
 
+// Função que escreve as informações das fontes de luz na tela
 void Lighting::lightingInfo()
 {
     glDisable(GL_LIGHTING);
@@ -184,6 +169,8 @@ void Lighting::lightingInfo()
     glRasterPos3f(-0.85 * razaoAspecto, 0.38, -2.0);
     sprintf(dados, "* Luzes da Terra, Marte, Saturno (L) : %s", lighGeralLigada ? "Ligada" : "Desligada");
     writeOnScreen(GLUT_BITMAP_8_BY_13, dados);
+
+    glEnable(GL_LIGHTING);
 
     free(dados);
 }

@@ -1,5 +1,6 @@
 #include "../Header/Parser.h"
 
+// Função que converte uma string para um array de char
 char* stringToArray(std::string str)
 {
     int t = str.length() + 1;
@@ -11,6 +12,7 @@ char* stringToArray(std::string str)
     return arr;
 }
 
+// Função que retorna um Parser com as informaçoes necessarias para se criar um planeta, baseado no script.txt desse planeta
 Parser Parser::parsePlanet(const char* fileName, int creationType)
 {
     Parser returnParser;
@@ -72,6 +74,7 @@ Parser Parser::parsePlanet(const char* fileName, int creationType)
     return returnParser;
 }
 
+// Função que retorna um Parser com as informaçoes necessarias para se criar uma Lua, baseado no script.txt dessa Lua
 Parser Parser::parseMoon(const char* fileName)
 {
     std::fstream arquivo;
@@ -121,6 +124,7 @@ Parser Parser::parseMoon(const char* fileName)
     return returnParser;
 }
 
+// Função que retorna um Parser com as informaçoes necessarias para se criar o Sol, baseado no script.txt desse Sol
 Parser Parser::parseSun(const char* fileName)
 {
     std::fstream arquivo;

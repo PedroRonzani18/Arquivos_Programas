@@ -41,6 +41,7 @@ class Space
         void onOffSun();
         void drawSaturnRing();
         void cameraColision();
+        void cameraMoving();
 };
 
 #endif

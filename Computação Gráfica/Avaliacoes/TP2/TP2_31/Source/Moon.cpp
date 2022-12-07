@@ -2,18 +2,7 @@
 #include "../Header/drawings.h"
 #include "../Header/globalParameters.h"
 
-Moon::Moon(double angle, double coreRadius, double rotationRadius, double translationAngularSpeed, double rotationAngularSpeed)
-{
-    this->angle = angle;
-    this->texture = texturesId[10];
-    this->coreRadius = coreRadius;
-    this->rotationRadius = rotationRadius;
-    this->translationAngularSpeed = translationAngularSpeed;
-    this->rotationAngularSpeed = rotationAngularSpeed;
-    this->lighting = new Lighting();
-    this->hasLight = 0;
-}
-
+// Construtor de uma Lua de acordo com parâmetros passados no script
 Moon::Moon(const char* planetName, double coreRadius, double angle)
 {
     Parser aux = Parser::parseMoon(planetName);
@@ -35,6 +24,5 @@ Moon::Moon(const char* planetName, double coreRadius, double angle)
         this->material->matDifuse[i] = aux.matDifuse[i];
         this->material->matEspec[i] = aux.matEspec[i];
     }
-    this->material->matShininess = aux.matShininess;
-    
+    this->material->matShininess = aux.matShininess;   
 }

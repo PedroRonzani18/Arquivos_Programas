@@ -8,10 +8,12 @@
 #include <SOIL/SOIL.h>
 #include <memory>
 
+// Defines auxiliares para converter radianos e graus entre si
 #define radGr(radianos) (radianos * (180.0 / M_PI))
 #define grRad(graus) ((graus * M_PI) / 180.0)
 
-void templateSquare(double x, double y, GLuint id)
+// Função que desenha um retângulo de dimensões X e Y e aplica textura nele
+void texturizedRectangle(double x, double y, GLuint id)
 {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, id);
@@ -48,13 +50,14 @@ void drawCamera(std::shared_ptr<Camera> camera)
         glRotatef(- radGr(camera->getFi()),1,0,0);
         glRotatef(180,0,0,1); // Conserta a orientação da borda
         glDisable(GL_LIGHTING);
-            templateSquare(1.25*razaoAspecto,1.3,camera->getBorder()); // Desenha borda sem influência de luz
+            texturizedRectangle(1.25*razaoAspecto,1.3,camera->getBorder()); // Desenha borda sem influência de luz
         glEnable(GL_LIGHTING);
     glPopMatrix();
     
     glDisable(GL_BLEND);
 }
 
+// Função que desenha uma esfera e permite aplicação de texturas sobre ela
 void drawSolidSphere(double radius, int stacks, int columns)
 {
     GLUquadric* quadObj = gluNewQuadric(); // cira uma quadrica 
@@ -65,6 +68,7 @@ void drawSolidSphere(double radius, int stacks, int columns)
     gluDeleteQuadric(quadObj);
 }
 
+// Função que desenha um cilindro e permite aplicação de texturas sobre ele
 void drawCylinder(GLdouble base, GLdouble top, GLdouble height, GLint slices, GLint stacks)
 {
     GLUquadric* quadObj = gluNewQuadric(); // cira uma quadrica 
@@ -75,7 +79,8 @@ void drawCylinder(GLdouble base, GLdouble top, GLdouble height, GLint slices, GL
     gluDeleteQuadric(quadObj);
 }
 
-void drawCorpse(std::shared_ptr<Planet> planet, double time)
+// Função que desenha um planeta transladado e rotacionado de acordo com um tempo, com material definido por parâmetros
+void drawPlanet(std::shared_ptr<Planet> planet, double time)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT,   planet->getMaterial()->matAmbient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE,   planet->getMaterial()->matDifuse);
@@ -92,13 +97,14 @@ void drawCorpse(std::shared_ptr<Planet> planet, double time)
         glRotatef(time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 
         if(!planet->doesDependsOnLight()) glDisable(GL_LIGHTING);
-        drawSolidSphere(planet->getCoreRadius(),200,200);
+            drawSolidSphere(planet->getCoreRadius(),200,200);
         if(!planet->doesDependsOnLight()) glEnable(GL_LIGHTING);
 
     glDisable(GL_TEXTURE_2D);
 }
 
-void drawCorpse(std::shared_ptr<Sol> sun, double time)
+// Função que desenha o Sol rotacionado de acordo com um tempo, com material definido por parâmetros
+void drawSun(std::shared_ptr<Sol> sun, double time)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT,   sun->getMaterial()->matAmbient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE,   sun->getMaterial()->matDifuse);
@@ -119,12 +125,13 @@ void drawCorpse(std::shared_ptr<Sol> sun, double time)
             glEnable(GL_LIGHTING);
         }
         else
-            drawSolidSphere(sun->getCoreRadius(),200,200);
+            drawSolidSphere(sun->getCoreRadius(),200,200); // Dá o efeito de "sol apagado"
             
     glDisable(GL_TEXTURE_2D);
 }
 
-void drawCorpse(std::shared_ptr<Moon>  moon, double time)
+// Função que desenha um planeta transladado e rotacionado de acordo com um tempo, com material definido por parâmetros
+void drawMoon(std::shared_ptr<Moon>  moon, double time)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT,   moon->getMaterial()->matAmbient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE,   moon->getMaterial()->matDifuse);
@@ -140,6 +147,7 @@ void drawCorpse(std::shared_ptr<Moon>  moon, double time)
     glDisable(GL_TEXTURE_2D);   
 }
 
+// Função que carrega textura e retorna o id desta
 GLuint loadTexture(const char* arquivo)
 {
     GLuint idTextura = SOIL_load_OGL_texture(
@@ -155,6 +163,7 @@ GLuint loadTexture(const char* arquivo)
     return idTextura;
 }
 
+// Função que armazena os ID's das texturas em um vector de GLuint
 void createTextures()
 {
     texturesId.resize(0);

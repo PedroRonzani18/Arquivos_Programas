@@ -9,6 +9,7 @@
 #define radGr(radianos) (radianos * (180.0 / M_PI))
 #define grRad(graus) ((graus * M_PI) / 180.0)
 
+// Construtor do Space
 Space::Space()
 {
     glEnable(GL_LIGHTING);
@@ -19,18 +20,19 @@ Space::Space()
     musicManager = std::make_shared<MusicManager>();
 }
 
+// Função que desenhda todos os planetas
 void Space::drawPlanets()
 {
     glPushMatrix();
         glRotated(-90,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
-        drawCorpse(estrelas,tempo);
+        drawPlanet(estrelas,tempo);
     glPopMatrix();
 
     glPushMatrix();
         glRotated(-90,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
 
         glPushMatrix();
-            drawCorpse(sol,tempo);
+            drawSun(sol,tempo);
         glPopMatrix();
 
         for(std::shared_ptr<Planet> planet : planets)
@@ -40,7 +42,7 @@ void Space::drawPlanets()
                 planet->setMidPoint(-planet->getRotationRadius() * cos(planet->getAngle()),
                                     0,
                                      planet->getRotationRadius() * sin(planet->getAngle()));
-                drawCorpse(planet,tempo);
+                drawPlanet(planet,tempo);
             glPopMatrix();
 
             for(std::shared_ptr<Moon> moon: planet->getMoons())
@@ -48,23 +50,33 @@ void Space::drawPlanets()
                 glPushMatrix();
                     glRotatef(radGr(planet->getAngle()),0,0,1); // rotaciona ao redor do planeta
                     glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-                    drawCorpse(moon,tempo);
+                    drawMoon(moon,tempo);
                 glPopMatrix();
             }
         }
     glPopMatrix();
 }
 
-void Space::marsMusic(Coord c)
+// Função que chama funções relacionadas à câmera
+void Space::cameraMoving()
 {
-    musicManager->marsMusic(distanceBetweenPlanets(c,planets[1]->getMidPoint()));
+    // Movimenta a câmera
+    camera->move();
+
+    // Gerencia colisão entre câmera e planeta
+    cameraColision();
+
+    // Chama a função que determina o volume da musica
+    musicManager->marsMusic(distanceBetweenPlanets(camera->getMidPoint(),planets[1]->getMidPoint()));
 }
 
+// Função que calcula a distância entre dois pontos
 double Space::distanceBetweenPlanets(Coord a, Coord b)
 {
     return sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2) + pow(a.z - b.z,2));
 }
 
+// Função que gerencia a colisão entre camera e todos os planetas, incluindo o universo
 void Space::cameraColision()
 {
     if(distanceBetweenPlanets(sol->getMidPoint(),camera->getMidPoint()) <= 3 + sol->getCoreRadius())
@@ -86,6 +98,7 @@ void Space::cameraColision()
     }
 }
 
+// Função que atualiza as propriedades da luz alterando os valores de glLighting de cada fonte de liz
 void Space::atualizaPropriedadesLuz()
 {
     sol->getLighting()->atualizaPropriedadesLuz();
@@ -94,6 +107,7 @@ void Space::atualizaPropriedadesLuz()
     
 }
 
+// Função que desenha o anel de saturno
 void Space::drawSaturnRing()
 {
     std::shared_ptr<Planet> saturn = planets[2];
@@ -109,19 +123,24 @@ void Space::drawSaturnRing()
     glPopMatrix();
 }
 
+//  Função que gerencia desenhos na tela
 void Space::display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
+
     sol->getLighting()->lightingInfo();
     camera->setupCamera();
     atualizaPropriedadesLuz();
+
     drawPlanets();
     drawSaturnRing();
     drawCamera(camera);
+
     glutSwapBuffers();
 }
 
+// Função que adiciona os shared_ptr<Planet> ao vecot de planetas de acodo com os construtores baseados nos scripts
 void Space::initializePlanets() 
 {
     /*
@@ -164,8 +183,10 @@ void Space::initializePlanets()
     camera->setBorder(loadTexture("imagens/border.png"));
 }
 
+// Função que gerencia o (des)ligamento das fontes de luz dfe acordo com pressionamento de teclas
 void Space::onOffSun()
 {
+    // (Des)liga as fontes de luz da Terra, Marte, Saturno
     if(buttons[0] && keys->l)
     {
         buttons[0] = 0;
@@ -189,6 +210,7 @@ void Space::onOffSun()
   
     }
 
+    // (Des)liga as fontes de luz da Terra, Marte, Saturno
     if(buttons[1] && keys->k)
     {       
         buttons[1] = 0;

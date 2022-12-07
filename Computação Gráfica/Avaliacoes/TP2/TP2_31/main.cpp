@@ -9,37 +9,61 @@
 #include "Header/lighting.h"
 #include "Header/Parser.h"
 
+// Objeto responsável por gerenciar os acontecimentos da cena
 Space* space;
-Parser parser;
 
+// Inicializa aspectos importantes para funcionamento do programa
 void initialize()
 {
+    // Instancia o space
     space = new Space();
+
+    // Instancia o sinalizador de pressionamento de teclas
     keys = new Keyboard();
 
+    // Configura o gerenciador de musicas
     space->getMusicManager()->configureMusic();
+
+    // Adiciona as texturas ao vector de ID's de texturas
     createTextures();
+
+    // Cria e adiciona os planetas ao vector de shared_ptr<Planet>
     space->initializePlanets();
-    space->getSol()->getLighting()->configuraMateriais();
+
+    // Habilita a cor dos materiais
+    glEnable(GL_COLOR_MATERIAL);
+
+    // ??
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
 
+// Callback da função de desenho
 void display()
 {
+    // Chama função de desenho
     space->display();
 }
 
 void reshape(int width, int height)   
 {
+    // Atualiza o valor da variável de razão aspecto da tela
     razaoAspecto = (double) glutGet(GLUT_WINDOW_WIDTH) / (double) glutGet(GLUT_WINDOW_HEIGHT);
+
+    // Configura a Viewport
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
+
+    // Carrega a matriz identidade
     glLoadIdentity();
+
+    // Configura a caixa de visualização
     glFrustum(-razaoAspecto, razaoAspecto, -1, 1, 2, 100);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
 
+// Callback da função de pressionamento de teclas
 void keyboard(unsigned char key, int x, int y)
 {
     char formattedKey = (char) toupper(key);
@@ -126,24 +150,30 @@ void keyboard(unsigned char key, int x, int y)
         }
 }
 
+// Callback da timerFunc
 void timer(int t)
 {
+    // Atualiza o valor do tempo de execução do programa
     tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
 
-    space->getCamera()->move(space->getEstrelas()->getCoreRadius());
-    space->cameraColision();
-    space->marsMusic(space->getCamera()->getMidPoint());
+    // Movimenta a câmera
+    space->cameraMoving();
+
+    // Determina se as fontes de luz estão ligadas
     space->onOffSun();
 
     glutPostRedisplay();
     glutTimerFunc(t, timer, t);
 }
 
+// Callback da passiveMotionFunc
 void posicionaCamera(int x, int y)
 {
+    // Determina as coordenadas da câmera
     space->getCamera()->setMouseCoords(x,y);
 }
 
+// Inicializa aspectos da glut
 void glutInitialize(int argc, char **argv)
 {
     glutInit(&argc, argv);
