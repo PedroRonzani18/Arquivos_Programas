@@ -39,14 +39,14 @@ void templateSquare(double x, double y, GLuint id)
 void drawCamera(std::shared_ptr<Camera> camera)
 {
     glPushMatrix();
-        glTranslatef(camera->getMidPoint().x + 17 * camera->getDirectionVector().x, // Translada borda para frente da camera
-                     camera->getMidPoint().y + 17 * camera->getDirectionVector().y,
-                     camera->getMidPoint().z + 17 * camera->getDirectionVector().z);
+        glTranslatef(camera->getMidPoint().x + 2.5 * camera->getDirectionVector().x, // Translada borda para frente da camera
+                     camera->getMidPoint().y + 2.5 * camera->getDirectionVector().y,
+                     camera->getMidPoint().z + 2.5 * camera->getDirectionVector().z);
         glRotatef(90 - radGr(camera->getTheta()),0,1,0);
         glRotatef(- radGr(camera->getFi()),1,0,0);
         glRotatef(180,0,0,1); // Conserta a orientação da borda
         glDisable(GL_LIGHTING);
-            templateSquare(16,9,camera->getBorder()); // Desenha borda sem influência de luz
+            templateSquare(1.25*razaoAspecto,1.3,camera->getBorder()); // Desenha borda sem influência de luz
         glEnable(GL_LIGHTING);
     glPopMatrix();
 }
