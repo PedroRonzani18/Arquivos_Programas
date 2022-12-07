@@ -80,7 +80,7 @@ void drawCylinder(GLdouble base, GLdouble top, GLdouble height, GLint slices, GL
 }
 
 // Função que desenha um planeta transladado e rotacionado de acordo com um tempo, com material definido por parâmetros
-void drawPlanet(std::shared_ptr<Planet> planet, double time)
+void drawPlanet(std::shared_ptr<Planet> planet, std::shared_ptr<double> time)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT,   planet->getMaterial()->matAmbient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE,   planet->getMaterial()->matDifuse);
@@ -94,7 +94,7 @@ void drawPlanet(std::shared_ptr<Planet> planet, double time)
         glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
         if(planet->getHasLight())
             glLightfv(planet->getGlLightConst(), GL_POSITION, planet->getLighting()->lightPos); // posiciona a fonte de luz na posição do planeta
-        glRotatef(time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
+        glRotatef(*time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 
         if(!planet->doesDependsOnLight()) glDisable(GL_LIGHTING);
             drawSolidSphere(planet->getCoreRadius(),200,200);
@@ -104,7 +104,7 @@ void drawPlanet(std::shared_ptr<Planet> planet, double time)
 }
 
 // Função que desenha o Sol rotacionado de acordo com um tempo, com material definido por parâmetros
-void drawSun(std::shared_ptr<Sol> sun, double time)
+void drawSun(std::shared_ptr<Sol> sun, std::shared_ptr<double> time)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT,   sun->getMaterial()->matAmbient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE,   sun->getMaterial()->matDifuse);
@@ -116,7 +116,7 @@ void drawSun(std::shared_ptr<Sol> sun, double time)
 
         glRotatef(radGr(sun->getAngle()),0,0,1); // rotaciona ao redor do sol
         glTranslated(-sun->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-        glRotatef(time * sun->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
+        glRotatef(*time * sun->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 
         if(sun->getLighting()->lightLigada)
         {
@@ -131,7 +131,7 @@ void drawSun(std::shared_ptr<Sol> sun, double time)
 }
 
 // Função que desenha um planeta transladado e rotacionado de acordo com um tempo, com material definido por parâmetros
-void drawMoon(std::shared_ptr<Moon>  moon, double time)
+void drawMoon(std::shared_ptr<Moon>  moon, std::shared_ptr<double> time)
 {
     glMaterialfv(GL_FRONT, GL_AMBIENT,   moon->getMaterial()->matAmbient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE,   moon->getMaterial()->matDifuse);
@@ -140,9 +140,9 @@ void drawMoon(std::shared_ptr<Moon>  moon, double time)
 
     glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, moon->getTexture());
-        glRotated(radGr(time * moon->getTranslationAngularSpeed()) + moon->getAngle(),0,0,1); // rotaciona no proprio eixo 
+        glRotated(radGr(*time * moon->getTranslationAngularSpeed()) + moon->getAngle(),0,0,1); // rotaciona no proprio eixo 
         glTranslated(-moon->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
-        glRotatef(time * moon->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
+        glRotatef(*time * moon->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
         drawSolidSphere(moon->getCoreRadius(),200,200);   
     glDisable(GL_TEXTURE_2D);   
 }
