@@ -122,3 +122,40 @@ void Lighting::atualizaPropriedadesLuz()
 
     //glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 128);// teria que variarcmom pressionamento de tela
 }
+
+// Escreve uma cadeia de caracteres
+void writeOnScreen(void *font, char *string)
+{
+    char *c;
+    for (c = string; *c != '\0'; c++) glutBitmapCharacter(font, *c);
+}
+
+void Lighting::lightingInfo()
+{
+    glDisable(GL_LIGHTING);
+
+    char* dados = new char[80];
+
+    glRasterPos3f(-0.85 * razaoAspecto, 0.8, -2.0);
+    sprintf(dados, "    FONTE DE LUZ DO SOL");
+    writeOnScreen(GLUT_BITMAP_8_BY_13, dados);
+
+    glRasterPos3f(-0.85 * razaoAspecto, 0.74, -2.0);
+    sprintf(dados, "* Componente Ambiente (Z/X) : %0.2f", m);
+    writeOnScreen(GLUT_BITMAP_8_BY_13, dados);
+
+    glRasterPos3f(-0.85 * razaoAspecto, 0.68, -2.0);
+    sprintf(dados, "* Componente Difusa (C/V) : %0.2f", d);
+    writeOnScreen(GLUT_BITMAP_8_BY_13, dados);
+
+    glRasterPos3f(-0.85 * razaoAspecto, 0.62, -2.0);
+    sprintf(dados, "* Componente Especular (B/N) : %0.2f", e);
+    writeOnScreen(GLUT_BITMAP_8_BY_13, dados);
+
+    glRasterPos3f(-0.85 * razaoAspecto, 0.56, -2.0);
+    sprintf(dados, "* Estado luz solar (L) : %s", lightLigada ? "Ligada" : "Desligada");
+    writeOnScreen(GLUT_BITMAP_8_BY_13, dados);
+
+    delete dados;
+}
+

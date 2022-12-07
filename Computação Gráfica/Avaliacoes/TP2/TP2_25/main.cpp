@@ -13,6 +13,8 @@
 // Objeto do espaço
 Space* space;
 
+#define FONTE GLUT_BITMAP_8_BY_13
+
 void initialize()
 {
     // Permite a anexação devida da textura
@@ -52,6 +54,12 @@ void reshape(int width, int height)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
+
+
+
+
+
+
 
 // Callback de pressionamento de teclas
 void keyboard(unsigned char key, int x, int y)

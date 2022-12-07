@@ -9,6 +9,8 @@
 #define radGr(radianos) (radianos * (180.0 / M_PI))
 #define grRad(graus) ((graus * M_PI) / 180.0)
 
+#define FONTE GLUT_BITMAP_8_BY_13
+
 Space::Space()
 {
     glEnable(GL_LIGHTING);
@@ -88,6 +90,8 @@ void Space::display()
     
     // Carrega a matriz identidade
     glLoadIdentity();
+
+    sol->getLighting()->lightingInfo();
 
     // Configura a posição da camera de acordo com seus atributos de posição e vetor direção
     camera->setupCamera();

@@ -32,6 +32,10 @@ class Lighting
         GLenum glLightConst;
 
         void atualizaPropriedadesLuz();
+        void informacoesIluminacao(double x, double y, double z);
+
+        void lightingInfo();
+
 };
 
 
