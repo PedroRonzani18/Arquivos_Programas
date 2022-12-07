@@ -36,7 +36,12 @@ double cossinLaw(double a)
     return acos(aux);
 }
 
-void Camera::move()
+double distanceBetweenPoints(Coord a, Coord b)
+{
+    return sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2) + pow(a.z - b.z,2));
+}
+
+void Camera::move(double limit)
 {   
     float deltaX = (mouseCoords_x - previousPosition_x) * sensibilidade;
     float deltaY = (mouseCoords_y - previousPosition_y) * sensibilidade;
@@ -72,6 +77,27 @@ void Camera::move()
     midPoint.y += moveSpeed.y * ( keys->w - keys->s) * directionVector.y ; 
     midPoint.z += moveSpeed.z * ((keys->w - keys->s) * directionVector.z + (keys->d - keys->a) * (directionVector.x)); // + vetor normal a direta dele (keyboard.d-keyboard.a)*speed                     
 
+    // Coord aux; aux.x = 0; aux.y = 0; aux.z = 0;
+// 
+    // if(distanceBetweenPoints(midPoint,aux) > 0.85 * limit)
+    // {
+    //     midPoint.x += moveSpeed.x * ((-keys->w + keys->s) * directionVector.x + (- keys->d + keys->a) * (-directionVector.z)); 
+    //     midPoint.y += moveSpeed.y * ( -keys->w + keys->s) * directionVector.y ; 
+    //     midPoint.z += moveSpeed.z * ((-keys->w + keys->s) * directionVector.z + (- keys->d + keys->a) * (directionVector.x));
+    // }
+
+}
+
+void Camera::backPosition()
+{
+    midPoint.x += moveSpeed.x * ((-keys->w + keys->s) * directionVector.x + (- keys->d + keys->a) * (-directionVector.z)); 
+    midPoint.y += moveSpeed.y * ( -keys->w + keys->s) * directionVector.y ; 
+    midPoint.z += moveSpeed.z * ((-keys->w + keys->s) * directionVector.z + (- keys->d + keys->a) * (directionVector.x));
+}
+
+double Camera::directionVectorModule()
+{
+    return sqrt(pow(directionVector.x,2) + pow(directionVector.y,2) + pow(directionVector.z,2));
 }
 
 void Camera::setupCamera()
@@ -79,10 +105,4 @@ void Camera::setupCamera()
     gluLookAt(midPoint.x                    , midPoint.y                    , midPoint.z                    ,
               midPoint.x + directionVector.x, midPoint.y + directionVector.y, midPoint.z + directionVector.z,
               0, 1, 0);
-}
-
-void Camera::movimentation()
-{
-    //setupCamera();
-    move();
 }

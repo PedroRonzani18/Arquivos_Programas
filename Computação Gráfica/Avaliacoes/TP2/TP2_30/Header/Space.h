@@ -27,6 +27,8 @@ class Space
 
         std::shared_ptr<Sol> getSol(){return this->sol;}
 
+        std::shared_ptr<Planet> getEstrelas(){return this->estrelas;}
+
         std::shared_ptr<Planet> getPlanet(int i){return planets[i];}
         std::shared_ptr<MusicManager> getMusicManager(){return this->musicManager;}
 
@@ -38,6 +40,7 @@ class Space
         static double distanceBetweenPlanets(Coord a, Coord b);
         void onOffSun();
         void drawSaturnRing();
+        void cameraColision();
 };
 
 #endif

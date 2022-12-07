@@ -65,6 +65,27 @@ double Space::distanceBetweenPlanets(Coord a, Coord b)
     return sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2) + pow(a.z - b.z,2));
 }
 
+void Space::cameraColision()
+{
+    if(distanceBetweenPlanets(sol->getMidPoint(),camera->getMidPoint()) <= 3 + sol->getCoreRadius())
+        camera->backPosition();
+
+    if(distanceBetweenPlanets(estrelas->getMidPoint(),camera->getMidPoint()) >= estrelas->getCoreRadius() - 10)
+        camera->backPosition();
+
+    for(std::shared_ptr<Planet> planet: planets)
+    {
+        if(distanceBetweenPlanets(planet->getMidPoint(),camera->getMidPoint()) < 3 + planet->getCoreRadius())
+            camera->backPosition();
+
+        for(std::shared_ptr<Moon> moon: planet->getMoons())
+        {
+            if(distanceBetweenPlanets(moon->getMidPoint(),camera->getMidPoint()) < 2 + moon->getCoreRadius())
+                camera->backPosition();
+        }
+    }
+}
+
 void Space::atualizaPropriedadesLuz()
 {
     sol->getLighting()->atualizaPropriedadesLuz();

@@ -130,7 +130,8 @@ void timer(int t)
 {
     tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
 
-    space->getCamera()->movimentation();
+    space->getCamera()->move(space->getEstrelas()->getCoreRadius());
+    space->cameraColision();
     space->marsMusic(space->getCamera()->getMidPoint());
     space->onOffSun();
 
