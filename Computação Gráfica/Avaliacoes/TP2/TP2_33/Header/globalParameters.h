@@ -8,8 +8,8 @@
 #include <memory>
 
 extern float razaoAspecto;
-extern double tempo;
-extern Keyboard* keys;
+extern std::shared_ptr<double> tempo;
+extern std::shared_ptr<Keyboard> keys;
 extern std::vector<GLuint> texturesId;
 extern int buttons[];
 

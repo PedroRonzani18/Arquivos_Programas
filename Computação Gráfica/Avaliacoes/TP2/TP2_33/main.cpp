@@ -19,7 +19,10 @@ void initialize()
     space = new Space();
 
     // Instancia o sinalizador de pressionamento de teclas
-    keys = new Keyboard();
+    //keys = new Keyboard();
+    keys = std::make_shared<Keyboard>();
+
+    tempo = std::make_shared<double>(0);
 
     // Configura o gerenciador de musicas
     space->getMusicManager()->configureMusic();
@@ -154,7 +157,7 @@ void keyboard(unsigned char key, int x, int y)
 void timer(int t)
 {
     // Atualiza o valor do tempo de execução do programa
-    tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+    *tempo = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
 
     // Movimenta a câmera
     space->cameraMoving();

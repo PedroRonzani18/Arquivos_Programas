@@ -50,11 +50,9 @@ Sol::Sol(const char* planetName)
 
     GLuint auxList = glGenLists(1);
 
-    glPushMatrix();
         glNewList(auxList, GL_COMPILE);
             drawSolidSphere(this->coreRadius,200,200);
         glEndList();
-    glPopMatrix();
 
     displayListId = auxList;
 

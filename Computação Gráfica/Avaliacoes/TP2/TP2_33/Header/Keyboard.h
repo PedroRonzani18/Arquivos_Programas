@@ -4,7 +4,7 @@
 class Keyboard
 {
     public:
-        Keyboard(){}
+        Keyboard();
 
         int w,a,s,d;
         int space,f,k;

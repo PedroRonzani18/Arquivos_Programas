@@ -38,7 +38,7 @@ void Space::drawPlanets()
         for(std::shared_ptr<Planet> planet : planets)
         {
             glPushMatrix();
-                planet->setAngle(tempo * planet->getTranslationAngularSpeed());
+                planet->setAngle(*tempo * planet->getTranslationAngularSpeed());
                 planet->setMidPoint(-planet->getRotationRadius() * cos(planet->getAngle()),
                                     0,
                                      planet->getRotationRadius() * sin(planet->getAngle()));
@@ -116,8 +116,8 @@ void Space::drawSaturnRing()
     glPushMatrix();
         glEnable(GL_TEXTURE_2D);
             glBindTexture(GL_TEXTURE_2D, texturesId[12]);
-            glRotated(-90,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
             glTranslatef(aux.x,aux.y,aux.z);
+            glRotated(-90,1,0,0); // rotaciona para frente para dar mais visibilidade na rotação
             drawCylinder(1.2 * saturn->getCoreRadius(), 1.2 * saturn->getCoreRadius(), 0.3, 400, 400);
         glDisable(GL_TEXTURE_2D);
     glPopMatrix();
