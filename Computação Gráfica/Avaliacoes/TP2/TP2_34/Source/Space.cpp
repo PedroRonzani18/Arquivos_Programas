@@ -3,6 +3,7 @@
 #include "../Header/drawings.h"
 #include "../Header/globalParameters.h"
 #include "../Header/lighting.h"
+#include "../Header/ObjLoader.h"
 #include <memory>
 #include <cmath>
 
@@ -64,14 +65,19 @@ void Space::cameraMoving()
     camera->move();
 
     // Gerencia colisão entre câmera e planeta
-    cameraColision();
+    //cameraColision();
 
     // Chama a função que determina o volume da musica
     musicManager->marsMusic(distanceBetweenPlanets(camera->getMidPoint(),planets[1]->getMidPoint()));
 }
 
+void Space::initOBJModels()
+{
+    temporary_OBJ_vertex = loadObject("objetos/camion_jugete.obj");
+}
+
 // Função que calcula a distância entre dois pontos
-double Space::distanceBetweenPlanets(Coord a, Coord b)
+double Space::distanceBetweenPlanets(Coord3 a, Coord3 b)
 {
     return sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2) + pow(a.z - b.z,2));
 }
@@ -111,7 +117,7 @@ void Space::atualizaPropriedadesLuz()
 void Space::drawSaturnRing()
 {
     std::shared_ptr<Planet> saturn = planets[2];
-    Coord aux = saturn->getMidPoint();
+    Coord3 aux = saturn->getMidPoint();
 
     glPushMatrix();
         glEnable(GL_TEXTURE_2D);
@@ -136,6 +142,8 @@ void Space::display()
     drawPlanets();
     drawSaturnRing();
     drawCamera(camera);
+
+    drawObject();
 
     glutSwapBuffers();
 }

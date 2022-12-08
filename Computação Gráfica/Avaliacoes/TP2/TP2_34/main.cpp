@@ -30,6 +30,8 @@ void initialize()
     // Adiciona as texturas ao vector de ID's de texturas
     createTextures();
 
+    space->initOBJModels();
+
     // Cria e adiciona os planetas ao vector de shared_ptr<Planet>
     space->initializePlanets();
 
@@ -38,6 +40,7 @@ void initialize()
 
     // ??
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
 
 // Callback da função de desenho

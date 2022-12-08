@@ -3,6 +3,7 @@
 #include "../Header/drawings.h"
 #include "../Header/Camera.h"
 #include "../Header/Coord.h"
+#include "../Header/Vertex.h"
 
 #include <stdio.h>
 #include <SOIL/SOIL.h>
@@ -74,8 +75,9 @@ void drawCylinder(GLdouble base, GLdouble top, GLdouble height, GLint slices, GL
     GLUquadric* quadObj = gluNewQuadric(); // cira uma quadrica 
     gluQuadricDrawStyle(quadObj, GLU_FILL); // estilo preenchido
     gluQuadricNormals(quadObj, GLU_SMOOTH);
-    gluQuadricTexture(quadObj, GL_TRUE); // chama 01 glTexCoord por vértice
-    gluCylinder(quadObj,base,top,height,slices,stacks);
+    gluQuadricTexture(quadObj, GL_TRUE); // Gera coordenadas de textura
+    //gluCylinder(quadObj,base,top,height,slices,stacks);
+    gluDisk(quadObj,base,1.2*base,200,200);
     gluDeleteQuadric(quadObj);
 }
 
@@ -186,4 +188,16 @@ void createTextures()
             texturesId.push_back(loadTexture("imagens/saturn_ring.png"));
 }
 
+void drawObject(/*std::vector<Vertex> auxiliary_OBJ_vertex_holder*/)
+{
+    glColor3f(1,1,1);
 
+    glBegin(GL_LINE_STRIP);
+
+        for(size_t i = 0; i<temporary_OBJ_vertex.size(); i++)
+        {
+            glVertex3f(10*temporary_OBJ_vertex[i].position.x, 10*temporary_OBJ_vertex[i].position.y, 10 * temporary_OBJ_vertex[i].position.z);
+        }
+
+    glEnd();
+}

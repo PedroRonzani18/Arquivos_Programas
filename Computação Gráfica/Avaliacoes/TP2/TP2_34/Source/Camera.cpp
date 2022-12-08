@@ -39,7 +39,7 @@ double cossinLaw(double a)
 }
 
 // Função que calcula distância entre dois pontos
-double distanceBetweenPoints(Coord a, Coord b)
+double distanceBetweenPoints(Coord3 a, Coord3 b)
 {
     return sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2) + pow(a.z - b.z,2));
 }

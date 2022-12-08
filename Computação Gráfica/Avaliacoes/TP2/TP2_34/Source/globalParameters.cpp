@@ -15,3 +15,6 @@ std::vector<GLuint> texturesId;
 
 // Vetor auxiliar para simular um botão ao se pressionar uma tecla
 int buttons[] = {0,0};
+
+// "Holder" de vertex para carregar o objeto
+std::vector<Vertex> temporary_OBJ_vertex;

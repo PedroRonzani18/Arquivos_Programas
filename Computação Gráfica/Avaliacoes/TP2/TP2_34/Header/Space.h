@@ -7,6 +7,7 @@
 #include "MusicManager.h"
 #include "Camera.h"
 #include "Coord.h"
+#include "Vertex.h"
 #include <vector>
 #include <memory>
 
@@ -35,13 +36,13 @@ class Space
         std::shared_ptr<Camera> getCamera(){return this->camera;}
         void atualizaPropriedadesLuz();
 
-        void marsMusic(Coord c);
         void display();
-        static double distanceBetweenPlanets(Coord a, Coord b);
+        static double distanceBetweenPlanets(Coord3 a, Coord3 b);
         void onOffSun();
         void drawSaturnRing();
         void cameraColision();
         void cameraMoving();
+        void initOBJModels();
 };
 
 #endif

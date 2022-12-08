@@ -15,7 +15,7 @@ class CelestialBody
         double rotationPeriod;
         double translationPeriod;
         double conversionConst;
-        Coord midPoint;
+        Coord3 midPoint;
 
         double angle; // angulo do movimento de rotação
         double translationAngularSpeed; // velocidade angular do movimento de rotação ao redor do sol (movimento de translação)
@@ -60,7 +60,7 @@ class CelestialBody
         bool doesDependsOnLight(){return this->dependsOnLight;}
         void setDependsOnLight(bool dependsOnLight){this->dependsOnLight = dependsOnLight;}
 
-        Coord getMidPoint(){return this->midPoint;}
+        Coord3 getMidPoint(){return this->midPoint;}
         void setMidPoint(double x, double y, double z){
             this->midPoint.x = x;
             this->midPoint.y = y;

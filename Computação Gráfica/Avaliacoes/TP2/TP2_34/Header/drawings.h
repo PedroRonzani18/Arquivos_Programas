@@ -22,6 +22,8 @@ void drawSun(std::shared_ptr<Sol>  sun, std::shared_ptr<double> time);
 void drawCamera(std::shared_ptr<Camera> camera);
 void drawCylinder(GLdouble base, GLdouble top, GLdouble height, GLint slices, GLint stacks);
 
+void drawObject();
+
 
 //void configuraTextures();
 
