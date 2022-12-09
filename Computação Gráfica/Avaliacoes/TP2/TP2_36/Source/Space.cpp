@@ -143,8 +143,9 @@ void Space::drawSatelite()
 
             for(Vertex vert: object.vertices)
             {
-                glVertex3f(2 * vert.position.x, 2 * vert.position.y,2 * vert.position.z);
                 glTexCoord2f(vert.texCoord.x, vert.texCoord.y); 
+                glNormal3f(vert.normal.x, vert.normal.y, vert.normal.z);
+                glVertex3f(2 * vert.position.x, 2 * vert.position.y,2 * vert.position.z);
             }
 
             glEnd();
@@ -212,7 +213,7 @@ void Space::initializePlanets()
     planets.push_back(std::make_shared<Planet>("scripts/urano.txt",    0));                
     planets.push_back(std::make_shared<Planet>("scripts/netuno.txt",   0));
 
-    camera->setBorder(loadTexture("imagens/border.png"));
+    camera->setBorder(loadTexture("imagens/cabine.png"));
 }
 
 // Função que gerencia o (des)ligamento das fontes de luz dfe acordo com pressionamento de teclas

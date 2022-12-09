@@ -182,7 +182,7 @@ void createTextures()
     /*[ 8]*/texturesId.push_back(loadTexture("imagens/2k_stars_milky_way.jpg"));
     /*[ 9]*/texturesId.push_back(loadTexture("imagens/2k_sun.jpg"));
     /*[10]*/texturesId.push_back(loadTexture("imagens/2k_moon.jpg"));
-            texturesId.push_back(loadTexture("imagens/border.png"));
+            texturesId.push_back(loadTexture("imagens/cabine.png"));
             texturesId.push_back(loadTexture("imagens/saturn_ring.png"));
 }
 
