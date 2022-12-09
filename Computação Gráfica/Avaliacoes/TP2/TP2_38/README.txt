@@ -11,4 +11,5 @@ LDS:
 - sudo apt-get install -y libsdl2-mixer-dev
 - tutorial basico: https://youtu.be/94pPyuS1E_M
 
-sudo apt install libglm-dev
+GLM:
+- sudo apt install libglm-dev
