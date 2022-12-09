@@ -4,7 +4,6 @@
 #include "../Header/globalParameters.h"
 #include "../Header/Light.h"
 #include "../Header/Vertex.h"
-#include "../Header/ObjLoader.h"
 #include <memory>
 #include <cmath>
 
@@ -80,7 +79,9 @@ double Space::distanceBetweenPlanets(Coord a, Coord b)
 
 void Space::initializeObjects()
 {
-    objects.push_back(Model(loadObject("objetos/mesa jantar.obj"), Texture("imagens/2k_mars.jpg")));
+    //std::vector<Vertex> aux = loadObject("Assets/objetos/mesa jantar.obj");
+    //objects.push_back(Model(aux, Texture("Assets/imagens/2k_mars.jpg")));
+    objects.push_back(Model("Assets/objetos/mesa jantar.obj", "Assets/imagens/2k_mars.jpg"));
 }
 
 // Função que gerencia a colisão entre camera e todos os planetas, incluindo o universo
@@ -202,18 +203,26 @@ void Space::initializePlanets()
     // /*urano*/ planets.push_back(std::make_shared<Planet>(texturesId[6], 1, 3,   85,  14.0,  8000, 0.72));    
     // /*netun*/ planets.push_back(std::make_shared<Planet>(texturesId[7], 1, 3,   77,  16.0, 10000, 0.67));
 
-           estrelas = std::make_shared<Planet>("scripts/estrelas.txt", 0);                      
-                   sol = std::make_shared<Sol>("scripts/sol.txt"); 
-    planets.push_back(std::make_shared<Planet>("scripts/terra.txt",    1));
-    planets.push_back(std::make_shared<Planet>("scripts/marte.txt",    1));
-    planets.push_back(std::make_shared<Planet>("scripts/saturno.txt",  1));
-    planets.push_back(std::make_shared<Planet>("scripts/jupiter.txt",  0));
-    planets.push_back(std::make_shared<Planet>("scripts/mercurio.txt", 0));
-    planets.push_back(std::make_shared<Planet>("scripts/venus.txt",    0));
-    planets.push_back(std::make_shared<Planet>("scripts/urano.txt",    0));                
-    planets.push_back(std::make_shared<Planet>("scripts/netuno.txt",   0));
+                                 
+                sol = std::make_shared<Sol>("Assets/scripts/sol.txt"        ); 
+        estrelas = std::make_shared<Planet>("Assets/scripts/estrelas.txt", 0); 
 
-    camera->setBorder(loadTexture("imagens/cabine.png"));
+    std::vector<std::pair<const char*,int>> auxPlanets = Parser::parseSolarSystem("Assets/scripts/solarSystem.txt");
+
+    for(std::pair<const char*,int> planet: auxPlanets)
+        planets.push_back(std::make_shared<Planet>(planet.first,planet.second));
+    
+
+    // planets.push_back(std::make_shared<Planet>("Assets/scripts/terra.txt",    1));
+    // planets.push_back(std::make_shared<Planet>("Assets/scripts/marte.txt",    1));
+    // planets.push_back(std::make_shared<Planet>("Assets/scripts/saturno.txt",  1));
+    // planets.push_back(std::make_shared<Planet>("Assets/scripts/jupiter.txt",  0));
+    // planets.push_back(std::make_shared<Planet>("Assets/scripts/mercurio.txt", 0));
+    // planets.push_back(std::make_shared<Planet>("Assets/scripts/venus.txt",    0));
+    // planets.push_back(std::make_shared<Planet>("Assets/scripts/urano.txt",    0));                
+    // planets.push_back(std::make_shared<Planet>("Assets/scripts/netuno.txt",   0));
+
+    camera->setBorder(loadTexture("Assets/imagens/cabine.png"));
 }
 
 // Função que gerencia o (des)ligamento das fontes de luz dfe acordo com pressionamento de teclas

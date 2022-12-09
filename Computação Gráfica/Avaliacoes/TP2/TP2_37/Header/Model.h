@@ -10,12 +10,16 @@
 
 class Model 
 {
+    private:
+        std::vector<Vertex> loadObject(const char* fileName);
+
     public:
         // Model data
         std::vector<Vertex> vertices;
         Texture texture;
 
         Model(std::vector<Vertex> vertices, Texture texture);
+        Model(const char* fileObj, const char* fileTexture);
 };
 
 #endif

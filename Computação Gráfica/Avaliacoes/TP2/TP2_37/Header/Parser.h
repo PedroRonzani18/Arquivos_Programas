@@ -29,6 +29,9 @@ class Parser
         static Parser parsePlanet(const char* fileName, int creationType);
         static Parser parseSun(const char* fileName);
         static Parser parseMoon(const char* fileName);
+        static std::vector<std::pair<const char*,int>> parseSolarSystem(const char* fileName);
+
+
 
 
 };

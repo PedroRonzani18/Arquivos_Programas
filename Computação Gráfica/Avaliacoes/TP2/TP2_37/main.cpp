@@ -8,7 +8,6 @@
 #include "Header/Keyboard.h"
 #include "Header/Light.h"
 #include "Header/Parser.h"
-#include "Header/ObjLoader.h"
 
 // Objeto responsável por gerenciar os acontecimentos da cena
 Space* space;
@@ -35,7 +34,6 @@ void initialize()
     space->initializePlanets();
 
     space->initializeObjects();
-    vertices = loadObject("objetos/mesa jantar.obj");
 
     // Habilita a cor dos materiais
     glEnable(GL_COLOR_MATERIAL);

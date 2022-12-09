@@ -1,4 +1,4 @@
-    #ifndef _DRAWINGS_H
+#ifndef _DRAWINGS_H
 #define _DRAWINGS_H
 
 #include <GL/freeglut.h>

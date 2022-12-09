@@ -38,11 +38,11 @@ Planet::Planet(const char* planetName, int creationType)
     switch(numberOfMoons)
     {
         case 3:
-            addMooon(std::make_shared<Moon>("scripts/lua.txt",this->coreRadius,240));
+            addMooon(std::make_shared<Moon>("Assets/scripts/lua.txt",this->coreRadius,240));
         case 2:
-            addMooon(std::make_shared<Moon>("scripts/lua.txt",this->coreRadius,360/numberOfMoons));
+            addMooon(std::make_shared<Moon>("Assets/scripts/lua.txt",this->coreRadius,360/numberOfMoons));
         case 1:
-            addMooon(std::make_shared<Moon>("scripts/lua.txt",this->coreRadius,0));
+            addMooon(std::make_shared<Moon>("Assets/scripts/lua.txt",this->coreRadius,0));
             break;
     }  
 

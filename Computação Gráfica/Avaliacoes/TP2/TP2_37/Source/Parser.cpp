@@ -1,4 +1,5 @@
 #include "../Header/Parser.h"
+#include <algorithm>
 
 // Função que converte uma string para um array de char
 char* stringToArray(std::string str)
@@ -188,4 +189,39 @@ Parser Parser::parseSun(const char* fileName)
     returnParser.matShininess = values[20];
 
     return returnParser;
+}
+
+// Função que retorna um Parser com as informaçoes necessarias para se criar um planeta, baseado no script.txt desse planeta
+std::vector<std::pair<const char*,int>> Parser::parseSolarSystem(const char* fileName)
+{
+    std::vector<std::pair<const char*,int>> returnVector;
+
+    std::fstream arquivo;
+    std::string linha;
+    std::stringstream ss;
+	std::string path = "";
+    int creationType;
+    
+    arquivo.open(fileName,std::fstream::in);
+
+    if(arquivo.is_open())
+    {
+        while(getline(arquivo,linha))
+        {
+            ss.clear();
+		    ss.str(linha);
+		    ss >> path >> creationType;
+
+            path.erase(remove(path.begin(), path.end(), ';'), path.end());
+
+            // std::cout << path << " " << creationType << std::endl;
+
+            returnVector.push_back(std::make_pair(stringToArray(path),creationType));
+
+        }
+    }
+
+    arquivo.close();
+
+    return returnVector;
 }
