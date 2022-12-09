@@ -3,7 +3,7 @@
 
 #include <GL/freeglut.h>
 #include "Coord.h"
-#include "lighting.h"
+#include "Light.h"
 #include "Material.h"
 
 class CelestialBody
@@ -22,7 +22,7 @@ class CelestialBody
         double rotationAngularSpeed; // velocidade angular de rotação no proprio eixo ( movimento de rotação )
         double dependsOnLight;
         GLenum glLightConst;
-        Lighting* lighting;
+        Light* light;
         Material* material;
         int hasLight;
         GLuint displayListId;
@@ -69,7 +69,7 @@ class CelestialBody
 
         GLenum getGlLightConst(){return this->glLightConst;}
 
-        Lighting* getLighting(){return this->lighting;}
+        Light* getLight(){return this->light;}
 
         int getHasLight(){return this->hasLight;}
 

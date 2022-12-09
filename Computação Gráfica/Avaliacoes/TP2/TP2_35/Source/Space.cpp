@@ -2,8 +2,9 @@
 #include "../Header/MusicManager.h"
 #include "../Header/drawings.h"
 #include "../Header/globalParameters.h"
-#include "../Header/lighting.h"
+#include "../Header/Light.h"
 #include "../Header/Vertex.h"
+#include "../Header/ObjLoader.h"
 #include <memory>
 #include <cmath>
 
@@ -77,6 +78,11 @@ double Space::distanceBetweenPlanets(Coord a, Coord b)
     return sqrt(pow(a.x - b.x,2) + pow(a.y - b.y,2) + pow(a.z - b.z,2));
 }
 
+void Space::initializeObjects()
+{
+    objects.push_back(Model(loadObject("objetos/mesa jantar.obj"), Texture("imagens/2k_mars.jpg")));
+}
+
 // Função que gerencia a colisão entre camera e todos os planetas, incluindo o universo
 void Space::cameraColision()
 {
@@ -99,12 +105,12 @@ void Space::cameraColision()
     }
 }
 
-// Função que atualiza as propriedades da luz alterando os valores de glLighting de cada fonte de liz
+// Função que atualiza as propriedades da luz alterando os valores de glLight de cada fonte de liz
 void Space::atualizaPropriedadesLuz()
 {
-    sol->getLighting()->atualizaPropriedadesLuz();
+    sol->getLight()->atualizaPropriedadesLuz();
     for(std::shared_ptr<Planet> planet: planets)
-        planet->getLighting()->atualizaPropriedadesLuz();
+        planet->getLight()->atualizaPropriedadesLuz();
     
 }
 
@@ -124,27 +130,45 @@ void Space::drawSaturnRing()
     glPopMatrix();
 }
 
+void Space::drawSatelite()
+{
+    glPushMatrix();
+        glTranslatef(planets[0]->getMidPoint().x,planets[0]->getMidPoint().y,planets[0]->getMidPoint().z);
+
+        for(Model object: objects)
+        {        
+            glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, objects[0].texture.id);
+            glBegin(GL_TRIANGLE_FAN);
+
+            for(Vertex vert: object.vertices)
+            {
+                glVertex3f(2 * vert.position.x, 2 * vert.position.y,2 * vert.position.z);
+                glTexCoord2f(vert.texCoord.x, vert.texCoord.y); 
+            }
+
+            glEnd();
+            glDisable(GL_TEXTURE_2D);
+        }
+    glPopMatrix();
+}
+
 //  Função que gerencia desenhos na tela
 void Space::display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    sol->getLighting()->lightingInfo();
+    sol->getLight()->LightInfo();
     camera->setupCamera();
     atualizaPropriedadesLuz();
 
-    glBegin(GL_TRIANGLE_FAN);
-    for(size_t i=0; i<vertices.size(); i++)
-    {
-        glVertex3f(10 * vertices[i].position.x,10*vertices[i].position.y,10*vertices[i].position.z);
-    }
-    glEnd();
-
     drawPlanets();
     drawSaturnRing();
-    drawCamera(camera);
 
+    drawSatelite();
+
+    drawCamera(camera);
     glutSwapBuffers();
 }
 
@@ -199,11 +223,11 @@ void Space::onOffSun()
     {
         buttons[0] = 0;
 
-        if(sol->getLighting()->lighGeralLigada) sol->getLighting()->lighGeralLigada = 0;
-        else                                sol->getLighting()->lighGeralLigada = 1;
+        if(sol->getLight()->lighGeralLigada) sol->getLight()->lighGeralLigada = 0;
+        else                                sol->getLight()->lighGeralLigada = 1;
 
         
-        if(sol->getLighting()->lighGeralLigada) 
+        if(sol->getLight()->lighGeralLigada) 
         {
             glEnable(GL_LIGHT1);
             glEnable(GL_LIGHT2);
@@ -223,10 +247,10 @@ void Space::onOffSun()
     {       
         buttons[1] = 0;
 
-        if(sol->getLighting()->lightLigada) sol->getLighting()->lightLigada = 0;
-        else                                sol->getLighting()->lightLigada = 1;
+        if(sol->getLight()->lightLigada) sol->getLight()->lightLigada = 0;
+        else                                sol->getLight()->lightLigada = 1;
 
-        if(sol->getLighting()->lightLigada) glEnable(GL_LIGHT0);
+        if(sol->getLight()->lightLigada) glEnable(GL_LIGHT0);
         else                                glDisable(GL_LIGHT0);
     }
 }

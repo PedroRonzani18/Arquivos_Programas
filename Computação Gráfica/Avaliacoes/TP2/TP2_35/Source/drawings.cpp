@@ -93,7 +93,7 @@ void drawPlanet(std::shared_ptr<Planet> planet, std::shared_ptr<double> time)
         glRotatef(radGr(planet->getAngle()),0,0,1); // toraciona no proprio eixo
         glTranslated(-planet->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
         if(planet->getHasLight())
-            glLightfv(planet->getGlLightConst(), GL_POSITION, planet->getLighting()->lightPos); // posiciona a fonte de luz na posição do planeta
+            glLightfv(planet->getGlLightConst(), GL_POSITION, planet->getLight()->lightPos); // posiciona a fonte de luz na posição do planeta
         glRotatef(*time * planet->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 
         if(!planet->doesDependsOnLight()) glDisable(GL_LIGHTING);
@@ -119,7 +119,7 @@ void drawSun(std::shared_ptr<Sol> sun, std::shared_ptr<double> time)
         glTranslated(-sun->getRotationRadius(),0, 0); // determina o raio da rotação (e indiretamente o centro de rotação)
         glRotatef(*time * sun->getRotationAngularSpeed(),0,0,1); // rotaciona no proprio eixo
 
-        if(sun->getLighting()->lightLigada)
+        if(sun->getLight()->lightLigada)
         {
             glDisable(GL_LIGHTING);
                 //drawSolidSphere(sun->getCoreRadius(),200,200);

@@ -7,7 +7,6 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include <algorithm>
 
 //GLFW
 #include <GLFW/glfw3.h>

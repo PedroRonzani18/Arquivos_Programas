@@ -7,21 +7,14 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include <algorithm>
-
-//GLFW
-#include <GLFW/glfw3.h>
 
 //OpenGL Math libs
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 // Own libs
 #include "Vertex.h"
+#include "Model.h"
 
 static std::vector<Vertex> loadObject(const char* fileName)
 {
@@ -117,7 +110,7 @@ static std::vector<Vertex> loadObject(const char* fileName)
 		else{}
 	}
 
-	//Build final vertex array (mesh)
+	//Build final vertex array (Model)
 	vertices.resize(positionIndices.size(), Vertex());
 
 	//Load in all indices
@@ -125,7 +118,7 @@ static std::vector<Vertex> loadObject(const char* fileName)
 	{
 		vertices[i].position = positions[positionIndices[i]-1];
 		vertices[i].texCoord = textureCoords[textureCoordIndices[i]-1];
-		vertices[i].normal = normals[normalIndices[i] - 1];
+		vertices[i].normal = normals[normalIndices[i]-1];
 		vertices[i].color = glm::vec3(1.f, 1.f, 1.f);
 	}
 
@@ -134,5 +127,6 @@ static std::vector<Vertex> loadObject(const char* fileName)
 
 	return vertices;
 }
+
 
 #endif

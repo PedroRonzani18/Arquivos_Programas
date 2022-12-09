@@ -2,11 +2,11 @@
 #include "Header/globalParameters.h"
 #include "Header/Planet.h"
 #include "Header/Space.h"
-#include "Header/lighting.h"
+#include "Header/Light.h"
 #include "Header/Camera.h"
 #include "Header/MusicManager.h"
 #include "Header/Keyboard.h"
-#include "Header/lighting.h"
+#include "Header/Light.h"
 #include "Header/Parser.h"
 #include "Header/ObjLoader.h"
 
@@ -34,7 +34,8 @@ void initialize()
     // Cria e adiciona os planetas ao vector de shared_ptr<Planet>
     space->initializePlanets();
 
-    vertices = loadObject("cuequinha.obj");
+    space->initializeObjects();
+    vertices = loadObject("objetos/mesa jantar.obj");
 
     // Habilita a cor dos materiais
     glEnable(GL_COLOR_MATERIAL);

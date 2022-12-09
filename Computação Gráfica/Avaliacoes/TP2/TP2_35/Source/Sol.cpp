@@ -35,7 +35,7 @@ Sol::Sol(const char* planetName)
     this->translationAngularSpeed = translationSpeed;
     this->rotationAngularSpeed = angularSpeed;
 
-    this->lighting = new Lighting(1, d, m, e, GL_LIGHT0);  
+    this->light = new Light(1, d, m, e, GL_LIGHT0);  
     this->hasLight = 1;
 
     this->material = new Material();

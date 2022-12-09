@@ -13,7 +13,7 @@ Moon::Moon(const char* planetName, double coreRadius, double angle)
     this->rotationRadius = aux.coreRadius + 1.2 * coreRadius;
     this->translationAngularSpeed = aux.translationPeriod;
     this->rotationAngularSpeed = aux.rotationPeriod;
-    this->lighting = new Lighting();
+    this->light = new Light();
     this->hasLight = 0;
 
     this->material = new Material();

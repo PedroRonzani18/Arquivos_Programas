@@ -51,7 +51,7 @@ Planet::Planet(const char* planetName, int creationType)
     switch (creationType)
     {
         case 0:
-            this->lighting = new Lighting(); 
+            this->light = new Light(); 
             this->hasLight = 0;
             break;
 
@@ -69,7 +69,7 @@ Planet::Planet(const char* planetName, int creationType)
                     this->glLightConst = GL_LIGHT3;
                     break;
             }
-            this->lighting = new Lighting(1, 1, 1, glLightConst);  
+            this->light = new Light(1, 1, 1, glLightConst);  
             this->hasLight = 1;
             break;
     }

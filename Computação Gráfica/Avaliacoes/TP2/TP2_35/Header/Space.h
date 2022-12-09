@@ -3,10 +3,11 @@
 
 #include "Planet.h"
 #include "Sol.h"
-#include "lighting.h"
+#include "Light.h"
 #include "MusicManager.h"
 #include "Camera.h"
 #include "Coord.h"
+#include "Model.h"
 #include <vector>
 #include <memory>
 
@@ -18,6 +19,7 @@ class Space
         std::vector<std::shared_ptr<Planet>> planets;
         std::shared_ptr<MusicManager> musicManager;
         std::shared_ptr<Camera> camera;
+        std::vector<Model> objects;
 
     public:
         Space();    
@@ -42,6 +44,9 @@ class Space
         void drawSaturnRing();
         void cameraColision();
         void cameraMoving();
+        void drawSatelite();
+        void initializeObjects();
+
 };
 
 #endif

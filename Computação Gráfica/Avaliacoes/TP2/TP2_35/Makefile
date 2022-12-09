@@ -1,5 +1,5 @@
 CC = g++
-FLAGS= -lglut -lGL -lGLU -lSOIL -lSDL2 -lSDL2_mixer
+FLAGS= -lglut -lGL -lGLU -lSOIL -lSDL2 -lSDL2_mixer -lGLEW
 OUTPUT= main
 compilar:
 		$(CC) -g -std=c++14 -O2 -Wall *.cpp */*.cpp $(FLAGS) -o $(OUTPUT)
